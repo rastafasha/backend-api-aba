@@ -24,6 +24,8 @@ Route::get('user/recientes/', [AdminUserController::class, 'recientes'])
 Route::get('users/search/{request}', [AdminUserController::class, 'search'])
     ->name('users.search');
 
+
+
 //Admin Usuarios Softdeletes
 Route::get('/users/delete', [AdminUserSoftDeletesController::class, 'index'])
     ->name('users.delete.index');

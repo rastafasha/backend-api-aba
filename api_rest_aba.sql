@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 20-01-2024 a las 02:19:22
+-- Tiempo de generación: 23-01-2024 a las 01:12:33
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -20,6 +20,61 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `api_rest_aba`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bips`
+--
+
+CREATE TABLE `bips` (
+  `id` bigint(20) NOT NULL,
+  `patient_id` bigint(20) UNSIGNED NOT NULL,
+  `documents_reviewed` varchar(255) DEFAULT NULL,
+  `background_information` text,
+  `previus_treatment_and_result` text,
+  `current_treatment_and_progress` text,
+  `education_status` text,
+  `phisical_and_medical_status` text,
+  `maladaptive_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `assestment_conducted` text,
+  `assestment_conducted_options` json DEFAULT NULL,
+  `prevalent_setting_event_and_atecedents` json DEFAULT NULL,
+  `behavior` json DEFAULT NULL,
+  `hypothesized_functions` json DEFAULT NULL,
+  `pairing` text,
+  `premack_principal` text,
+  `response_block` text,
+  `dro` text,
+  `dra` text,
+  `errorless_teaching` text,
+  `redirection` text,
+  `ncr` text,
+  `shaping` text,
+  `chaining` text,
+  `reduction_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_atd` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bip_files`
+--
+
+CREATE TABLE `bip_files` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `bip_id` bigint(20) UNSIGNED NOT NULL,
+  `name_file` varchar(250) NOT NULL,
+  `size` varchar(50) NOT NULL,
+  `file` varchar(250) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -78,6 +133,25 @@ CREATE TABLE `jobs` (
 
 CREATE TABLE `maladaptives` (
   `id` bigint(20) NOT NULL,
+  `patient_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `bl_week` double NOT NULL,
+  `reduction_w` double NOT NULL,
+  `s_date` timestamp NULL DEFAULT NULL,
+  `s_value` double DEFAULT NULL,
+  `m_date` timestamp NULL DEFAULT NULL,
+  `m_value` double DEFAULT NULL,
+  `t_date` timestamp NULL DEFAULT NULL,
+  `t_value` double DEFAULT NULL,
+  `w_date` timestamp NULL DEFAULT NULL,
+  `w_value` double DEFAULT NULL,
+  `th_date` timestamp NULL DEFAULT NULL,
+  `th_value` double DEFAULT NULL,
+  `f_date` timestamp NULL DEFAULT NULL,
+  `f_value` double DEFAULT NULL,
+  `st_date` timestamp NULL DEFAULT NULL,
+  `st_value` double DEFAULT NULL,
+  `totals` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -162,60 +236,66 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `pat_id` varchar(255) DEFAULT NULL,
   `first_name` varchar(250) NOT NULL,
   `last_name` varchar(250) NOT NULL,
   `email` varchar(250) DEFAULT NULL,
   `phone` varchar(25) DEFAULT NULL,
-  `n_doc` varchar(50) DEFAULT NULL,
+  `language` varchar(150) DEFAULT NULL,
+  `parent_guardian_name` varchar(150) DEFAULT NULL,
+  `relationship` varchar(150) DEFAULT NULL,
+  `cell_phone` varchar(150) DEFAULT NULL,
+  `work_phone` varchar(150) DEFAULT NULL,
+  `school_name` varchar(150) DEFAULT NULL,
+  `school_number` varchar(150) DEFAULT NULL,
+  `zip` varchar(150) DEFAULT NULL,
+  `state` varchar(150) DEFAULT NULL,
   `address` text,
   `gender` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:male,2:female',
   `birth_date` timestamp NULL DEFAULT NULL,
+  `age` varchar(50) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `education` varchar(150) DEFAULT NULL,
+  `profession` varchar(150) DEFAULT NULL,
+  `schedule` varchar(255) DEFAULT NULL,
+  `summer_schedule` varchar(255) DEFAULT NULL,
+  `special_note` text,
+  `insuranceId` varchar(50) DEFAULT NULL,
+  `insuranceId_secundary` varchar(150) DEFAULT NULL,
+  `elegibility_date` timestamp NULL DEFAULT NULL,
+  `pos_covered` json DEFAULT NULL,
+  `deductible_individual_I_F` varchar(150) DEFAULT NULL,
+  `balance` varchar(150) DEFAULT NULL,
+  `coinsurance` varchar(150) DEFAULT NULL,
+  `copayments` varchar(150) DEFAULT NULL,
+  `oop` varchar(150) DEFAULT NULL,
   `diagnosis_code` varchar(255) DEFAULT NULL,
-  `telehealth` varchar(255) DEFAULT NULL,
-  `insurer` varchar(255) DEFAULT NULL,
-  `eligibility` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
-  `compayment_per_visit` varchar(255) DEFAULT NULL,
+  `elegibility_day` timestamp NULL DEFAULT NULL,
+  `eligibility` enum('pending','yes','no') NOT NULL DEFAULT 'pending',
   `patient_control` varchar(255) DEFAULT NULL,
   `pa_assessment` varchar(255) DEFAULT NULL,
-  `pat_id` varchar(255) DEFAULT NULL,
-  `pa_services` varchar(255) DEFAULT NULL,
-  `ba_services_start_date` timestamp NULL DEFAULT NULL,
-  `current_auth_expires` timestamp NULL DEFAULT NULL,
-  `need_cognitive_eval` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `schedule` varchar(255) DEFAULT NULL,
-  `rst_wk_hr` varchar(255) DEFAULT NULL,
-  `rst` varchar(255) DEFAULT NULL,
-  `an_wk_s` varchar(255) DEFAULT NULL,
-  `pt` varchar(255) DEFAULT NULL,
-  `school_bcba` varchar(255) DEFAULT NULL,
-  `analyst_bcba` varchar(255) DEFAULT NULL,
-  `data_report_and_rbt_correction` varchar(255) DEFAULT NULL,
-  `parent_comunication` text,
-  `notes` text,
-  `welcome` enum('pending','resquested','need ne','yes','no') DEFAULT 'pending',
-  `consent` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `insurance_card` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `mnl` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `referral` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `ados` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `iep` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `asd_diagnosis` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `cde` enum('pending','resquested','need ne','yes','no') NOT NULL DEFAULT 'pending',
-  `submitted` enum('pending','resquested','reviewing','yes','no') NOT NULL DEFAULT 'pending',
+  `pa_assessment_start_date` timestamp NULL DEFAULT NULL,
+  `pa_assessment_end_date` timestamp NULL DEFAULT NULL,
+  `pa_services` json DEFAULT NULL,
+  `pa_services_start_date` timestamp NULL DEFAULT NULL,
+  `pa_services_end_date` timestamp NULL DEFAULT NULL,
+  `compayment_per_visit` varchar(255) DEFAULT NULL,
+  `insurer_secundary` varchar(50) DEFAULT NULL,
+  `welcome` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') DEFAULT 'waiting',
+  `consent` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `insurance_card` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `mnl` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `referral` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `ados` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `iep` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `asd_diagnosis` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `cde` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `submitted` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `patients`
---
-
-INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `phone`, `n_doc`, `address`, `gender`, `birth_date`, `avatar`, `diagnosis_code`, `telehealth`, `insurer`, `eligibility`, `compayment_per_visit`, `patient_control`, `pa_assessment`, `pat_id`, `pa_services`, `ba_services_start_date`, `current_auth_expires`, `need_cognitive_eval`, `city`, `schedule`, `rst_wk_hr`, `rst`, `an_wk_s`, `pt`, `school_bcba`, `analyst_bcba`, `data_report_and_rbt_correction`, `parent_comunication`, `notes`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Malcolm', 'Cordova', 'mercadocreativo@gmail.com', '+584241874370', '12445', 'caracas\r\ncaracas', 1, '2024-01-19 16:00:00', 'patients/kqAwnbzOtN9InV1407ncK64CVymi0gWTy5wgJ8nN.jpg', NULL, NULL, NULL, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', '2024-01-20 02:00:28', '2024-01-20 02:00:28', NULL),
-(2, 'prueba', 'prueba', 'prueba@prueba.com', '23432', '12345', 'prueba', 1, '2024-01-19 16:00:00', 'patients/UMmYytx5Q3bus2Cuq35pdN7mdSmRVb9897L0LNQG.jpg', 'prueba', 'prueba', 'prueba', 'pending', 'prueba', 'prueba', 'prueba', '89453', NULL, '2024-01-18 16:00:00', '2024-01-24 16:00:00', 'Yes', 'prueba', 'prueba', 'pending', 'prueba', 'prueba', 'prueba', 'prueba', 'prueba', 'prueba', 'prueba', 'prueba', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', '2024-01-20 04:28:36', '2024-01-20 04:28:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -291,6 +371,24 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `reductions`
+--
+
+CREATE TABLE `reductions` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED NOT NULL,
+  `goal` varchar(255) DEFAULT NULL,
+  `description` text,
+  `status` enum('on hold','initiated','mastered') NOT NULL DEFAULT 'on hold',
+  `date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `registro_clinicos`
 --
 
@@ -333,8 +431,9 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'SUPERADMIN', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (2, 'DOCTOR', 'api', '2023-12-01 04:09:47', '2023-12-01 04:09:47'),
-(4, 'RECEPCIÓN', 'api', '2023-12-01 04:38:36', '2023-12-02 23:29:30'),
-(5, 'ENFERMERA', 'api', '2023-12-05 18:58:54', '2023-12-05 18:58:54');
+(6, 'LM', 'api', '2024-01-21 00:44:59', '2024-01-21 00:44:59'),
+(7, 'BCBA', 'api', '2024-01-21 00:45:23', '2024-01-21 00:45:23'),
+(8, 'RBT', 'api', '2024-01-21 00:45:41', '2024-01-21 00:45:41');
 
 -- --------------------------------------------------------
 
@@ -365,24 +464,9 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (31, 2),
 (32, 2),
 (33, 2),
-(6, 4),
-(10, 4),
-(11, 4),
-(12, 4),
-(14, 4),
-(16, 4),
-(19, 4),
-(20, 4),
-(24, 4),
-(29, 4),
-(30, 4),
-(6, 5),
-(11, 5),
-(12, 5),
-(14, 5),
-(20, 5),
-(29, 5),
-(30, 5);
+(1, 6),
+(1, 7),
+(1, 8);
 
 -- --------------------------------------------------------
 
@@ -393,16 +477,50 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rolename` enum('SUPERADMIN','ADMIN','MEMBER','GUEST') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'GUEST',
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `surname` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birth_date` timestamp NULL DEFAULT NULL,
   `gender` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '1:masculino,2:femenino',
-  `education` longtext COLLATE utf8mb4_unicode_ci,
-  `designation` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` text COLLATE utf8mb4_unicode_ci,
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('inactive','active','black list','incoming') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inactive',
+  `currently_pay_through_company` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `llc` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ien` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `wc` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `electronic_signature` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agency_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `languages` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dob` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ss_number` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_of_hire` timestamp NULL DEFAULT NULL,
+  `start_pay` timestamp NULL DEFAULT NULL,
+  `driver_license_expiration` timestamp NULL DEFAULT NULL,
+  `cpr_every_2_years` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `background_every_5_years` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `e_verify` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `national_sex_offender_registry` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `certificate_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bacb_license_expiration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `liability_insurance_annually` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `local_police_rec_every_5_years` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `npi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `medicaid_provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_hippa_annually` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_domestic_violence_no_expiration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_security_awareness_annually` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_zero_tolerance_every_3_years` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ceu_civil_rights_no_expiration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `school_badge` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `w_9_w_4_form` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contract` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `two_four_week_notice_agreement` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `credentialing_package_bcbas_only` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `caqh_bcbas_only` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contract_type` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -415,13 +533,25 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `rolename`, `email`, `surname`, `phone`, `birth_date`, `gender`, `education`, `designation`, `address`, `avatar`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'superadmin', 'SUPERADMIN', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, '', NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2023-11-30 03:32:36', NULL),
-(13, 'dasdd', 'GUEST', 'prueba@gmail.com', 'asdas', NULL, '2024-01-12 16:00:00', 1, NULL, 'dsadas', 'dasdas', 'staffs/j74hdNnaa0bS3G3GCVVBGMw7vABYwSACR1plAZbv.jpg', NULL, '$2y$10$K0bz20J.2ATbbuXu5Hwd4OssUGWTGfpqBAhaarZPyGIyrQ5XgHWzi', NULL, '2024-01-19 22:11:09', '2024-01-19 22:11:09', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `gender`, `address`, `avatar`, `status`, `currently_pay_through_company`, `llc`, `ien`, `wc`, `electronic_signature`, `agency_location`, `city`, `languages`, `dob`, `ss_number`, `date_of_hire`, `start_pay`, `driver_license_expiration`, `cpr_every_2_years`, `background_every_5_years`, `e_verify`, `national_sex_offender_registry`, `certificate_number`, `bacb_license_expiration`, `liability_insurance_annually`, `local_police_rec_every_5_years`, `npi`, `medicaid_provider`, `ceu_hippa_annually`, `ceu_domestic_violence_no_expiration`, `ceu_security_awareness_annually`, `ceu_zero_tolerance_every_3_years`, `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration`, `ceu_civil_rights_no_expiration`, `school_badge`, `w_9_w_4_form`, `contract`, `two_four_week_notice_agreement`, `credentialing_package_bcbas_only`, `caqh_bcbas_only`, `contract_type`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'superadmin', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, NULL, 'inactive', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2023-11-30 03:32:36', NULL),
+(13, 'dasdd', 'prueba@gmail.com', 'asdas', '12345678', '2024-01-12 08:00:00', 1, 'dasdas', 'staffs/j74hdNnaa0bS3G3GCVVBGMw7vABYwSACR1plAZbv.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$K0bz20J.2ATbbuXu5Hwd4OssUGWTGfpqBAhaarZPyGIyrQ5XgHWzi', NULL, '2024-01-19 22:11:09', '2024-01-20 20:43:25', NULL);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `bips`
+--
+ALTER TABLE `bips`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `bip_files`
+--
+ALTER TABLE `bip_files`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `contacts`
@@ -497,6 +627,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indices de la tabla `reductions`
+--
+ALTER TABLE `reductions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `registro_clinicos`
 --
 ALTER TABLE `registro_clinicos`
@@ -526,6 +662,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `bips`
+--
+ALTER TABLE `bips`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `bip_files`
+--
+ALTER TABLE `bip_files`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `contacts`
@@ -561,7 +709,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
@@ -576,6 +724,12 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `reductions`
+--
+ALTER TABLE `reductions`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `registro_clinicos`
 --
 ALTER TABLE `registro_clinicos`
@@ -585,7 +739,7 @@ ALTER TABLE `registro_clinicos`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

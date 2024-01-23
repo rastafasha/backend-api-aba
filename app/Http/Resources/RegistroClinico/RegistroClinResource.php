@@ -28,9 +28,7 @@ class RegistroClinResource extends JsonResource
             "responding_this_session_could"=>$this->resource->responding_this_session_could,
             "progress_noted_this_session"=>$this->resource->progress_noted_this_session,
             "client_response_to_treatment"=>$this->resource->client_response_to_treatment,
-            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
-            
-            
+            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 
         ];
     }

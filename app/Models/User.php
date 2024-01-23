@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Traits\HavePermission;
+use App\Models\Patient\Patient;
 use App\Jobs\NewUserRegisterJob;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Doctor\Specialitie;
@@ -42,13 +43,50 @@ class User extends Authenticatable implements JWTSubject
         'phone',
         'birth_date',
         'gender',
-        'education',
-        'designation',
         'address',
         'avatar',
-        'speciality_id',
+        'status',
+
+        'currently_pay_through_company',
+        'llc',
+        'ien',
+        'wc',
+        'electronic_signature',
+        'agency_location',
+        'city',
+        'languages',
+        'dob',
+        'ss_number',
+        'date_of_hire',
+        'start_pay',
+        'driver_license_expiration',
+        'cpr_every_2_years',
+        'background_every_5_years',
+        'e_verify',
+        'national_sex_offender_registry',
+        'certificate_number',
+        'bacb_license_expiration',
+        'liability_insurance_annually',
+        'local_police_rec_every_5_years',
+        'npi',
+        'medicaid_provider',
+        'ceu_hippa_annually',
+        'ceu_domestic_violence_no_expiration',
+        'ceu_security_awareness_annually',
+        'ceu_zero_tolerance_every_3_years',
+        'ceu_hiv_bloodborne_pathogens_infection_control_no_expiration',
+        'ceu_civil_rights_no_expiration',
+        'school_badge',
+        'w_9_w_4_form',
+        'contract',
+        'two_four_week_notice_agreement',
+        'credentialing_package_bcbas_only',
+        'caqh_bcbas_only',
+        'contract_type',
 
     ];
+
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -71,6 +109,19 @@ class User extends Authenticatable implements JWTSubject
 
     const SUPERADMIN = 'SUPERADMIN';
     const GUEST = 'GUEST';
+
+    const inactive = 'inactive';
+    const active = 'active';
+    const blac_list = 'black list';
+    const incoming = 'incoming';
+
+    public static function statusTypes()
+    {
+        return [
+            self::inactive, self::active,
+            self::blac_list, self::incoming,
+        ];
+    }
 
     public function setCreatedAtAttribute($value)
     {
@@ -128,6 +179,11 @@ class User extends Authenticatable implements JWTSubject
     // {
     //     return $this->hasMany(DoctorScheduleDay::class);
     // }
+
+    public function patients()
+    {
+        return $this->hasMany(Patient::class);
+    }
     
 
 

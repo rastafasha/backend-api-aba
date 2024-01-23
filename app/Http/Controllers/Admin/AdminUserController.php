@@ -177,4 +177,6 @@ class AdminUserController extends Controller
         return User::search($request->buscar);
 
     }
+
+   
 }

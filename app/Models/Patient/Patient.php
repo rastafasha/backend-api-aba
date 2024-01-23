@@ -3,6 +3,7 @@
 namespace App\Models\Patient;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,37 +17,49 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'n_doc',
+        'pat_id',
         'birth_date',
         'gender',
         'address',
+        'language',
+        'relationship',
+        'parent_guardian_name',
+        'cell_phone',
+        'work_phone',
+        'school_name',
+        'school_number',
+        'age',
+        'education',
+        'profession',
+        'zip',
+        'state',
         'avatar',
-        'diagnosis_code',
-        'telehealth',
-        'insurer',
-        'eligibility',
-        'compayment_per_visit',
-        'patient_control',
-        'pa_assessment',
-        'pat_id',
-        'pa_services',
-        'ba_services_start_date',
-        'current_auth_expires',
-        'need_cognitive_eval',
+        'special_note',
         'city',
+        'diagnosis_code',
+        'patient_control',
         'schedule',
-        'rst_wk_hr',
-        'rst',
-        'an_wk_s',
-        'pt',
-        'school_bcba',
-        'analyst_bcba',
-        'data_report_and_rbt_correction',
-        'parent_comunication',
-        'notes',
+        'summer_schedule',
+
+        //benefits
+        'insuranceId',
+        'insurer_secundary',
+        'insuranceId_secundary',
+        'elegibility_date',
+        'pos_covered',
+        'deductible_individual_I_F',
+        'balance',
+        'coinsurance',
+        'copayments',
+        'oop',
+        'insurer_file',
+        'intake_file',
+
+        //intake
         'welcome',
         'consent',
         'insurance_card',
+        'eligibility',
         'mnl',
         'referral',
         'ados',
@@ -54,94 +67,130 @@ class Patient extends Model
         'asd_diagnosis',
         'cde',
         'submitted',
+
+        //pas
+        'pa_assessment',
+        'pa_assessment_start_date',
+        'pa_assessment_end_date',
+        'pa_services',
+        'pa_services_start_date',
+        'pa_services_end_date',
+
+        //??
+        // 'current_auth_expires',
+        // 'telehealth',
+        // 'insurer',
+        // 'compayment_per_visit',
+        // 'need_cognitive_eval',
+        // 'rst_wk_hr',
+        // 'rst',
+        // 'an_wk_s',
+        // 'pt',
+        // 'school_bcba',
+        // 'analyst_bcba',
+        // 'data_report_and_rbt_correction',
+
         
     ];
 
 
-    const pending = 'pending';
-    const resquested = 'resquested';
-    const need_ne = 'need ne';
+    const waiting = 'waiting';
+    const requested = 'requested';
+    const reviewing = 'reviewing';
+    const need_new = 'need new';
+    const insurance = '2 insurance';
+    const psycho_eval = 'psycho eval';
     const yes = 'yes';
     const no = 'no';
-
+    
     public static function welcomeTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function consentTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function insurance_cardTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function mnlTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function referralTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function adosTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function iepTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function asd_diagnosisTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function cdeTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
     public static function submittedTypes()
     {
         return [
-            self::resquested, self::pending,
-            self::need_ne, self::yes,
-            self::no,
+            self::waiting, self::requested, 
+            self::reviewing, self::requested, 
+            self::need_new, self::psycho_eval,
+            self::insurance, self::no, self::yes,
         ];
     }
 
@@ -157,8 +206,8 @@ class Patient extends Model
         $this->attribute['updated_at']= Carbon::now();
     }
 
-    //  public function person()
-    // {
-    //     return $this->hasOne(PatientPerson::class, 'patient_id');
-    // }
+     public function doctors()
+    {
+        return $this->hasMany(User::class);
+    }
 }

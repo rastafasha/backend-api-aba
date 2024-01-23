@@ -66,7 +66,7 @@ class RegisterAppointment extends Mailable
                     "email"=> $appointment->patient->email,
                     "speciality_name"=> $appointment->speciality->name,
                     "phone"=> $appointment->patient->phone,
-                    "n_doc"=> $appointment->patient->n_doc,
+                    "pat_id"=> $appointment->patient->pat_id,
                     "hour_start_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_start)->format("h:i A"),
                     "hour_end_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_end)->format("h:i A"),
                 ]);

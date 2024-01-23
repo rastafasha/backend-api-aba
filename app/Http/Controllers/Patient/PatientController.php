@@ -59,17 +59,10 @@ class PatientController extends Controller
         $data_patient = [];
         $patient = Patient::findOrFail($id);
     
-            $num_appointment = Appointment::where("patient_id",$id)->count();
-            $money_of_appointments = Appointment::where("patient_id",$id)->sum("amount");
-            $num_appointment_pendings = Appointment::where("patient_id",$id)->where("status",1)->count();
-            $appointment_pendings = Appointment::where("patient_id",$id)->where("status",1)->get();
-            $appointments = Appointment::where("patient_id",$id)->get();
             
             $data_patient = [
-                "num_appointment"=>$num_appointment,
-                "money_of_appointments"=> $money_of_appointments,
-                "num_appointment_pendings"=>$num_appointment_pendings,
                 "patient" => PatientResource::make($patient),
+                "services"=>$patient->pa_services ? json_decode($patient->pa_services) : [],
             ];
 
         return response()->json($data_patient);
@@ -83,7 +76,9 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("n_doc", $request->n_doc)->first();
+        $patient_is_valid = Patient::where("pat_id", $request->pat_id)->first();
+        
+        $request->request->add(["pa_services"=>json_encode($request->services)]);
 
         if($patient_is_valid){
             return response()->json([
@@ -102,14 +97,28 @@ class PatientController extends Controller
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->ba_services_start_date){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->ba_services_start_date );
-            $request->request->add(["ba_services_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        if($request->pa_assessment_start_date){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_start_date );
+            $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->current_auth_expires){
-            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->current_auth_expires );
-            $request->request->add(["current_auth_expires" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        if($request->pa_assessment_end_date){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_end_date );
+            $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_start_date){
+            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_start_date );
+            $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_end_date){
+            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_end_date );
+            $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        }
+        if($request->elegibility_date){
+            $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->elegibility_date );
+            $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
         }
         
         $patient = Patient::create($request->all());
@@ -149,7 +158,9 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $patient_is_valid = Patient::where("id", "<>", $id)->where("n_doc", $request->n_doc)->first();
+        $patient_is_valid = Patient::where("id", "<>", $id)->where("pat_id", $request->pat_id)->first();
+        
+        $request->request->add(["pa_services"=>json_encode($request->services)]);
 
         if($patient_is_valid){
             return response()->json([
@@ -170,6 +181,30 @@ class PatientController extends Controller
         if($request->birth_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->pa_assessment_start_date){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_start_date );
+            $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->pa_assessment_end_date){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_end_date );
+            $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_start_date){
+            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_start_date );
+            $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_end_date){
+            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_end_date );
+            $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        }
+        if($request->elegibility_date){
+            $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->elegibility_date );
+            $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
         }
        
         $patient->update($request->all());
@@ -205,18 +240,11 @@ class PatientController extends Controller
 
     public function updateEligibility(Request $request, $id)
     {
-        $patient = Patient::where("id", $request->patient_id)->first();
+        $patient = Patient::findOrfail($id);
         $patient->eligibility = $request->eligibility;
         $patient->update();
-
+        return $patient;
         
-        return response()->json([
-            "message" => 200,
-            "patient" => $patient,
-            
-        ]);
-        
-        
-
     }
+
 }
