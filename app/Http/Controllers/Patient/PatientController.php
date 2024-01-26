@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Patient;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Patient\PatientPerson;
@@ -41,10 +43,13 @@ class PatientController extends Controller
 
     public function config()
     {
-        $roles = Role::where("name","like","%PATIENT%")->get();
-
+        // $roles = Role::where("name","like","%DOCTOR%")->get();
+        $specialists = User::where("status",'active')->get();
+        $insurances = Insurance::get();
+        
         return response()->json([
-            "roles" => $roles,
+            "specialists" => $specialists,
+            "insurances" => $insurances,
         ]);
     }
 
@@ -211,9 +216,9 @@ class PatientController extends Controller
         
         error_log($patient);
 
-        if($patient->person){
-            $patient->person->update($request->all());
-        }
+        // if($patient->person){
+        //     $patient->person->update($request->all());
+        // }
         return response()->json([
             "message"=>200,
             "patient"=>$patient

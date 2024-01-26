@@ -4,6 +4,7 @@ namespace App\Models\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Insurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +25,8 @@ class Patient extends Model
         'language',
         'relationship',
         'parent_guardian_name',
-        'cell_phone',
+        'home_phone',
+        'home_phone',
         'work_phone',
         'school_name',
         'school_number',
@@ -42,6 +44,7 @@ class Patient extends Model
         'summer_schedule',
 
         //benefits
+        'insurer',
         'insuranceId',
         'insurer_secundary',
         'insuranceId_secundary',
@@ -206,8 +209,13 @@ class Patient extends Model
         $this->attribute['updated_at']= Carbon::now();
     }
 
-     public function doctors()
+     public function specialists()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function insurers()
+    {
+        return $this->hasMany(Insurance::class);
     }
 }

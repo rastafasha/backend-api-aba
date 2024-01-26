@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 23-01-2024 a las 01:12:33
+-- Tiempo de generación: 23-01-2024 a las 22:45:46
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -112,6 +112,39 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `insurances`
+--
+
+CREATE TABLE `insurances` (
+  `id` bigint(50) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `services` json DEFAULT NULL,
+  `codes` varchar(150) DEFAULT NULL,
+  `description` text,
+  `provider` varchar(150) DEFAULT NULL,
+  `unit_price` double DEFAULT NULL,
+  `hourly_fee` double DEFAULT NULL,
+  `max_allowed` varchar(150) DEFAULT NULL,
+  `notes` json DEFAULT NULL,
+  `therapy_code` varchar(150) DEFAULT NULL,
+  `modifier` varchar(150) DEFAULT NULL,
+  `units` double DEFAULT NULL,
+  `total` double DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `insurances`
+--
+
+INSERT INTO `insurances` (`id`, `title`, `services`, `codes`, `description`, `provider`, `unit_price`, `hourly_fee`, `max_allowed`, `notes`, `therapy_code`, `modifier`, `units`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Actualizado', '[{\"n_code\": \"adsdsa\", \"s_unit\": \"dasdsa\"}, {\"n_code\": \"dasdas\", \"s_unit\": \"32324\"}]', NULL, 'description', 'RBT', NULL, 132, 'asdas', '[{\"note\": \"asddsa\"}, {\"note\": \"tweewr\"}]', 'dasdsa', 'HO', 1, 1300, '2024-01-24 01:15:00', '2024-01-24 02:43:39', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `jobs`
 --
 
@@ -214,7 +247,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 1),
 (2, 'App\\Models\\User', 2),
 (2, 'App\\Models\\User', 12),
-(2, 'App\\Models\\User', 13);
+(2, 'App\\Models\\User', 13),
+(2, 'App\\Models\\User', 14);
 
 -- --------------------------------------------------------
 
@@ -264,7 +298,7 @@ CREATE TABLE `patients` (
   `insuranceId` varchar(50) DEFAULT NULL,
   `insuranceId_secundary` varchar(150) DEFAULT NULL,
   `elegibility_date` timestamp NULL DEFAULT NULL,
-  `pos_covered` json DEFAULT NULL,
+  `pos_covered` varchar(50) DEFAULT NULL,
   `deductible_individual_I_F` varchar(150) DEFAULT NULL,
   `balance` varchar(150) DEFAULT NULL,
   `coinsurance` varchar(150) DEFAULT NULL,
@@ -296,6 +330,13 @@ CREATE TABLE `patients` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `patients`
+--
+
+INSERT INTO `patients` (`id`, `pat_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `cell_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessment`, `pa_assessment_start_date`, `pa_assessment_end_date`, `pa_services`, `pa_services_start_date`, `pa_services_end_date`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '1234pdas', 'Malcolm', 'Cordova', 'mercadocreativo@gmail.com', '+584241874370', 'english, spanish', 'asdasd', 'dassa', '04241874370', '+584241874370', 'dasdsa', '12324567', '1010a', 'Distrito Federal', 'caracas\r\ncaracas', 1, '1980-03-31 16:00:00', '43', 'patients/BVO462RLwFD9UIKsYTRZBJFGPxedb4Np7T3qIVrb.jpg', 'caracas', 'universitaria', 'Web Developer', 'dsadas', 'asdsa', 'sadsa', 'dsadsa', 'dsaads', '2024-01-24 16:00:00', '03', 'dasdsa', 'adsdas', 'dasdsa', 'dasdsa', 'dsads', 'dsads', NULL, 'pending', 'adsds2323', 'aSAS', '2024-01-25 16:00:00', '2024-01-26 16:00:00', '\"[{\\\"n_code\\\":\\\"aSa\\\",\\\"s_unit\\\":\\\"saas\\\"},{\\\"n_code\\\":\\\"asSA\\\",\\\"s_unit\\\":\\\"saSA\\\"}]\"', '2024-01-24 16:00:00', '2024-01-25 16:00:00', NULL, 'dsadsa', 'waiting', 'waiting', 'reviewing', 'psycho eval', '2 insurance', 'yes', 'no', 'waiting', '2 insurance', 'yes', '2024-01-23 17:03:40', '2024-01-23 17:03:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -348,7 +389,9 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (30, 'calendar', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (31, 'expense_report', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (32, 'invoice_report', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(33, 'settings', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
+(33, 'settings', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(34, 'list_insurance', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(35, 'register_insurance', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
 
 -- --------------------------------------------------------
 
@@ -431,9 +474,9 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'SUPERADMIN', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (2, 'DOCTOR', 'api', '2023-12-01 04:09:47', '2023-12-01 04:09:47'),
-(6, 'LM', 'api', '2024-01-21 00:44:59', '2024-01-21 00:44:59'),
-(7, 'BCBA', 'api', '2024-01-21 00:45:23', '2024-01-21 00:45:23'),
-(8, 'RBT', 'api', '2024-01-21 00:45:41', '2024-01-21 00:45:41');
+(6, 'DOCTOR LM', 'api', '2024-01-21 00:44:59', '2024-01-23 18:01:58'),
+(7, 'DOCTOR BCBA', 'api', '2024-01-21 00:45:23', '2024-01-23 18:02:11'),
+(8, 'DOCTOR RBT', 'api', '2024-01-21 00:45:41', '2024-01-23 18:02:22');
 
 -- --------------------------------------------------------
 
@@ -451,6 +494,7 @@ CREATE TABLE `role_has_permissions` (
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(5, 2),
 (6, 2),
 (9, 2),
 (11, 2),
@@ -464,6 +508,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (31, 2),
 (32, 2),
 (33, 2),
+(34, 2),
+(35, 2),
 (1, 6),
 (1, 7),
 (1, 8);
@@ -535,7 +581,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `gender`, `address`, `avatar`, `status`, `currently_pay_through_company`, `llc`, `ien`, `wc`, `electronic_signature`, `agency_location`, `city`, `languages`, `dob`, `ss_number`, `date_of_hire`, `start_pay`, `driver_license_expiration`, `cpr_every_2_years`, `background_every_5_years`, `e_verify`, `national_sex_offender_registry`, `certificate_number`, `bacb_license_expiration`, `liability_insurance_annually`, `local_police_rec_every_5_years`, `npi`, `medicaid_provider`, `ceu_hippa_annually`, `ceu_domestic_violence_no_expiration`, `ceu_security_awareness_annually`, `ceu_zero_tolerance_every_3_years`, `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration`, `ceu_civil_rights_no_expiration`, `school_badge`, `w_9_w_4_form`, `contract`, `two_four_week_notice_agreement`, `credentialing_package_bcbas_only`, `caqh_bcbas_only`, `contract_type`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'superadmin', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, NULL, 'inactive', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2023-11-30 03:32:36', NULL),
-(13, 'dasdd', 'prueba@gmail.com', 'asdas', '12345678', '2024-01-12 08:00:00', 1, 'dasdas', 'staffs/j74hdNnaa0bS3G3GCVVBGMw7vABYwSACR1plAZbv.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$K0bz20J.2ATbbuXu5Hwd4OssUGWTGfpqBAhaarZPyGIyrQ5XgHWzi', NULL, '2024-01-19 22:11:09', '2024-01-20 20:43:25', NULL);
+(13, 'dasdd', 'prueba@gmail.com', 'asdas', '12345678', '2024-01-12 08:00:00', 1, 'dasdas', 'staffs/j74hdNnaa0bS3G3GCVVBGMw7vABYwSACR1plAZbv.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$K0bz20J.2ATbbuXu5Hwd4OssUGWTGfpqBAhaarZPyGIyrQ5XgHWzi', NULL, '2024-01-19 22:11:09', '2024-01-20 20:43:25', NULL),
+(14, 'pruebadoc', 'pruebadoc@pruebadoc.com', 'pruebadoc', '12324567', '2024-01-23 16:00:00', 1, 'pruebadocpruebadoc', 'staffs/B1VZB7OkJgWDHpmosdnoV5Kd1fcHbMz5vWIXvwaM.jpg', 'inactive', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', '2024-01-24 16:00:00', '2024-01-31 16:00:00', '2024-01-25 16:00:00', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', '2024-01-26 12:00:00', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', NULL, 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'yes', 'no', 'yes', 'yes', 'pruebadoc', 'pruebadoc', '1099', NULL, '$2y$10$LRTeKBEKPOUv2HT4B7isd.kKv3kShhj8a0hfxjDNDlj5dvythwJU.', NULL, '2024-01-23 13:27:05', '2024-01-23 13:27:05', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -565,6 +612,12 @@ ALTER TABLE `contacts`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indices de la tabla `insurances`
+--
+ALTER TABLE `insurances`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `jobs`
@@ -688,6 +741,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `insurances`
+--
+ALTER TABLE `insurances`
+  MODIFY `id` bigint(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `jobs`
 --
 ALTER TABLE `jobs`
@@ -709,13 +768,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -745,7 +804,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

@@ -46,6 +46,10 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // patient
     require __DIR__ . '/api_routes/patient.php';
+    
+    // insurance
+    require __DIR__ . '/api_routes/insurance.php';
+
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
     

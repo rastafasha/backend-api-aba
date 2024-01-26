@@ -36,7 +36,7 @@ class UserResource extends JsonResource
             "llc"=>$this->resource->llc,
             "ien"=>$this->resource->ien,
             "wc"=>$this->resource->wc,
-            "electronic_signature"=>$this->resource->electronic_signature,
+            "electronic_signature"=>$this->resource->electronic_signature ? env("APP_URL")."storage/".$this->resource->electronic_signature : null,
             "agency_location"=>$this->resource->agency_location,
             "city"=>$this->resource->city,
             "languages"=>$this->resource->languages,
@@ -55,12 +55,14 @@ class UserResource extends JsonResource
             "local_police_rec_every_5_years"=>$this->resource->local_police_rec_every_5_years,
             "npi"=>$this->resource->npi,
             "medicaid_provider"=>$this->resource->medicaid_provider,
+            
             "ceu_hippa_annually"=>$this->resource->ceu_hippa_annually,
             "ceu_domestic_violence_no_expiration"=>$this->resource->ceu_domestic_violence_no_expiration,
             "ceu_security_awareness_annually"=>$this->resource->ceu_security_awareness_annually,
             "ceu_zero_tolerance_every_3_years"=>$this->resource->ceu_zero_tolerance_every_3_years,
             "ceu_hiv_bloodborne_pathogens_infection_control_no_expiration"=>$this->resource->ceu_hiv_bloodborne_pathogens_infection_control_no_expiration,
             "ceu_civil_rights_no_expiration"=>$this->resource->ceu_civil_rights_no_expiration,
+            
             "school_badge"=>$this->resource->school_badge,
             "w_9_w_4_form"=>$this->resource->w_9_w_4_form,
             "contract"=>$this->resource->contract,
@@ -68,6 +70,7 @@ class UserResource extends JsonResource
             "credentialing_package_bcbas_only"=>$this->resource->credentialing_package_bcbas_only,
             "caqh_bcbas_only"=>$this->resource->caqh_bcbas_only,
             "contract_type"=>$this->resource->contract_type,
+            "salary"=>$this->resource->salary,
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y/m/d") : NULL,
             

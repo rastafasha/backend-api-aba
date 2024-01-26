@@ -28,7 +28,7 @@ class PatientResource extends JsonResource
             "gender"=>$this->resource->gender,
             "address"=>$this->resource->address,
             "language"=>$this->resource->language,
-            "cell_phone"=>$this->resource->cell_phone,
+            "home_phone"=>$this->resource->home_phone,
             "work_phone"=>$this->resource->work_phone,
             "zip"=>$this->resource->zip,
             "city"=>$this->resource->city,
@@ -47,6 +47,7 @@ class PatientResource extends JsonResource
             "patient_control"=>$this->resource->patient_control,
             
             //benefits
+            "insurer"=>$this->resource->insurer,
             "insuranceId"=>$this->resource->insuranceId,
             "insurer_secundary"=>$this->resource->insurer_secundary,          
             "insuranceId_secundary"=>$this->resource->insuranceId_secundary,          
@@ -77,7 +78,8 @@ class PatientResource extends JsonResource
             "pa_assessment"=>$this->resource->pa_assessment,
             "pa_assessment_start_date"=>$this->resource->pa_assessment_start_date ? Carbon::parse($this->resource->pa_assessment_start_date)->format("Y/m/d") : NULL,
             "pa_assessment_end_date"=>$this->resource->pa_assessment_end_date ? Carbon::parse($this->resource->pa_assessment_end_date)->format("Y/m/d") : NULL,
-            "pa_services"=>$this->resource->pa_services,
+            // "pa_services"=>$this->resource->pa_services,
+            'pa_services'=> json_decode($this->resource-> pa_services),
             "pa_services_start_date"=>$this->resource->pa_services_start_date ? Carbon::parse($this->resource->pa_services_start_date)->format("Y/m/d") : NULL,
             "pa_services_end_date"=>$this->resource->pa_services_end_date ? Carbon::parse($this->resource->pa_services_end_date)->format("Y/m/d") : NULL,
             
@@ -95,6 +97,17 @@ class PatientResource extends JsonResource
             // "analyst_bcba"=>$this->resource->analyst_bcba,
             // "data_report_and_rbt_correction"=>$this->resource->data_report_and_rbt_correction,
             
+
+            "specialist_id" => $this->resource->speciality_id,
+            "specialist"=>$this->resource->specialist ? [
+                "id"=> $this->resource->specialist->id,
+                "name"=> $this->resource->specialist->name,
+            ]:NULL,
+            "insurer_id" => $this->resource->insurer_id,
+            "insurer"=>$this->resource->insurer ? [
+                "id"=> $this->resource->insurer->id,
+                "name"=> $this->resource->insurer->name,
+            ]:NULL,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             
 

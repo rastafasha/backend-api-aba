@@ -31,9 +31,9 @@ class DoctorController extends Controller
                     // ->orWhere("surname", "like", "%".$search."%")
                     // ->orWhere("email", "like", "%".$search."%")
                     ->orderBy("id", "desc")
-                    ->whereHas("roles", function($q){
-                        $q->where("name","like","%DOCTOR%");
-                    })
+                    // ->whereHas("roles", function($q){
+                    //     $q->where("name","like","%DOCTOR%");
+                    // })
                     ->get();
                     
         return response()->json([
@@ -43,7 +43,8 @@ class DoctorController extends Controller
     }
     public function config()
     {
-        $roles = Role::where("name","like","%DOCTOR%")->get();
+        // $roles = Role::where("name","like","%DOCTOR%")->get();
+        $roles = Role::get();
         return response()->json([
             "roles" => $roles,
         ]);
@@ -92,13 +93,36 @@ class DoctorController extends Controller
             $request->request->add(["avatar"=>$path]);
         }
 
+        if($request->hasFile('signature')){
+            $path = Storage::putFile("signatures", $request->file('electronic_signature'));
+            $request->request->add(["electronic_signature"=>$path]);
+        }
+
         if($request->password){
             $request->request->add(["password"=>Hash::make($request->password)]);
         }
 
-        $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+        if($request->birth_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+            $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
 
-        $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        if($request->date_of_hire){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_of_hire );
+            $request->request->add(["date_of_hire" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+        if($request->start_pay){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->start_pay );
+            $request->request->add(["start_pay" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
+        if($request->bacb_license_expiration){
+            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->bacb_license_expiration );
+            $request->request->add(["bacb_license_expiration" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        }
+        if($request->driver_license_expiration){
+            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->driver_license_expiration );
+            $request->request->add(["driver_license_expiration" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        }
 
         $user = User::create($request->all());
         $role=  Role::findOrFail($request->role_id);
@@ -161,15 +185,39 @@ class DoctorController extends Controller
             $path = Storage::putFile("staffs", $request->file('imagen'));
             $request->request->add(["avatar"=>$path]);
         }
+        if($request->hasFile('signature')){
+            if($user->electronic_signature){
+                Storage::delete($user->electronic_signature);
+            }
+            $path = Storage::putFile("signatures", $request->file('electronic_signature'));
+            $request->request->add(["electronic_signature"=>$path]);
+        }
         
         if($request->password){
             $request->request->add(["password"=>bycript($request->password)]);
         }
         
-        $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
-        
-        $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        if($request->birth_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+            $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
 
+        if($request->date_of_hire){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_of_hire );
+            $request->request->add(["date_of_hire" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+        if($request->start_pay){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->start_pay );
+            $request->request->add(["start_pay" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
+        if($request->bacb_license_expiration){
+            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->bacb_license_expiration );
+            $request->request->add(["bacb_license_expiration" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        }
+        if($request->driver_license_expiration){
+            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->driver_license_expiration );
+            $request->request->add(["driver_license_expiration" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        }
         $user->update($request->all());
         
         if($request->role_id && $request->role_id != $user->roles()->first()->id){

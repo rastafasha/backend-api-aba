@@ -83,6 +83,7 @@ class User extends Authenticatable implements JWTSubject
         'credentialing_package_bcbas_only',
         'caqh_bcbas_only',
         'contract_type',
+        'salary',
 
     ];
 
