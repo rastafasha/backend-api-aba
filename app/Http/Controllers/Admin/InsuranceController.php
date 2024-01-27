@@ -68,9 +68,8 @@ class InsuranceController extends Controller
         return response()->json([
             "id"=>$insurance->id,
             "insurer_name"=>$insurance->insurer_name,
-            "services"=>$insurance->services,
-            "notes"=>$insurance->permissions->notes,
-            "created_at"=>$insurance->created_at->format("Y-m-d h:i:s")
+            "services"=>json_decode($insurance-> services),
+            "notes"=>json_decode($insurance-> notes)
         ]);
     }
 

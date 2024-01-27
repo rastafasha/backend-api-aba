@@ -4,7 +4,7 @@ namespace App\Models\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Insurance;
+use App\Models\Insurance\Insurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -78,6 +78,13 @@ class Patient extends Model
         'pa_services',
         'pa_services_start_date',
         'pa_services_end_date',
+
+        //specialits
+        'rbt',
+        'rbt2',
+        'bcba',
+        'bcba2',
+        'clin_director',
 
         //??
         // 'current_auth_expires',
@@ -214,8 +221,30 @@ class Patient extends Model
         return $this->hasMany(User::class);
     }
 
-    public function insurers()
+
+    public function rbt()
+        {
+            return $this->hasMany(User::class);
+        }
+    public function rbt2()
+        {
+            return $this->hasMany(User::class);
+        }
+    public function bcba()
+        {
+            return $this->hasMany(User::class);
+        }
+    public function bcba2()
+        {
+            return $this->hasMany(User::class);
+        }
+    public function clin_director()
+        {
+            return $this->hasMany(User::class);
+        }
+
+    public function insurer()
     {
-        return $this->hasMany(Insurance::class);
+        return $this->hasMany(Insurance::class, 'insurer');
     }
 }

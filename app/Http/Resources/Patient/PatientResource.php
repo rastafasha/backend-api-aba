@@ -48,6 +48,11 @@ class PatientResource extends JsonResource
             
             //benefits
             "insurer"=>$this->resource->insurer,
+            // "insurer"=>$this->resource->insurer ? [
+            //     "id"=> $this->resource->insurer->id,
+            //     "name"=> $this->resource->insurer->name,
+            // ]:NULL,
+
             "insuranceId"=>$this->resource->insuranceId,
             "insurer_secundary"=>$this->resource->insurer_secundary,          
             "insuranceId_secundary"=>$this->resource->insuranceId_secundary,          
@@ -78,39 +83,52 @@ class PatientResource extends JsonResource
             "pa_assessment"=>$this->resource->pa_assessment,
             "pa_assessment_start_date"=>$this->resource->pa_assessment_start_date ? Carbon::parse($this->resource->pa_assessment_start_date)->format("Y/m/d") : NULL,
             "pa_assessment_end_date"=>$this->resource->pa_assessment_end_date ? Carbon::parse($this->resource->pa_assessment_end_date)->format("Y/m/d") : NULL,
-            // "pa_services"=>$this->resource->pa_services,
-            'pa_services'=> json_decode($this->resource-> pa_services),
+            
+            'pa_services'=> $this->resource->pa_services,
             "pa_services_start_date"=>$this->resource->pa_services_start_date ? Carbon::parse($this->resource->pa_services_start_date)->format("Y/m/d") : NULL,
             "pa_services_end_date"=>$this->resource->pa_services_end_date ? Carbon::parse($this->resource->pa_services_end_date)->format("Y/m/d") : NULL,
             
-            //??
-            // "telehealth"=>$this->resource->telehealth,
-            // "insurer"=>$this->resource->insurer,
-            // "compayment_per_visit"=>$this->resource->compayment_per_visit,
-            // "current_auth_expires"=>$this->resource->current_auth_expires ? Carbon::parse($this->resource->current_auth_expires)->format("Y/m/d") : NULL,
-            // "need_cognitive_eval"=>$this->resource->need_cognitive_eval,
-            // "rst_wk_hr"=>$this->resource->rst_wk_hr,
-            // "rst"=>$this->resource->rst,
-            // "an_wk_s"=>$this->resource->an_wk_s,
-            // "pt"=>$this->resource->pt,
-            // "school_bcba"=>$this->resource->school_bcba,
-            // "analyst_bcba"=>$this->resource->analyst_bcba,
-            // "data_report_and_rbt_correction"=>$this->resource->data_report_and_rbt_correction,
             
-
-            "specialist_id" => $this->resource->speciality_id,
-            "specialist"=>$this->resource->specialist ? [
-                "id"=> $this->resource->specialist->id,
-                "name"=> $this->resource->specialist->name,
-            ]:NULL,
-            "insurer_id" => $this->resource->insurer_id,
-            "insurer"=>$this->resource->insurer ? [
-                "id"=> $this->resource->insurer->id,
-                "name"=> $this->resource->insurer->name,
-            ]:NULL,
+            // "specialist_id" => $this->resource->speciality_id,
+            // "specialist"=>$this->resource->specialist ? [
+            //     "id"=> $this->resource->specialist->id,
+            //     "name"=> $this->resource->specialist->name,
+            //     ]:NULL,
+            // "insurer_id" => $this->resource->insurer_id,
+                // "insurer"=>$this->resource->insurer ? [
+                    //     "id"=> $this->resource->insurer->id,
+                    //     "name"=> $this->resource->insurer->name,
+                    // ]:NULL,
+                    
+            "rbt"=>$this->resource->rbt,
+            // "rbt"=>$this->resource->rbt ? [
+            //     // "id"=> $this->resource->rbt->id,
+            //     // "name"=> $this->resource->rbt->name,
+            // ]:NULL,
+            "rbt2"=>$this->resource->rbt2,
+            // "rbt2"=>$this->resource->rbt2 ? [
+            //     "id"=> $this->resource->rbt2->id,
+            //     "name"=> $this->resource->rbt2->name,
+            // ]:NULL,
+            "bcba"=>$this->resource->bcba,
+            // "bcba"=>$this->resource->bcba ? [
+            //     "id"=> $this->resource->bcba->id,
+            //     "name"=> $this->resource->bcba->name,
+            // ]:NULL,
+            "bcba2"=>$this->resource->bcba2,
+            // "bcba2"=>$this->resource->bcba2 ? [
+            //     "id"=> $this->resource->bcba2->id,
+            //     "name"=> $this->resource->bcba2->name,
+            // ]:NULL,
+            "clin_director"=>$this->resource->clin_director,
+            // "clin_director"=>$this->resource->clin_director ? [
+            //     "id"=> $this->resource->clin_director->id,
+            //     "name"=> $this->resource->clin_director->name,
+            // ]:NULL,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             
 
         ];
     }
+
 }

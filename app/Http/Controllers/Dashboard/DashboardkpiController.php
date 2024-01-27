@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment\Appointment;
@@ -13,9 +14,9 @@ class DashboardkpiController extends Controller
 {
     public function config(){
         $users= User::orderBy("id", "desc")
-        ->whereHas("roles", function($q){
-            $q->where("name","like","%DOCTOR%");
-        })
+        // ->whereHas("roles", function($q){
+        //     $q->where("name","like","%DOCTOR%");
+        // })
         ->get();
 
         return response()->json([
@@ -490,22 +491,22 @@ class DashboardkpiController extends Controller
                                     ->get();
 
         return response()->json([
-            "appointments"=>AppointmentCollection::make($appointments),
-            "num_appointments_current"=>$num_appointments_current,
-            "num_appointments_before"=>$num_appointments_before,
-            "porcentaje_d"=> round($porcentajeD,2),
-            //
-            "num_appointments_attention_current"=>$num_appointments_attention_current,
-            "num_appointments_attention_before"=>$num_appointments_attention_before,
-            "porcentaje_da"=> round($porcentajeDA,2),
-             // 
-            "num_appointments_total_pay_current"=>$num_appointments_total_pay_current,
-            "num_appointments_total_pay_before"=>$num_appointments_total_pay_before,
-            "porcentaje_dtp"=> round($porcentajeDTP,2),
-            //
-            "num_appointments_total_pending_current"=>$num_appointments_total_pending_current,
-            "num_appointments_total_pending_before"=>$num_appointments_total_pending_before,
-            "porcentaje_dtpn"=> round($porcentajeDTPN,2),
+            // "appointments"=>AppointmentCollection::make($appointments),
+            // "num_appointments_current"=>$num_appointments_current,
+            // "num_appointments_before"=>$num_appointments_before,
+            // "porcentaje_d"=> round($porcentajeD,2),
+            // //
+            // "num_appointments_attention_current"=>$num_appointments_attention_current,
+            // "num_appointments_attention_before"=>$num_appointments_attention_before,
+            // "porcentaje_da"=> round($porcentajeDA,2),
+            //  // 
+            // "num_appointments_total_pay_current"=>$num_appointments_total_pay_current,
+            // "num_appointments_total_pay_before"=>$num_appointments_total_pay_before,
+            // "porcentaje_dtp"=> round($porcentajeDTP,2),
+            // //
+            // "num_appointments_total_pending_current"=>$num_appointments_total_pending_current,
+            // "num_appointments_total_pending_before"=>$num_appointments_total_pending_before,
+            // "porcentaje_dtpn"=> round($porcentajeDTPN,2),
         ]);
     }
 
@@ -585,6 +586,20 @@ class DashboardkpiController extends Controller
             "query_income_year" => $query_income_year,
             "query_patients_by_gender" => $query_patients_by_gender,
         ]);               
+    }
+
+
+    public function configPatients(){
+        $patients= Patient::orderBy("id", "desc")->get();
+
+        return response()->json([
+            "patients"=>$patients->map(function($patients){
+                return[
+                    "id"=> $patients->id,
+                    "full_name"=> $patients->first_name.' '.$patients->last_name,
+                ];
+            })
+        ]);
     }
 
     

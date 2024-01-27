@@ -17,7 +17,7 @@ class InsuranceResource extends JsonResource
     {
         return [
             "id"=>$this->resource->id,
-            "insurer_name"=>$this->resource->title,
+            "insurer_name"=>$this->resource->insurer_name,
             'services'=> json_decode($this->resource-> services),
             'notes'=> json_decode($this->resource-> notes),
             
