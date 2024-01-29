@@ -13,8 +13,9 @@ class Bip extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        'patient_id',
         'documents_reviewed',
+        'client_id',
+        'type_of_assessment',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',
@@ -42,7 +43,7 @@ class Bip extends Model
 
      public function patient()
     {
-        return $this->hasOne(Patient::class, 'patient_id');
+        return $this->hasOne(Patient::class, 'client_id');
     }
      public function maladaptive()
     {
@@ -53,7 +54,7 @@ class Bip extends Model
         return $this->hasOne(Reduction::class, 'reduction_id');
     }
 
-    public function files(){
+    public function bip_files(){
         return $this->hasMany(BipFile::class, "documents_reviewed");
     }
 }

@@ -68,7 +68,7 @@ class NotificationAppointmentWhatsapp extends Command
                     "speciality_name"=> $appointment->speciality->name,
                     "doctor_full_name"=> $appointment->doctor->name.' '.$appointment->doctor->surname,
                     "phone"=> $appointment->patient->phone,
-                    "pat_id"=> $appointment->patient->pat_id,
+                    "client_id"=> $appointment->patient->client_id,
                     "hour_start_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_start)->format("h:i A"),
                     "hour_end_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_end)->format("h:i A"),
                 ]);

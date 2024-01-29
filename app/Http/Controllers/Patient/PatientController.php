@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Bip\BipFile;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
@@ -46,10 +47,34 @@ class PatientController extends Controller
         // $roles = Role::where("name","like","%DOCTOR%")->get();
         $specialists = User::where("status",'active')->get();
         $insurances = Insurance::get();
+        $documents = collect([]);
+
+        $patient_documents = BipFile::all();
+        foreach($patient_documents->groupBy("name") as $key => $patient_document){
+            // dd($schedule_hour);
+            $documents->push([
+                "client_id" => $key,
+                "name"=> $file->name,
+                "size"=> $file->size,
+                "file"=> $file->file,
+                'file'=>$this->resource-> file->map(function($file){
+                    return [
+                        'id'=> $file->id,
+                        'client_id'=> $file->client_id,
+                        'name_file'=> $file->name_file,
+                        'size'=> $file->size,
+                        'file'=> env("APP_URL")."storage/".$file->file,
+                        'type'=> $file->type,
+                    ];
+                })
+            ]);
+
+        }
         
         return response()->json([
             "specialists" => $specialists,
             "insurances" => $insurances,
+            "documents" => $documents,
         ]);
     }
 
@@ -81,7 +106,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("pat_id", $request->pat_id)->first();
+        $patient_is_valid = Patient::where("client_id", $request->client_id)->first();
         
         $request->request->add(["pa_services"=>json_encode($request->services)]);
 
@@ -130,7 +155,7 @@ class PatientController extends Controller
         
         
         $request->request->add([
-            "patient_id" =>$patient->id
+            "client_id" =>$patient->id
         ]);
 
         return response()->json([
@@ -163,7 +188,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $patient_is_valid = Patient::where("id", "<>", $id)->where("pat_id", $request->pat_id)->first();
+        $patient_is_valid = Patient::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
         
         $request->request->add(["pa_services"=>json_encode($request->services)]);
 

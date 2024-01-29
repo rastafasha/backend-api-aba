@@ -12,7 +12,7 @@ class Maladaptive extends Model
     use SoftDeletes;
 
     protected $fillable=[
-        'patient_id',
+        'client_id',
         'title',
         'bl_week',
         'reduction_w',

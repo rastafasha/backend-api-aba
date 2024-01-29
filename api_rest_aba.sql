@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bips` (
   `id` bigint(20) NOT NULL,
-  `patient_id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
   `documents_reviewed` varchar(255) DEFAULT NULL,
   `background_information` text,
   `previus_treatment_and_result` text,
@@ -166,7 +166,7 @@ CREATE TABLE `jobs` (
 
 CREATE TABLE `maladaptives` (
   `id` bigint(20) NOT NULL,
-  `patient_id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `bl_week` double NOT NULL,
   `reduction_w` double NOT NULL,
@@ -270,7 +270,7 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `pat_id` varchar(255) DEFAULT NULL,
+  `client_id` varchar(255) DEFAULT NULL,
   `first_name` varchar(250) NOT NULL,
   `last_name` varchar(250) NOT NULL,
   `email` varchar(250) DEFAULT NULL,
@@ -335,7 +335,7 @@ CREATE TABLE `patients` (
 -- Volcado de datos para la tabla `patients`
 --
 
-INSERT INTO `patients` (`id`, `pat_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `cell_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessment`, `pa_assessment_start_date`, `pa_assessment_end_date`, `pa_services`, `pa_services_start_date`, `pa_services_end_date`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `patients` (`id`, `client_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `cell_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessment`, `pa_assessment_start_date`, `pa_assessment_end_date`, `pa_services`, `pa_services_start_date`, `pa_services_end_date`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, '1234pdas', 'Malcolm', 'Cordova', 'mercadocreativo@gmail.com', '+584241874370', 'english, spanish', 'asdasd', 'dassa', '04241874370', '+584241874370', 'dasdsa', '12324567', '1010a', 'Distrito Federal', 'caracas\r\ncaracas', 1, '1980-03-31 16:00:00', '43', 'patients/BVO462RLwFD9UIKsYTRZBJFGPxedb4Np7T3qIVrb.jpg', 'caracas', 'universitaria', 'Web Developer', 'dsadas', 'asdsa', 'sadsa', 'dsadsa', 'dsaads', '2024-01-24 16:00:00', '03', 'dasdsa', 'adsdas', 'dasdsa', 'dasdsa', 'dsads', 'dsads', NULL, 'pending', 'adsds2323', 'aSAS', '2024-01-25 16:00:00', '2024-01-26 16:00:00', '\"[{\\\"n_code\\\":\\\"aSa\\\",\\\"s_unit\\\":\\\"saas\\\"},{\\\"n_code\\\":\\\"asSA\\\",\\\"s_unit\\\":\\\"saSA\\\"}]\"', '2024-01-24 16:00:00', '2024-01-25 16:00:00', NULL, 'dsadsa', 'waiting', 'waiting', 'reviewing', 'psycho eval', '2 insurance', 'yes', 'no', 'waiting', '2 insurance', 'yes', '2024-01-23 17:03:40', '2024-01-23 17:03:40', NULL);
 
 -- --------------------------------------------------------

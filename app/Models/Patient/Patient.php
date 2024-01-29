@@ -18,7 +18,7 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'pat_id',
+        'client_id',
         'birth_date',
         'gender',
         'address',

@@ -15,9 +15,64 @@ class BipResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        // $DOCUMENTS = collect([]);
+        // $documents = [];
+        // $document_name["Doctor Referal"] = "table-primary";
+        // $document_name["Medical Notes"] = "table-secondary";
+        // $document_name["CDE"] = "table-success";
+        // $document_name["IEP"] = "table-warning";
+        // $document_name["MNL"] = "table-info";
+        // $document_name["Referal"] = "table-info";
+        // $names_document = "";
+
+        // foreach ($this->resource->bip_files as $key => $bip_file) {
+        //     $names_document .= ($bip_file->doc."-");
+        //     foreach ($bip_files->doc_files as $key => $doc_files) {
+        //         $DOCUMENTS->push([
+        //             "name"=> $bip_files->document_name,
+        //             "doc"=> [
+        //                 "doc"=> $bip_files->doc,
+        //                 "class"=> $document_name[$schedule_day->day],
+        //                 // "size"=> $file->size,
+        //                 // "file"=> $file->file,
+        //                 "documents_recev"=> [
+        //                     "name" => $doc_files->name,
+            
+        //                     "items" => []
+        //                 ],
+
+        //                 'files'=>$this->resource-> file->map(function($file){
+        //                     return [
+        //                         'id'=> $file->id,
+        //                         'client_id'=> $file->client_id,
+        //                         'name_file'=> $file->name_file,
+        //                         'size'=> $file->size,
+        //                         'file'=> env("APP_URL")."storage/".$file->file,
+        //                         'type'=> $file->type,
+        //                     ];
+        //                 })
+        //             ],
+                    
+        //         ]);
+        //     }
+        // }
         return [
             "id"=>$this->resource->id,
-            "patient_id"=>$this->resource->patient_id,
+            "client_id"=>$this->resource->client_id,
+            "patient" =>$this->resource->patient ?
+                [
+                    "id" =>$this->resource->patient->id,
+                    "first_name" =>$this->resource->patient->first_name,
+                    "last_name" =>$this->resource->patient->last_name,
+                    "full_name" =>$this->resource->patient->first_name.' '.$this->resource->patient->last_name,
+                    "phone" =>$this->resource->patient->phone,
+                    "n_doc" =>$this->resource->patient->n_doc,
+                    "name_companion" =>$this->resource->patient->person->name_companion,
+                    "surname_companion" =>$this->resource->patient->person->surname_companion,
+                ]: NUll,
+            "type_of_assessment"=>$this->resource->type_of_assessment,
+            'documents_reviewed'=> json_decode($this->resource-> documents_reviewed),
             "background_information"=>$this->resource->background_information,
             "previus_treatment_and_result"=>$this->resource->previus_treatment_and_result,
             "current_treatment_and_progress"=>$this->resource->current_treatment_and_progress,
@@ -38,7 +93,6 @@ class BipResource extends JsonResource
             "ncr"=>$this->resource->ncr,
             "shaping"=>$this->resource->shaping,
             "chaining"=>$this->resource->chaining,
-            // "documents_reviewed"=>$this->resource->documents_reviewed,
             'files'=>$this->resource-> files->map(function($file){
                 return [
                     'id'=> $file->id,
@@ -59,7 +113,7 @@ class BipResource extends JsonResource
             ]:NULL,
             "maladaptive"=>$this->resource->maladaptive ? [
                 "id"=>$this->resource->maladaptive->id,
-                "patient_id"=>$this->resource->maladaptive->patient_id,
+                "client_id"=>$this->resource->maladaptive->client_id,
                 "title"=>$this->resource->maladaptive->title,
                 "bl_week"=>$this->resource->maladaptive->bl_week,
                 "reduction_w"=>$this->resource->maladaptive->reduction_w,

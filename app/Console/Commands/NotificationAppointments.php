@@ -77,7 +77,7 @@ class NotificationAppointments extends Command
                     "email"=> $appointment->patient->email,
                     "speciality_name"=> $appointment->speciality->name,
                     "phone"=> $appointment->patient->phone,
-                    "pat_id"=> $appointment->patient->pat_id,
+                    "client_id"=> $appointment->patient->client_id,
                     "hour_start_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_start)->format("h:i A"),
                     "hour_end_format"=> Carbon::parse(date("Y-m-d")." ".$appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_end)->format("h:i A"),
                 ]);

@@ -15,9 +15,10 @@ class PatientResource extends JsonResource
      */
     public function toArray($request)
     {
+        
         return [
             "id"=>$this->resource->id,
-            "pat_id"=>$this->resource->pat_id,
+            "client_id"=>$this->resource->client_id,
             "first_name"=>$this->resource->first_name,
             "last_name"=>$this->resource->last_name,
             "full_name"=> $this->resource->first_name.' '.$this->resource->last_name,
