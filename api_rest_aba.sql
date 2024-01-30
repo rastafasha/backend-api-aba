@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 23-01-2024 a las 22:45:46
+-- Tiempo de generación: 30-01-2024 a las 03:18:37
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -30,33 +30,33 @@ SET time_zone = "+00:00";
 CREATE TABLE `bips` (
   `id` bigint(20) NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
-  `documents_reviewed` varchar(255) DEFAULT NULL,
+  `doctor_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `type_of_assessment` tinyint(1) DEFAULT '1' COMMENT '1:pending,2:initial,3:reassestment',
+  `documents_reviewed` json DEFAULT NULL,
   `background_information` text,
   `previus_treatment_and_result` text,
   `current_treatment_and_progress` text,
   `education_status` text,
   `phisical_and_medical_status` text,
-  `maladaptive_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `maladaptives` json DEFAULT NULL,
   `assestment_conducted` text,
   `assestment_conducted_options` json DEFAULT NULL,
   `prevalent_setting_event_and_atecedents` json DEFAULT NULL,
-  `behavior` json DEFAULT NULL,
-  `hypothesized_functions` json DEFAULT NULL,
-  `pairing` text,
-  `premack_principal` text,
-  `response_block` text,
-  `dro` text,
-  `dra` text,
-  `errorless_teaching` text,
-  `redirection` text,
-  `ncr` text,
-  `shaping` text,
-  `chaining` text,
+  `interventions` json DEFAULT NULL,
   `reduction_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_atd` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `bips`
+--
+
+INSERT INTO `bips` (`id`, `client_id`, `doctor_id`, `type_of_assessment`, `documents_reviewed`, `background_information`, `previus_treatment_and_result`, `current_treatment_and_progress`, `education_status`, `phisical_and_medical_status`, `maladaptives`, `assestment_conducted`, `assestment_conducted_options`, `prevalent_setting_event_and_atecedents`, `interventions`, `reduction_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5, 4, NULL, 3, '[{\"mnl\": true, \"doctor_referal\": true}]', 'asasd', 'adsads', 'dsa', 'das', 'das', '[]', NULL, 'null', '[]', '[]', NULL, '2024-01-30 07:15:11', '2024-01-30 07:15:11', NULL),
+(6, 4, NULL, 3, 'null', 'asasd', 'adsads', 'dsa', 'das', 'das', '\"[]\"', NULL, 'null', '\"[]\"', '\"[]\"', NULL, '2024-01-30 07:15:56', '2024-01-30 07:15:56', NULL),
+(7, 4, NULL, 3, 'null', 'asasd', 'adsads', 'dsa', 'das', 'das', '\"[]\"', NULL, 'null', '\"[]\"', '\"[]\"', NULL, '2024-01-30 07:16:32', '2024-01-30 07:16:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,8 +66,8 @@ CREATE TABLE `bips` (
 
 CREATE TABLE `bip_files` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `bip_id` bigint(20) UNSIGNED NOT NULL,
-  `name_file` varchar(250) NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(250) NOT NULL,
   `size` varchar(50) NOT NULL,
   `file` varchar(250) NOT NULL,
   `type` varchar(20) NOT NULL,
@@ -117,19 +117,9 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `insurances` (
   `id` bigint(50) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `insurer_name` varchar(255) DEFAULT NULL,
   `services` json DEFAULT NULL,
-  `codes` varchar(150) DEFAULT NULL,
-  `description` text,
-  `provider` varchar(150) DEFAULT NULL,
-  `unit_price` double DEFAULT NULL,
-  `hourly_fee` double DEFAULT NULL,
-  `max_allowed` varchar(150) DEFAULT NULL,
   `notes` json DEFAULT NULL,
-  `therapy_code` varchar(150) DEFAULT NULL,
-  `modifier` varchar(150) DEFAULT NULL,
-  `units` double DEFAULT NULL,
-  `total` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -139,8 +129,9 @@ CREATE TABLE `insurances` (
 -- Volcado de datos para la tabla `insurances`
 --
 
-INSERT INTO `insurances` (`id`, `title`, `services`, `codes`, `description`, `provider`, `unit_price`, `hourly_fee`, `max_allowed`, `notes`, `therapy_code`, `modifier`, `units`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Actualizado', '[{\"n_code\": \"adsdsa\", \"s_unit\": \"dasdsa\"}, {\"n_code\": \"dasdas\", \"s_unit\": \"32324\"}]', NULL, 'description', 'RBT', NULL, 132, 'asdas', '[{\"note\": \"asddsa\"}, {\"note\": \"tweewr\"}]', 'dasdsa', 'HO', 1, 1300, '2024-01-24 01:15:00', '2024-01-24 02:43:39', NULL);
+INSERT INTO `insurances` (`id`, `insurer_name`, `services`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Fl Blue', '[{\"code\": \"97151\", \"provider\": \"BCBA\", \"hourly_fee\": \"84\", \"unit_prize\": \"21\", \"description\": \"Assessment\", \"max_allowed\": \"(max 2 hrs/day) total 40 units/10 hours copay will aply per day\"}, {\"code\": \"97153\", \"provider\": \"RBT\", \"hourly_fee\": \"52\", \"unit_prize\": \"13\", \"description\": \"Therapy\", \"max_allowed\": \"(max 8 hrs/day)\"}, {\"code\": \"97155\", \"provider\": \"BCBA\", \"hourly_fee\": \"81.6\", \"unit_prize\": \"20.4\", \"description\": \"BIP modification only\", \"max_allowed\": null}, {\"code\": \"97156\", \"provider\": \"BCBA\", \"hourly_fee\": \"76\", \"unit_prize\": \"19\", \"description\": \"Caregiver Training\", \"max_allowed\": null}, {\"code\": \"97157\", \"provider\": \"BCBA\", \"hourly_fee\": null, \"unit_prize\": \"3\", \"description\": \"Group Caregiver Training( Multi-family)\", \"max_allowed\": null}, {\"code\": \"H0032\", \"provider\": \"BCBA\", \"hourly_fee\": \"68\", \"unit_prize\": \"17\", \"description\": null, \"max_allowed\": null}]', '[{\"note\": \"Horizon by BCBS\"}, {\"note\": \"Horizon BCBSNJ will use H0032 for Indirect service (treatment planning)\"}, {\"note\": \"telehealth: submit a claim to Florida Blue using one of the regular codes included in your fee schedule. The place of service should be the regular place of service as if you saw the patient in-person.\"}, {\"note\": \"Modifier XE for 2 sessions, same day different POS\"}, {\"note\": \"Now allows concurrent billing of 97155 and 97153, effecitve 12/01/2021\"}, {\"note\": \"97156 is always ALLOWED to overlap with 97153\"}]', '2024-01-26 00:17:41', '2024-01-27 02:09:11', NULL),
+(2, 'United', '[{\"code\": \"97153\", \"provider\": \"RBT\", \"hourly_fee\": \"50.04\", \"unit_prize\": \"12.51\", \"description\": \"therapy\"}, {\"code\": \"97151\", \"provider\": \"BCBA\", \"hourly_fee\": \"119.52\", \"unit_prize\": \"29.88\", \"description\": \"IA (40 units)\", \"max_allowed\": null}, {\"code\": \"97155\", \"provider\": \"BCBA 97155\", \"hourly_fee\": \"77.28\", \"unit_prize\": \"19.32\", \"description\": \"supervision\", \"max_allowed\": null}, {\"code\": \"97156\", \"provider\": \"BCBA 97156\", \"hourly_fee\": \"70.04\", \"unit_prize\": \"17.51\", \"description\": \"PT\", \"max_allowed\": null}, {\"code\": \"97153\", \"provider\": \"BCBA\", \"hourly_fee\": \"66.72\", \"unit_prize\": \"16.68\", \"description\": \"therapy\", \"max_allowed\": null}, {\"code\": \"97151\", \"provider\": \"BCaBA\", \"hourly_fee\": \"101.6\", \"unit_prize\": \"25.4\", \"description\": null, \"max_allowed\": null}, {\"code\": \"97153\", \"provider\": \"BCaBA\", \"hourly_fee\": \"56.72\", \"unit_prize\": \"14.18\", \"description\": null, \"max_allowed\": null}, {\"code\": \"97155\", \"provider\": \"BCaBA\", \"hourly_fee\": \"65.68\", \"unit_prize\": \"16.42\", \"description\": null, \"max_allowed\": null}, {\"code\": \"97156\", \"provider\": \"BCaBA\", \"hourly_fee\": \"59.52\", \"unit_prize\": \"14.88\", \"description\": null, \"max_allowed\": null}]', '[{\"note\": \"No school or community covered unless aproved by peer review on auth\"}, {\"note\": \"If the rendering provider is required, use the BCBA on the case.\"}, {\"note\": \"for 97155 Yes. When supervision is provided, you may bill concurrently for both Supervisors and Behavior Technicians, billing with 97153 and 97155.\"}, {\"note\": \"Modifier XE for 2 sessions, same day different POS\"}, {\"note\": \"Modifiers: RBT- HM, BCBA- HO, BCaBA- HN\"}, {\"note\": \"97156 is always allowed to overlap with 97153\"}]', '2024-01-27 02:14:56', '2024-01-28 03:51:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -167,7 +158,7 @@ CREATE TABLE `jobs` (
 CREATE TABLE `maladaptives` (
   `id` bigint(20) NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `maladaptive` varchar(255) DEFAULT NULL,
   `bl_week` double NOT NULL,
   `reduction_w` double NOT NULL,
   `s_date` timestamp NULL DEFAULT NULL,
@@ -189,6 +180,13 @@ CREATE TABLE `maladaptives` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `maladaptives`
+--
+
+INSERT INTO `maladaptives` (`id`, `client_id`, `maladaptive`, `bl_week`, `reduction_w`, `s_date`, `s_value`, `m_date`, `m_value`, `t_date`, `t_value`, `w_date`, `w_value`, `th_date`, `th_value`, `f_date`, `f_value`, `st_date`, `st_value`, `totals`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1232, 'negative self talk', 20, 0.26, '2024-01-22 00:23:27', 2, '2024-01-23 00:23:27', 3, '2024-01-24 00:23:27', 5, '2024-01-25 00:23:27', 10, '2024-01-26 00:23:27', 10, '2024-01-27 00:23:27', 10, '2024-01-28 00:23:27', 3, 19.74, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -246,9 +244,9 @@ CREATE TABLE `model_has_roles` (
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 1),
 (2, 'App\\Models\\User', 2),
-(2, 'App\\Models\\User', 12),
-(2, 'App\\Models\\User', 13),
-(2, 'App\\Models\\User', 14);
+(6, 'App\\Models\\User', 3),
+(7, 'App\\Models\\User', 4),
+(8, 'App\\Models\\User', 5);
 
 -- --------------------------------------------------------
 
@@ -270,7 +268,7 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `client_id` varchar(255) DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
   `first_name` varchar(250) NOT NULL,
   `last_name` varchar(250) NOT NULL,
   `email` varchar(250) DEFAULT NULL,
@@ -278,7 +276,7 @@ CREATE TABLE `patients` (
   `language` varchar(150) DEFAULT NULL,
   `parent_guardian_name` varchar(150) DEFAULT NULL,
   `relationship` varchar(150) DEFAULT NULL,
-  `cell_phone` varchar(150) DEFAULT NULL,
+  `home_phone` varchar(150) DEFAULT NULL,
   `work_phone` varchar(150) DEFAULT NULL,
   `school_name` varchar(150) DEFAULT NULL,
   `school_number` varchar(150) DEFAULT NULL,
@@ -295,6 +293,7 @@ CREATE TABLE `patients` (
   `schedule` varchar(255) DEFAULT NULL,
   `summer_schedule` varchar(255) DEFAULT NULL,
   `special_note` text,
+  `insurer` varchar(255) DEFAULT NULL,
   `insuranceId` varchar(50) DEFAULT NULL,
   `insuranceId_secundary` varchar(150) DEFAULT NULL,
   `elegibility_date` timestamp NULL DEFAULT NULL,
@@ -311,7 +310,7 @@ CREATE TABLE `patients` (
   `pa_assessment` varchar(255) DEFAULT NULL,
   `pa_assessment_start_date` timestamp NULL DEFAULT NULL,
   `pa_assessment_end_date` timestamp NULL DEFAULT NULL,
-  `pa_services` json DEFAULT NULL,
+  `pa_services` varchar(255) DEFAULT NULL,
   `pa_services_start_date` timestamp NULL DEFAULT NULL,
   `pa_services_end_date` timestamp NULL DEFAULT NULL,
   `compayment_per_visit` varchar(255) DEFAULT NULL,
@@ -326,6 +325,11 @@ CREATE TABLE `patients` (
   `asd_diagnosis` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
   `cde` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
   `submitted` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `rbt` bigint(20) DEFAULT NULL,
+  `rbt2` bigint(20) DEFAULT NULL,
+  `bcba` bigint(20) DEFAULT NULL,
+  `bcba2` bigint(20) DEFAULT NULL,
+  `clin_director` bigint(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -335,8 +339,8 @@ CREATE TABLE `patients` (
 -- Volcado de datos para la tabla `patients`
 --
 
-INSERT INTO `patients` (`id`, `client_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `cell_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessment`, `pa_assessment_start_date`, `pa_assessment_end_date`, `pa_services`, `pa_services_start_date`, `pa_services_end_date`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '1234pdas', 'Malcolm', 'Cordova', 'mercadocreativo@gmail.com', '+584241874370', 'english, spanish', 'asdasd', 'dassa', '04241874370', '+584241874370', 'dasdsa', '12324567', '1010a', 'Distrito Federal', 'caracas\r\ncaracas', 1, '1980-03-31 16:00:00', '43', 'patients/BVO462RLwFD9UIKsYTRZBJFGPxedb4Np7T3qIVrb.jpg', 'caracas', 'universitaria', 'Web Developer', 'dsadas', 'asdsa', 'sadsa', 'dsadsa', 'dsaads', '2024-01-24 16:00:00', '03', 'dasdsa', 'adsdas', 'dasdsa', 'dasdsa', 'dsads', 'dsads', NULL, 'pending', 'adsds2323', 'aSAS', '2024-01-25 16:00:00', '2024-01-26 16:00:00', '\"[{\\\"n_code\\\":\\\"aSa\\\",\\\"s_unit\\\":\\\"saas\\\"},{\\\"n_code\\\":\\\"asSA\\\",\\\"s_unit\\\":\\\"saSA\\\"}]\"', '2024-01-24 16:00:00', '2024-01-25 16:00:00', NULL, 'dsadsa', 'waiting', 'waiting', 'reviewing', 'psycho eval', '2 insurance', 'yes', 'no', 'waiting', '2 insurance', 'yes', '2024-01-23 17:03:40', '2024-01-23 17:03:40', NULL);
+INSERT INTO `patients` (`id`, `patient_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `home_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insurer`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessment`, `pa_assessment_start_date`, `pa_assessment_end_date`, `pa_services`, `pa_services_start_date`, `pa_services_end_date`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `rbt`, `rbt2`, `bcba`, `bcba2`, `clin_director`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(4, 'prueba4', 'prueba4', 'prueba4', 'prueba4@prueba4.com', '2132', 'prueba4, prueba4, prueba4', 'prueba4', 'prueba4', '534354', '234423', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 2, '2024-01-27 16:00:00', '32', 'patients/gpZvc8J7nt67vm0qUMMAfhNNfKnAtMH1zzr6r3HD.jpg', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', '2', 'prueba4', 'prueba4', '2024-01-26 16:00:00', '03', '3243/432', '2545/354543', '20%/43%', '12/12', '340/434', 'prueba4', NULL, 'yes', 'prueba4', 'prueba4', '2024-01-17 16:00:00', '2024-01-11 16:00:00', 'null', '2024-01-17 16:00:00', '2024-01-23 16:00:00', NULL, 'prueba4', 'waiting', 'requested', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'psycho eval', '2 insurance', '2 insurance', 5, 3, 3, 3, 4, '2024-01-28 01:39:48', '2024-01-28 01:46:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -391,7 +395,11 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (32, 'invoice_report', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (33, 'settings', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (34, 'list_insurance', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(35, 'register_insurance', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
+(35, 'register_insurance', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(36, 'list_bip', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(37, 'register_bip', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(38, 'edit_bip', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(39, 'attention_bip', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
 
 -- --------------------------------------------------------
 
@@ -414,10 +422,10 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reductions`
+-- Estructura de tabla para la tabla `reduction_goals`
 --
 
-CREATE TABLE `reductions` (
+CREATE TABLE `reduction_goals` (
   `id` bigint(20) NOT NULL,
   `bip_id` bigint(20) UNSIGNED NOT NULL,
   `goal` varchar(255) DEFAULT NULL,
@@ -473,10 +481,10 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'SUPERADMIN', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(2, 'DOCTOR', 'api', '2023-12-01 04:09:47', '2023-12-01 04:09:47'),
-(6, 'DOCTOR LM', 'api', '2024-01-21 00:44:59', '2024-01-23 18:01:58'),
-(7, 'DOCTOR BCBA', 'api', '2024-01-21 00:45:23', '2024-01-23 18:02:11'),
-(8, 'DOCTOR RBT', 'api', '2024-01-21 00:45:41', '2024-01-23 18:02:22');
+(2, 'MANAGER', 'api', '2023-12-01 04:09:47', '2024-01-26 05:05:33'),
+(6, 'LM', 'api', '2024-01-21 00:44:59', '2024-01-26 05:04:18'),
+(7, 'BCBA', 'api', '2024-01-21 00:45:23', '2024-01-26 05:04:47'),
+(8, 'RBT', 'api', '2024-01-21 00:45:41', '2024-01-26 05:04:57');
 
 -- --------------------------------------------------------
 
@@ -494,25 +502,12 @@ CREATE TABLE `role_has_permissions` (
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
-(5, 2),
-(6, 2),
-(9, 2),
-(11, 2),
-(14, 2),
-(16, 2),
-(19, 2),
-(20, 2),
-(24, 2),
-(29, 2),
-(30, 2),
-(31, 2),
-(32, 2),
-(33, 2),
-(34, 2),
-(35, 2),
-(1, 6),
-(1, 7),
-(1, 8);
+(5, 6),
+(6, 6),
+(10, 6),
+(11, 6),
+(34, 6),
+(35, 6);
 
 -- --------------------------------------------------------
 
@@ -539,7 +534,7 @@ CREATE TABLE `users` (
   `agency_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `languages` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dob` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dob` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ss_number` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_of_hire` timestamp NULL DEFAULT NULL,
   `start_pay` timestamp NULL DEFAULT NULL,
@@ -567,6 +562,7 @@ CREATE TABLE `users` (
   `credentialing_package_bcbas_only` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `caqh_bcbas_only` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contract_type` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `salary` double DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -579,10 +575,12 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `gender`, `address`, `avatar`, `status`, `currently_pay_through_company`, `llc`, `ien`, `wc`, `electronic_signature`, `agency_location`, `city`, `languages`, `dob`, `ss_number`, `date_of_hire`, `start_pay`, `driver_license_expiration`, `cpr_every_2_years`, `background_every_5_years`, `e_verify`, `national_sex_offender_registry`, `certificate_number`, `bacb_license_expiration`, `liability_insurance_annually`, `local_police_rec_every_5_years`, `npi`, `medicaid_provider`, `ceu_hippa_annually`, `ceu_domestic_violence_no_expiration`, `ceu_security_awareness_annually`, `ceu_zero_tolerance_every_3_years`, `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration`, `ceu_civil_rights_no_expiration`, `school_badge`, `w_9_w_4_form`, `contract`, `two_four_week_notice_agreement`, `credentialing_package_bcbas_only`, `caqh_bcbas_only`, `contract_type`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'superadmin', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, NULL, 'inactive', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2023-11-30 03:32:36', NULL),
-(13, 'dasdd', 'prueba@gmail.com', 'asdas', '12345678', '2024-01-12 08:00:00', 1, 'dasdas', 'staffs/j74hdNnaa0bS3G3GCVVBGMw7vABYwSACR1plAZbv.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$K0bz20J.2ATbbuXu5Hwd4OssUGWTGfpqBAhaarZPyGIyrQ5XgHWzi', NULL, '2024-01-19 22:11:09', '2024-01-20 20:43:25', NULL),
-(14, 'pruebadoc', 'pruebadoc@pruebadoc.com', 'pruebadoc', '12324567', '2024-01-23 16:00:00', 1, 'pruebadocpruebadoc', 'staffs/B1VZB7OkJgWDHpmosdnoV5Kd1fcHbMz5vWIXvwaM.jpg', 'inactive', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', '2024-01-24 16:00:00', '2024-01-31 16:00:00', '2024-01-25 16:00:00', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', '2024-01-26 12:00:00', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', NULL, 'pruebadoc', 'pruebadoc', 'pruebadoc', 'pruebadoc', 'yes', 'no', 'yes', 'yes', 'pruebadoc', 'pruebadoc', '1099', NULL, '$2y$10$LRTeKBEKPOUv2HT4B7isd.kKv3kShhj8a0hfxjDNDlj5dvythwJU.', NULL, '2024-01-23 13:27:05', '2024-01-23 13:27:05', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `gender`, `address`, `avatar`, `status`, `currently_pay_through_company`, `llc`, `ien`, `wc`, `electronic_signature`, `agency_location`, `city`, `languages`, `dob`, `ss_number`, `date_of_hire`, `start_pay`, `driver_license_expiration`, `cpr_every_2_years`, `background_every_5_years`, `e_verify`, `national_sex_offender_registry`, `certificate_number`, `bacb_license_expiration`, `liability_insurance_annually`, `local_police_rec_every_5_years`, `npi`, `medicaid_provider`, `ceu_hippa_annually`, `ceu_domestic_violence_no_expiration`, `ceu_security_awareness_annually`, `ceu_zero_tolerance_every_3_years`, `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration`, `ceu_civil_rights_no_expiration`, `school_badge`, `w_9_w_4_form`, `contract`, `two_four_week_notice_agreement`, `credentialing_package_bcbas_only`, `caqh_bcbas_only`, `contract_type`, `salary`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'superadmin', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, NULL, 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2024-01-26 01:15:51', NULL),
+(2, 'Admin', 'manager@manager.com', 'Manager', '123456', '2024-01-25 16:00:00', 1, 'dasdsa', 'staffs/WdpkCmttLTmbxhXDM7FQhzWheWgr8eEbqYfMqNt4.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$X9YH3UjUALq07nGq7S5FLe6bAWZ0t6yPhNjHddtS1t9ju8FElC/UO', NULL, '2024-01-26 01:13:28', '2024-01-26 01:15:55', NULL),
+(3, 'Tecnico', 'lm@lm.com', 'Lm', '123456', '2024-01-25 16:00:00', 1, 'dsadsa', 'staffs/Br3ln1TSmcLTuQrAGbQtsxiTkmpJk2kONcvDchFB.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$lK3Kil3LRtqayay2rNBax.dpBgBl57/kQNpvvBs81N.vLTJqqVKJa', NULL, '2024-01-26 01:17:03', '2024-01-27 00:51:24', NULL),
+(4, 'Doctor', 'bcba@bcba.com', 'Bcba', '123456', '2024-01-25 16:00:00', 2, 'dsadas', 'staffs/RbbNRabSWaxhSWcOX0J2GFRArBZAaWyf2cGEiCi1.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$nBs3RhKzpnMrN6NVJyc8FeIPjKtfQ6CNm63LM5KTsgt8XkbBsk4ma', NULL, '2024-01-26 01:17:55', '2024-01-28 03:47:50', NULL),
+(5, 'doctor', 'rbt@rbt.com', 'Rbt', '12345', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'black list', 'prueba4', 'prueba4', 'prueba4', 'prueba4', NULL, 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', 'prueba4', '1970-01-01 16:00:00', '1970-01-01 16:00:00', '1970-01-01 16:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 12:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, NULL, '$2y$10$5YsgbtRGSUHpczYoTBETke3S/IfYzsv4q.WP2LrKUO1sFjDoNt7..', NULL, '2024-01-26 01:18:43', '2024-01-29 14:58:30', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -680,9 +678,9 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indices de la tabla `reductions`
+-- Indices de la tabla `reduction_goals`
 --
-ALTER TABLE `reductions`
+ALTER TABLE `reduction_goals`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -720,7 +718,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `bips`
 --
 ALTER TABLE `bips`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `bip_files`
@@ -744,7 +742,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `insurances`
 --
 ALTER TABLE `insurances`
-  MODIFY `id` bigint(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `jobs`
@@ -756,7 +754,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `maladaptives`
 --
 ALTER TABLE `maladaptives`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -768,13 +766,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -783,9 +781,9 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `reductions`
+-- AUTO_INCREMENT de la tabla `reduction_goals`
 --
-ALTER TABLE `reductions`
+ALTER TABLE `reduction_goals`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -804,7 +802,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
