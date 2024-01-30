@@ -2,11 +2,12 @@
 
 namespace App\Models\Bip;
 
+use App\Models\Bip\Bip;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Reduction extends Model
+class ReductionGoal extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -19,4 +20,9 @@ class Reduction extends Model
         'date',
 
     ];
+
+    public function bips()
+    {
+        return $this->hasMany(Bip::class, 'bip_id');
+    }
 }

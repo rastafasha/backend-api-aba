@@ -49,8 +49,12 @@ Route::group(['middleware' => 'api'], function ($router) {
     
     // insurance
     require __DIR__ . '/api_routes/insurance.php';
+    
     // bip
     require __DIR__ . '/api_routes/bip.php';
+
+    // goal
+    require __DIR__ . '/api_routes/goal.php';
 
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
