@@ -194,8 +194,8 @@ class DoctorController extends Controller
         }
         
         if($request->password){
-            $request->request->add(["password"=>bycript($request->password)]);
-        }
+            $request->request->add(["password"=>Hash::make($request->password)]);
+       }
         
         if($request->birth_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );

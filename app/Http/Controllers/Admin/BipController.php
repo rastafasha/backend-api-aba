@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\User;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\BipResource;
+use App\Http\Resources\Bip\BipCollection;
 
 class BipController extends Controller
 {
@@ -17,39 +19,29 @@ class BipController extends Controller
      */
     public function index()
     {
-        //
-    }
 
-    public function config()
-    {
-        // $documents =[
-        //     [
-        //         "name"=>"Doctor Referal"
-        //     ],
-        //     [
-        //         "name"=>"Medical Notes"
-        //     ],
-        //     [
-        //         "name"=>"CDE"
-        //     ],
-        //     [
-        //         "name"=>"IEP"
-        //     ],
-        //     [
-        //         "name"=>"MNL"
-        //     ],
-        //     [
-        //         "name"=>"Referal"
-        //     ],
-        // ];
-        // $specialities = Specialitie::where("state",1)->get();
+        $patient_id = $request->patient_id;
+        $name_doctor = $request->search;
+        $date = $request->date;
 
+        $appointments = Appointment::filterAdvanceBip($patient_id, $name_doctor, $date)->orderBy("id", "desc")
+                            ->paginate(10);
         return response()->json([
-            "documents" => $documents,
-            // "hours" => $hours,
+            "total"=>$appointments->total(),
+            "appointments"=> AppointmentCollection::make($appointments)
         ]);
+
+        // $bips = Bip::orderBy("id", "desc")
+        //                     ->paginate(10);
+                    
+        // return response()->json([
+        //     // "total"=>$payments->total(),
+        //     "bips" => BipCollection::make($bips) ,
+            
+        // ]); 
     }
 
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -58,46 +50,38 @@ class BipController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $patient_is_valid = Patient::where("id", $request->id)->first();
-        // $bip = Bip::findOrFail($request->client_id);
-        
+        $patient = null;
+        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $doctor = User::where("id", $request->doctor_id)->first();
+
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
 
-        
         $bip = Bip::create($request->all());
         
         
         return response()->json([
             "message"=>200,
             "bip"=>$bip,
-            "documents"=>json_decode($bip-> documents),
+            "type_of_assessment" =>$bip->type_of_assessment,
+            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+            "client_id"=>$bip->client_id,
+            "patient_id"=>$bip->patient_id,
+            "doctor_id" => $bip->doctor_id,
+            "doctor"=>$bip->doctor_id ? 
+                        [
+                            "id"=> $doctor->id,
+                            "email"=> $doctor->email,
+                            "full_name" =>$doctor->name.' '.$doctor->surname,
+                        ]: NULL,
         ]);
-
-
-        // $patient = null;
-        // $patient = Patient::where("client_id", $request->id)->first();
-        // $doctor = User::where("id", $request->doctor_id)->first();
-
-
-       
-        // $bip = Bip::create([
-        //     "doctor_id" =>$request->doctor_id,
-        //     "client_id" =>$patient->id,
-        //     "documents"=>json_decode($bip-> documents),
-        //     "maladaptives"=>json_decode($bip-> maladaptives),
-        //     "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-        //     "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-        //     "interventions"=>json_decode($bip-> interventions),
-        // ]);
 
 
     }
@@ -114,17 +98,20 @@ class BipController extends Controller
 
         return response()->json([
             // "patient" => $patient,
+            "id"=>$bip->id,
             "bip" => BipResource::make($bip),
-            "documents_reviewed"=>json_decode($insurance-> documents_reviewed),
-            "maladaptives"=>json_decode($insurance-> maladaptives),
-            "assestment_conducted_options"=>json_decode($insurance-> assestment_conducted_options),
-            "prevalent_setting_event_and_atecedents"=>json_decode($insurance-> prevalent_setting_event_and_atecedents),
-            "interventions"=>json_decode($insurance-> interventions),
+            "type_of_assessment" =>$bip->type_of_assessment,
+            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
+            "maladaptives"=>json_decode($bip-> maladaptives),
+            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
+            "interventions"=>json_decode($bip-> interventions),
             
         ]);
         
         
     }
+    //se obtiene el usuario
     public function showProfile($id)
     {
         $patient = Patient::where("id", $id)->first();
@@ -136,24 +123,32 @@ class BipController extends Controller
         
     }
 
+    //se obtiene el bip del usuario
     public function showbyUser($client_id)
     {
         $bip = Bip::where("client_id", $client_id)->first();
         // $patient = Patient::where("id", $id)->first();
         return response()->json([
+            "id"=>$bip->id,
             "bip" => $bip,
             // "bip" => BipResource::make($bip),
+            "type_of_assessment" =>$bip->type_of_assessment,
+            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
+            "maladaptives"=>json_decode($bip-> maladaptives),
+            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
+            "interventions"=>json_decode($bip-> interventions),
         ]);
 
         
     }
 
-
+    //filtro por  patient_id o n_doc para busquedas y asiganciones al paciente
     public function query_patient(Request $request)
     {
-        $client_id =$request->get("client_id");
+        $patient_id =$request->get("patient_id");
 
-        $patient = Patient::where("client_id", $client_id)->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
 
         if(!$patient){
             return response()->json([
@@ -164,10 +159,10 @@ class BipController extends Controller
         return response()->json([
             "message"=>200,
             "id"=>$patient->id,
-            "name"=>$patient->name,
-            "surname"=>$patient->surname,
+            "first_name"=>$patient->first_name,
+            "last_name"=>$patient->last_name,
             "phone"=>$patient->phone,
-            "client_id"=>$patient->client_id,
+            "patient_id"=>$patient->patient_id,
         ]);
 
     }
@@ -182,43 +177,35 @@ class BipController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $bip = Bip::findOrFail($id);
 
-        // $patient_is_valid = Bip::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
-        $patient_id = Bip::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
-        
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
 
-        // if($patient_is_valid){
-        //     return response()->json([
-        //         "message"=>200,
-        //         "message_text"=> 'el paciente ya existe'
-        //     ]);
-        // }
+        $bip = Bip::update($request->all());
         
-        $bip = Bip::findOrFail($patient_id);
-        $bip->update($request->all());
         
-
-       
-        
-        error_log($bip);
-
-        // if($patient->person){
-        //     $patient->person->update($request->all());
-        // }
         return response()->json([
             "message"=>200,
             "bip"=>$bip,
-            "documents"=>json_decode($bip->documents),
-            "maladaptives"=>json_decode($bip->maladaptives),
+            "type_of_assessment" =>$bip->type_of_assessment,
+            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
+            "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+            "doctor_id" => $bip->doctor_id,
+            "doctor"=>$bip->doctor_id ? 
+                        [
+                            "id"=> $doctor->id,
+                            "email"=> $doctor->email,
+                            "full_name" =>$doctor->name.' '.$doctor->surname,
+                        ]: NULL,
         ]);
+        
 
 
         

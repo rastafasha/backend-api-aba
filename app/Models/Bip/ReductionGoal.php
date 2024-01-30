@@ -14,8 +14,9 @@ class ReductionGoal extends Model
 
     protected $fillable =[
         'bip_id',
+        'sto',
         'goal',
-        'description',
+        'decription_goal',
         'status',
         'date',
 

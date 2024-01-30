@@ -16,52 +16,13 @@ class BipResource extends JsonResource
     public function toArray($request)
     {
 
-        // $DOCUMENTS = collect([]);
-        // $documents = [];
-        // $document_name["Doctor Referal"] = "table-primary";
-        // $document_name["Medical Notes"] = "table-secondary";
-        // $document_name["CDE"] = "table-success";
-        // $document_name["IEP"] = "table-warning";
-        // $document_name["MNL"] = "table-info";
-        // $document_name["Referal"] = "table-info";
-        // $names_document = "";
-
-        // foreach ($this->resource->bip_files as $key => $bip_file) {
-        //     $names_document .= ($bip_file->doc."-");
-        //     foreach ($bip_files->doc_files as $key => $doc_files) {
-        //         $DOCUMENTS->push([
-        //             "name"=> $bip_files->document_name,
-        //             "doc"=> [
-        //                 "doc"=> $bip_files->doc,
-        //                 "class"=> $document_name[$schedule_day->day],
-        //                 // "size"=> $file->size,
-        //                 // "file"=> $file->file,
-        //                 "documents_recev"=> [
-        //                     "name" => $doc_files->name,
-            
-        //                     "items" => []
-        //                 ],
-
-        //                 'files'=>$this->resource-> file->map(function($file){
-        //                     return [
-        //                         'id'=> $file->id,
-        //                         'client_id'=> $file->client_id,
-        //                         'name_file'=> $file->name_file,
-        //                         'size'=> $file->size,
-        //                         'file'=> env("APP_URL")."storage/".$file->file,
-        //                         'type'=> $file->type,
-        //                     ];
-        //                 })
-        //             ],
-                    
-        //         ]);
-        //     }
-        // }
+        
         return [
             "id"=>$this->resource->id,
             "type_of_assessment"=>$this->resource->type_of_assessment,
-            'documents_reviewed'=> json_decode($this->resource-> documents_reviewed),
-            "client_id"=>$this->resource->client_id,
+            
+            "patient_id"=>$this->resource->patient_id,
+            
             "doctor_id" =>$this->resource->doctor_id,
             "doctor" =>$this->resource->doctor ? 
                 [
@@ -69,32 +30,34 @@ class BipResource extends JsonResource
                     "full_name" =>$this->resource->doctor->name.' '.$this->resource->doctor->surname,
                     // "avatar"=> $this->resource->doctor->avatar ? env("APP_URL")."storage/".$this->resource->doctor->avatar : null,
                     "avatar"=> $this->resource->doctor->avatar ? env("APP_URL").$this->resource->doctor->avatar : null,
-                    "speciality_id" => $this->resource->doctor->speciality_id,
-                            "speciality"=>$this->resource->doctor->speciality ? [
-                                "id"=> $this->resource->doctor->speciality->id,
-                                "name"=> $this->resource->doctor->speciality->name,
-                                "price"=> $this->resource->doctor->speciality->price,
-                            ]:NULL,
+                    // "speciality_id" => $this->resource->doctor->speciality_id,
+                    //         "speciality"=>$this->resource->doctor->speciality ? [
+                    //             "id"=> $this->resource->doctor->speciality->id,
+                    //             "name"=> $this->resource->doctor->speciality->name,
+                    //             "price"=> $this->resource->doctor->speciality->price,
+                    //         ]:NULL,
                 ]: NULL,
-            
-            "patient" =>$this->resource->patient ?
+            "client_id"=>$this->resource->client_id,
+            "client" =>$this->resource->client ?
                 [
-                    "id" =>$this->resource->patient->id,
-                    "first_name" =>$this->resource->patient->first_name,
-                    "last_name" =>$this->resource->patient->last_name,
-                    "full_name" =>$this->resource->patient->first_name.' '.$this->resource->patient->last_name,
-                    "phone" =>$this->resource->patient->phone,
-                    "n_doc" =>$this->resource->patient->n_doc,
-                    "name_companion" =>$this->resource->patient->person->name_companion,
-                    "surname_companion" =>$this->resource->patient->person->surname_companion,
+                    "id" =>$this->resource->client->id,
+                    "first_name" =>$this->resource->client->first_name,
+                    "last_name" =>$this->resource->client->last_name,
+                    "full_name" =>$this->resource->client->first_name.' '.$this->resource->client->last_name,
+                    "phone" =>$this->resource->client->phone,
+                    "patient_id" =>$this->resource->client->patient_id,
+                    "name_companion" =>$this->resource->client->person->name_companion,
+                    "surname_companion" =>$this->resource->client->person->surname_companion,
                 ]: NUll,
             "background_information"=>$this->resource->background_information,
             "previus_treatment_and_result"=>$this->resource->previus_treatment_and_result,
             "current_treatment_and_progress"=>$this->resource->current_treatment_and_progress,
             "education_status"=>$this->resource->education_status,
             "phisical_and_medical_status"=>$this->resource->phisical_and_medical_status,
-            'maladaptives'=> json_decode($this->resource-> maladaptives),
             "assestment_conducted"=>$this->resource->assestment_conducted,
+            
+            'documents_reviewed'=> json_decode($this->resource-> documents_reviewed),
+            'maladaptives'=> json_decode($this->resource-> maladaptives),
             "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($this->resource-> interventions),

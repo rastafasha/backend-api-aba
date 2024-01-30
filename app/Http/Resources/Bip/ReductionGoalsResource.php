@@ -19,7 +19,7 @@ class ReductionGoalsResource extends JsonResource
         
         return [
             "id"=>$this->resource->id,
-            // "client_id"=>$this->resource->client_id,
+            "sto"=>$this->resource->sto,
             "bip_id"=>$this->resource->bip_id,
             "bips" =>$this->resource->bips ?
                 [
@@ -28,7 +28,7 @@ class ReductionGoalsResource extends JsonResource
                     
                 ]: NUll,
             "goal"=>$this->resource->goal,
-            "description"=>$this->resource->description,
+            "decription_goal"=>$this->resource->decription_goal,
             "status"=>$this->resource->status,
             "date"=>$this->resource->date ? Carbon::parse($this->resource->date)->format("Y-m-d h:i A") : NULL,            
             

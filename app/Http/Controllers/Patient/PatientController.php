@@ -106,7 +106,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("client_id", $request->client_id)->first();
+        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
         
         $request->request->add(["pa_services"=>json_encode($request->services)]);
 
@@ -154,9 +154,9 @@ class PatientController extends Controller
         $patient = Patient::create($request->all());
         
         
-        $request->request->add([
-            "client_id" =>$patient->id
-        ]);
+        // $request->request->add([
+        //     "client_id" =>$patient->id
+        // ]);
 
         return response()->json([
             "message"=>200,

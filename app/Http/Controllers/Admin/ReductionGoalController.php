@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
+use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\ReductionGoalsResource;
+use App\Http\Resources\Bip\ReductionGoalsCollection;
 
 class ReductionGoalController extends Controller
 {
@@ -18,7 +20,14 @@ class ReductionGoalController extends Controller
      */
     public function index()
     {
-        //
+        $goals = ReductionGoal::orderBy("id", "desc")
+                            ->paginate(10);
+                    
+        return response()->json([
+            "goals" => $goals ,
+            // "goals" => ReductionGoalsResource::make($goals) ,
+            
+        ]); 
     }
 /**
      * Store a newly created resource in storage.
@@ -29,34 +38,17 @@ class ReductionGoalController extends Controller
     public function store(Request $request)
     {
         $patient_is_valid = Patient::where("id", $request->id)->first();
-        $reduction_goal = ReductionGoal::findOrFail($request->client_id);
+        // $bip = Bip::where("id", $request->bip_id)->first();
+        // $reduction_goal = ReductionGoal::findOrFail($request->bip_id);
 
-        // $appointment_attention = $bip->attention;
-
-        // $request->request->add(["receta_medica"=>json_encode($request->medical)]);
-
-        // if($appointment_attention){
-        //     $appointment_attention->update($request->all());
-
-        //     if(!$appointment->date_attention){
-        //         $appointment->update(["status"=>2,"date_attention" =>now()]);
-        //     }
-        // }else{
-        //     AppointmentAttention::create($request->all());
-
-        //     date_default_timezone_set('America/Caracas');
-        //     $appointment->update(["status"=>2,"date_attention" =>now()]);
-            
-        // }
+        
         if($request->date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date );
             $request->request->add(["date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
         $reduction_goal = ReductionGoal::create($request->all());
-        // $request->request->add([
-        //     "clent_id" =>$patient->id
-        // ]);
+        
         
         return response()->json([
             "message"=>200,
@@ -92,6 +84,15 @@ class ReductionGoalController extends Controller
         return response()->json([
             "patient" => $patient,
             // "bip" => BipResource::make($bip),
+        ]);
+
+        
+    }
+    public function showbyMaladaptive($goal)
+    {
+        $goalmaladaptives = ReductionGoal::where("goal", $goal)->first();
+        return response()->json([
+            "goalmaladaptives" => $goalmaladaptives,
         ]);
 
         

@@ -17,6 +17,7 @@ class Bip extends Model
         'documents_reviewed',
         'client_id',
         'doctor_id',
+        'patient_id',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',
@@ -45,7 +46,7 @@ class Bip extends Model
     ];
 
 
-     public function patient()
+     public function client()
     {
         return $this->hasOne(Patient::class, 'client_id');
     }
@@ -70,4 +71,28 @@ class Bip extends Model
     // public function bip_files(){
     //     return $this->hasMany(BipFile::class, "documents_reviewed");
     // }
+
+    // filtro buscador
+
+    public function scopefilterAdvanceBip($query,
+    $patient_id, 
+    $name_doctor, 
+    $date){
+        
+        if($patient_id){
+            $query->where("patient_id", $patient_id);
+        }
+
+        if($name_doctor){
+            $query->whereHas("doctor", function($q)use($name_doctor){
+                $q->where("name", "like","%".$name_doctor."%")
+                    ->orWhere("surname", "like","%".$name_doctor."%");
+            });
+        }
+
+        if($date){
+            $query->whereDate("date_appointment", Carbon::parse($date)->format("Y-m-d"));
+        }
+        return $query;
+    }
 }

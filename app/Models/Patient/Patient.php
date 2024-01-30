@@ -247,4 +247,8 @@ class Patient extends Model
     {
         return $this->hasMany(Insurance::class, 'insurer');
     }
+    public function bip()
+    {
+        return $this->hasOne(Bip::class, 'patient_id');
+    }
 }
