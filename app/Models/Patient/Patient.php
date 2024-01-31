@@ -251,4 +251,29 @@ class Patient extends Model
     {
         return $this->hasOne(Bip::class, 'patient_id');
     }
+
+
+    //filtro buscador
+    public function scopefilterAdvancePatient($query,$patient_id, $name_patient, $email_patient,){
+        
+        if($patient_id){
+            $query->where("patient_id", $patient_id);
+        }
+
+        if($name_patient){
+            $query->whereHas("patient", function($q)use($name_patient){
+                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
+                   
+            });
+        }
+        
+
+        // if($date_start && $date_end){
+        //     $query->whereBetween("date_appointment", [
+        //         Carbon::parse($date_start)->format("Y-m-d"),
+        //         Carbon::parse($date_end)->format("Y-m-d"),
+        //     ]);
+        // }
+        return $query;
+    }
 }

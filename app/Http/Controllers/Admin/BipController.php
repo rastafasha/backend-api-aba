@@ -175,9 +175,10 @@ class BipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $client_id)
     {
-        $bip = Bip::findOrFail($id);
+        // $bip = Bip::findOrFail("client_id", $client_id)->first();
+        $bip = Bip::findOrFail($client_id);
 
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);

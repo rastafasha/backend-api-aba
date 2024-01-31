@@ -26,20 +26,36 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
+    //     $search = $request->search;
+
+    //     $patients = Patient::where(DB::raw("CONCAT(patients.first_name,' ', IFNULL(patients.last_name,''),' ',patients.email)"),
+    //     "like","%".$search."%"
+    //     )->orderBy("id", "desc")
+    //     ->paginate(20);
+                    
+    //     return response()->json([
+    //         "total" =>$patients->total(),
+    //         "patients" => PatientCollection::make($patients),
+            
+    //     ]);          
+    // }
+
     public function index(Request $request)
     {
-        $search = $request->search;
+        $patient_id = $request->patient_id;
+        $name_patient = $request->search;
+        $email_patient = $request->search;
+        // $date = $request->date;
 
-        $patients = Patient::where(DB::raw("CONCAT(patients.first_name,' ', IFNULL(patients.last_name,''),' ',patients.email)"),
-        "like","%".$search."%"
-        )->orderBy("id", "desc")
-        ->paginate(20);
-                    
+        $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient)->orderBy("id", "desc")
+                            ->paginate(10);
         return response()->json([
-            "total" =>$patients->total(),
-            "patients" => PatientCollection::make($patients),
-            
-        ]);          
+            // "total"=>$patients->total(),
+            "patients"=> PatientCollection::make($patients)
+        ]);
+
     }
 
     public function config()
@@ -239,7 +255,7 @@ class PatientController extends Controller
        
         $patient->update($request->all());
         
-        error_log($patient);
+        // error_log($patient);
 
         // if($patient->person){
         //     $patient->person->update($request->all());
