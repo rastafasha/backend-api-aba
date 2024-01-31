@@ -63,6 +63,7 @@ class PatientController extends Controller
         // $roles = Role::where("name","like","%DOCTOR%")->get();
         $specialists = User::where("status",'active')->get();
         $insurances = Insurance::get();
+        
         $documents = collect([]);
 
         $patient_documents = BipFile::all();
@@ -91,6 +92,7 @@ class PatientController extends Controller
             "specialists" => $specialists,
             "insurances" => $insurances,
             "documents" => $documents,
+            
         ]);
     }
 
@@ -123,8 +125,9 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
-        
+
         $request->request->add(["pa_services"=>json_encode($request->services)]);
+        $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
 
         if($patient_is_valid){
             return response()->json([
@@ -191,6 +194,7 @@ class PatientController extends Controller
 
         return response()->json([
             "patient" => PatientResource::make($patient),
+            "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
 
@@ -204,18 +208,17 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $patient_is_valid = Patient::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
+
+        
+        $patient_is_valid = Patient::where("id", "<>", $id)->first();
         
         $request->request->add(["pa_services"=>json_encode($request->services)]);
+        $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
 
-        if($patient_is_valid){
-            return response()->json([
-                "message"=>403,
-                "message_text"=> 'el paciente ya existe'
-            ]);
-        }
+        
         
         $patient = Patient::findOrFail($id);
+
         if($request->hasFile('imagen')){
             if($patient->avatar){
                 Storage::delete($patient->avatar);
@@ -262,8 +265,72 @@ class PatientController extends Controller
         // }
         return response()->json([
             "message"=>200,
-            "patient"=>$patient
+            "patient"=>$patient,
+            "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
+    }
+
+    public function patientUpdate(Request $request, Patient $patient)
+    {
+        
+
+        try {
+            DB::beginTransaction();
+
+            $input = $this->userInput($patient);
+            $request->request->add(["pa_services"=>json_encode($request->services)]);
+            $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
+            if($request->hasFile('imagen')){
+                if($patient->avatar){
+                    Storage::delete($patient->avatar);
+                }
+                $path = Storage::putFile("patients", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
+        
+        if($request->birth_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+            $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->pa_assessment_start_date){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_start_date );
+            $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->pa_assessment_end_date){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_assessment_end_date );
+            $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_start_date){
+            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_start_date );
+            $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        }
+        
+        if($request->pa_services_end_date){
+            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->pa_services_end_date );
+            $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        }
+        if($request->elegibility_date){
+            $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->elegibility_date );
+            $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
+        }
+            $patient->update($request->all());;
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'status' => 'Update user success',
+                'user' => $user,
+            ], 200);
+        } catch (\Throwable $exception) {
+
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Error no update' . $exception,
+            ], 500);
+        }
     }
 
     /**

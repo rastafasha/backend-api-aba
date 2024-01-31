@@ -72,12 +72,8 @@ class Patient extends Model
         'submitted',
 
         //pas
-        'pa_assessment',
-        'pa_assessment_start_date',
-        'pa_assessment_end_date',
-        'pa_services',
-        'pa_services_start_date',
-        'pa_services_end_date',
+        'pa_assessments',
+        
 
         //specialits
         'rbt',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Bip\Bip;
@@ -175,19 +175,21 @@ class BipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $client_id)
+    public function update(Request $request, $id)
     {
         // $bip = Bip::findOrFail("client_id", $client_id)->first();
-        $bip = Bip::findOrFail($client_id);
+        $bip_is_valid = Bip::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
+        
+        
+        $bip = Bip::findOrFail($id);
 
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
-
-        $bip = Bip::update($request->all());
         
+        $bip->update($request->all());
         
         return response()->json([
             "message"=>200,

@@ -10,6 +10,7 @@ Route::get('patients/config', [PatientController::class, 'config'])->name('confi
 Route::post('patients/store', [PatientController::class, 'store'])->name('store');
 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('show');
 Route::post('patients/update/{patient}', [PatientController::class, 'update'])->name('update');
+Route::post('patients/patientupdate/{patient}', [PatientController::class, 'patientUpdate'])->name('patientUpdate');
 Route::delete('patients/destroy/{id}', [PatientController::class, 'destroy'])->name('destroy');
 
 Route::put('/patients/update/eligibility/{patient:id}', [PatientController::class, 'updateEligibility'])
