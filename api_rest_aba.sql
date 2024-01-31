@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 30-01-2024 a las 23:11:04
+-- Tiempo de generación: 31-01-2024 a las 16:08:04
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -245,7 +245,9 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\Models\\User', 2),
 (6, 'App\\Models\\User', 3),
 (7, 'App\\Models\\User', 4),
-(8, 'App\\Models\\User', 5);
+(8, 'App\\Models\\User', 5),
+(1, 'App\\Models\\User', 6),
+(1, 'App\\Models\\User', 7);
 
 -- --------------------------------------------------------
 
@@ -366,28 +368,16 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (2, 'list_rol', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (3, 'edit_rol', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (4, 'delete_rol', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(5, 'register_doctor', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(6, 'list_doctor', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(7, 'edit_doctor', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(8, 'delete_doctor', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (9, 'profile_doctor', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (10, 'register_patient', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (11, 'list_patient', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (12, 'edit_patient', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (13, 'delete_patient', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (14, 'profile_patient', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(15, 'register_staff', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(16, 'list_staff', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(17, 'edit_staff', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(18, 'delete_staff', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (19, 'register_appointment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (20, 'list_appointment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (21, 'edit_appointment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (22, 'delete_appointment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(23, 'register_specialty', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(24, 'list_specialty', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(25, 'edit_specialty', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(26, 'delete_specialty', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (27, 'show_payment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (28, 'edit_payment', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (29, 'activitie', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
@@ -403,7 +393,11 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (39, 'attention_bip', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (40, 'admin_dashboard', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
 (41, 'doctor_dashboard', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
-(42, 'client_dashboard', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
+(42, 'client_dashboard', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(43, 'list_employers', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(44, 'register_employer', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(45, 'edit_employer', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36'),
+(46, 'delete_employer', 'api', '2023-11-30 03:32:36', '2023-11-30 03:32:36');
 
 -- --------------------------------------------------------
 
@@ -447,7 +441,9 @@ CREATE TABLE `reduction_goals` (
 --
 
 INSERT INTO `reduction_goals` (`id`, `sto`, `bip_id`, `goal`, `decription_goal`, `status`, `date`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'STO1', 1, 'mald', 'dasdas', 'initiated', '2024-01-17 08:00:00', '2024-01-30 21:41:24', '2024-01-30 21:41:24', NULL);
+(1, 'STO1', 1, 'mald', 'dasdas', 'initiated', '2024-01-17 08:00:00', '2024-01-30 21:41:24', '2024-01-30 21:41:24', NULL),
+(2, 'st02', 1, 'mald', 'das', 'initiated', '2024-01-24 08:00:00', '2024-01-31 03:22:47', '2024-01-31 03:22:47', NULL),
+(3, NULL, 1, 'mald', NULL, 'on hold', '2024-01-25 08:00:00', '2024-01-31 03:43:59', '2024-01-31 03:43:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -514,14 +510,12 @@ CREATE TABLE `role_has_permissions` (
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
-(5, 6),
-(6, 6),
-(10, 6),
 (11, 6),
 (34, 6),
 (35, 6),
 (41, 6),
-(42, 6);
+(43, 6),
+(44, 6);
 
 -- --------------------------------------------------------
 
@@ -592,9 +586,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `gender`, `address`, `avatar`, `status`, `currently_pay_through_company`, `llc`, `ien`, `wc`, `electronic_signature`, `agency_location`, `city`, `languages`, `dob`, `ss_number`, `date_of_hire`, `start_pay`, `driver_license_expiration`, `cpr_every_2_years`, `background_every_5_years`, `e_verify`, `national_sex_offender_registry`, `certificate_number`, `bacb_license_expiration`, `liability_insurance_annually`, `local_police_rec_every_5_years`, `npi`, `medicaid_provider`, `ceu_hippa_annually`, `ceu_domestic_violence_no_expiration`, `ceu_security_awareness_annually`, `ceu_zero_tolerance_every_3_years`, `ceu_hiv_bloodborne_pathogens_infection_control_no_expiration`, `ceu_civil_rights_no_expiration`, `school_badge`, `w_9_w_4_form`, `contract`, `two_four_week_notice_agreement`, `credentialing_package_bcbas_only`, `caqh_bcbas_only`, `contract_type`, `salary`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'superadmin', 'superadmin@superadmin.com', NULL, NULL, NULL, 1, NULL, NULL, 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-30 03:32:36', '$2y$10$PiKCOHK3XOBlqiL0kgJwLOMILMA6uVAAS1ou7JqHsUQaH4yvPkAiC', 'guHmnxhKw1', '2023-11-30 03:32:36', '2024-01-26 01:15:51', NULL),
 (2, 'Admin', 'manager@manager.com', 'Manager', '123456', '2024-01-25 16:00:00', 1, 'dasdsa', 'staffs/WdpkCmttLTmbxhXDM7FQhzWheWgr8eEbqYfMqNt4.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$X9YH3UjUALq07nGq7S5FLe6bAWZ0t6yPhNjHddtS1t9ju8FElC/UO', NULL, '2024-01-26 01:13:28', '2024-01-26 01:15:55', NULL),
-(3, 'Tecnico', 'lm@lm.com', 'Lm', '123456', '2024-01-25 16:00:00', 1, 'dsadsa', 'staffs/Br3ln1TSmcLTuQrAGbQtsxiTkmpJk2kONcvDchFB.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$L9GFjttLbOyyhynDcDaKBeObcfvVA7nZ3cLph0pZvozLqsdYiXgrC', NULL, '2024-01-26 01:17:03', '2024-01-30 22:56:09', NULL),
+(3, 'Tecnico', 'lm@lm.com', 'Doctor', '123456', '2024-01-25 08:00:00', 1, 'password', 'staffs/Br3ln1TSmcLTuQrAGbQtsxiTkmpJk2kONcvDchFB.jpg', 'active', 'dsaads', 'adsdsa', 'dsaad', 'adsdas', NULL, 'dasdsad', 'asdas', 'dasdas, adsdsa', 'adsads', 'adsdsa', '2024-01-25 08:00:00', '2024-01-30 08:00:00', '2030-07-26 08:00:00', 'asddas', 'dasadsd', 'asdas', 'dasads', 'dsaads', '2026-01-22 04:00:00', 'dsadas', 'dasdas', 'dasads', 'dasdas', 'dsadas', 'yes', 'dasads', 'ads', 'yes', 'dsadas', 'yes', 'no', 'yes', 'no', 'asddas', 'dsadsa', '1099', 2000, NULL, '$2y$10$L9GFjttLbOyyhynDcDaKBeObcfvVA7nZ3cLph0pZvozLqsdYiXgrC', NULL, '2024-01-26 01:17:03', '2024-01-31 15:55:48', NULL),
 (4, 'Doctor', 'bcba@bcba.com', 'Bcba', '123456', '2024-01-25 16:00:00', 2, 'dsadas', 'staffs/RbbNRabSWaxhSWcOX0J2GFRArBZAaWyf2cGEiCi1.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$nBs3RhKzpnMrN6NVJyc8FeIPjKtfQ6CNm63LM5KTsgt8XkbBsk4ma', NULL, '2024-01-26 01:17:55', '2024-01-28 03:47:50', NULL),
-(5, 'doctor', 'rbt@rbt.com', 'Rbt', '12345', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'active', 'prueba4', 'prueba4', 'prueba4', 'prueba4', NULL, 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', 'prueba4', '1970-01-01 16:00:00', '1970-01-01 16:00:00', '1970-01-01 16:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 12:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, NULL, '$2y$10$5YsgbtRGSUHpczYoTBETke3S/IfYzsv4q.WP2LrKUO1sFjDoNt7..', NULL, '2024-01-26 01:18:43', '2024-01-30 13:29:32', NULL);
+(5, 'doctor', 'rbt@rbt.com', 'Rbt', '12345', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'active', 'prueba4', 'prueba4', 'prueba4', 'prueba4', NULL, 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', 'prueba4', '1970-01-01 16:00:00', '1970-01-01 16:00:00', '1970-01-01 16:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 12:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, NULL, '$2y$10$5YsgbtRGSUHpczYoTBETke3S/IfYzsv4q.WP2LrKUO1sFjDoNt7..', NULL, '2024-01-26 01:18:43', '2024-01-30 13:29:32', NULL),
+(6, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 08:00:00', 2, 'mariae2004', 'staffs/cm0erQamszXAiBjp5QjKlXoBMXdkjLSwMbo0Hlwt.jpg', 'active', NULL, NULL, NULL, NULL, 'http://127.0.0.1:8000/storage/undefined', NULL, NULL, NULL, NULL, NULL, '1970-01-01 16:00:00', '1970-01-01 16:00:00', '1970-01-01 16:00:00', NULL, NULL, NULL, NULL, NULL, '1970-01-01 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$q/ZdnNEwG3L30uQ9adJpLuwEd2PIZeXXS3ZTPxFLCL.JJQu.vn3T2', NULL, '2024-01-31 02:27:09', '2024-01-31 14:12:03', NULL),
+(7, 'Alain', 'alain@practice-mgmt.com', 'Hernandez', '2397101864', '2024-03-11 08:00:00', 1, 'practice', 'staffs/ZNIhSxgjALKEfZp2wFDbkrRg9ANnGK1Yvwec3EcB.jpg', 'active', NULL, NULL, NULL, NULL, 'http://127.0.0.1:8000/storage/undefined', NULL, NULL, NULL, NULL, NULL, '1970-01-01 16:00:00', '1970-01-01 16:00:00', '1970-01-01 16:00:00', NULL, NULL, NULL, NULL, NULL, '1970-01-01 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$NnOEBxaztsMzzwCmVkNyr.MNhYhWCH.9d7TTywz35Rfi876.T6vzS', NULL, '2024-01-31 02:29:13', '2024-01-31 15:48:39', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -732,7 +728,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `bips`
 --
 ALTER TABLE `bips`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `bip_files`
@@ -786,7 +782,7 @@ ALTER TABLE `patients`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -798,7 +794,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `reduction_goals`
 --
 ALTER TABLE `reduction_goals`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_clinicos`
@@ -816,7 +812,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
