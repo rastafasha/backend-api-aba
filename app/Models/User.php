@@ -84,6 +84,7 @@ class User extends Authenticatable implements JWTSubject
         'caqh_bcbas_only',
         'contract_type',
         'salary',
+        'location_id',
 
     ];
 
@@ -184,6 +185,10 @@ class User extends Authenticatable implements JWTSubject
     public function client()
     {
         return $this->hasMany(Patient::class);
+    }
+    public function location()
+    {
+        return $this->hasMany(Location::class, 'location_id');
     }
     
 

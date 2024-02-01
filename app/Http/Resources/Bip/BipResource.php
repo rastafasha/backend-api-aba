@@ -21,7 +21,7 @@ class BipResource extends JsonResource
             "id"=>$this->resource->id,
             "type_of_assessment"=>$this->resource->type_of_assessment,
             
-            "patient_id"=>$this->resource->patient_id,
+            "patientID"=>$this->resource->patientID,
             
             "doctor_id" =>$this->resource->doctor_id,
             "doctor" =>$this->resource->doctor ? 
@@ -45,7 +45,7 @@ class BipResource extends JsonResource
                     "last_name" =>$this->resource->client->last_name,
                     "full_name" =>$this->resource->client->first_name.' '.$this->resource->client->last_name,
                     "phone" =>$this->resource->client->phone,
-                    "patient_id" =>$this->resource->client->patient_id,
+                    "patientID" =>$this->resource->client->patientID,
                     "name_companion" =>$this->resource->client->person->name_companion,
                     "surname_companion" =>$this->resource->client->person->surname_companion,
                 ]: NUll,

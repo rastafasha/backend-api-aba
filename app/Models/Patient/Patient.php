@@ -4,6 +4,7 @@ namespace App\Models\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Location;
 use App\Models\Insurance\Insurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,7 +19,7 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'patient_id',
+        'patient_id', // en este caso el es ingresado manualmente ... // para la relacion con el id es client_id
         'birth_date',
         'gender',
         'address',
@@ -76,11 +77,13 @@ class Patient extends Model
         
 
         //specialits
-        'rbt',
-        'rbt2',
-        'bcba',
-        'bcba2',
-        'clin_director',
+        'rbt_id',
+        'rbt2_id',
+        'bcba_id',
+        'bcba2_id',
+        'clin_director_id',
+        
+        'location_id',
 
         //??
         // 'current_auth_expires',
@@ -212,10 +215,7 @@ class Patient extends Model
         $this->attribute['updated_at']= Carbon::now();
     }
 
-     public function specialists()
-    {
-        return $this->hasMany(User::class);
-    }
+    
 
 
     public function rbt()
@@ -246,6 +246,12 @@ class Patient extends Model
     public function bip()
     {
         return $this->hasOne(Bip::class, 'patient_id');
+        // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
+    }
+
+    public function location()
+    {
+        return $this->hasMany(Location::class, 'location_id');
     }
 
 

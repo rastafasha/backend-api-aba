@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Location;
 use App\Models\Bip\BipFile;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
@@ -16,6 +17,7 @@ use App\Models\Patient\PatientPerson;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Patient\PatientResource;
+use App\Http\Resources\Location\LocationResource;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
 
@@ -63,6 +65,7 @@ class PatientController extends Controller
         // $roles = Role::where("name","like","%DOCTOR%")->get();
         $specialists = User::where("status",'active')->get();
         $insurances = Insurance::get();
+        $locations = Location::get();
         
         $documents = collect([]);
 
@@ -91,7 +94,8 @@ class PatientController extends Controller
         return response()->json([
             "specialists" => $specialists,
             "insurances" => $insurances,
-            "documents" => $documents,
+            "locations" => $locations,
+            // "documents" => $documents,
             
         ]);
     }

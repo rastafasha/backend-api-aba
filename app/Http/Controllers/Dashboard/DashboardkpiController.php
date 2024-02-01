@@ -148,25 +148,7 @@ class DashboardkpiController extends Controller
                         ->orderBy("month")
                         ->get();
         
-        // $query_patients_speciality = DB::table("bips")->where("bips.deleted_at",NULL)
-        //                         ->whereYear("bips.date_appointment", $year)
-        //                         ->join("specialities","bips.speciality_id", "=", "specialities.id")
-        //                         ->select("bips.name as name", DB::raw("COUNT(bips.speciality_id) as count"))
-        //                         // ->groupBy("specialities.name")
-        //                         ->get();
-       //top especialidades
-        $query_patients_speciality_porcentaje = collect([]);
-        $total_patients_speciality = $query_patients_speciality->sum("count");
-        foreach ($query_patients_speciality as $key => $query_speciality){
-            $count_by_speciality = $query_speciality->count;
-
-            $percentage = round(($count_by_speciality/$total_patients_speciality)*100,2);
-            
-            $query_patients_speciality_porcentaje->push([
-                "name"=> $query_speciality->name,
-                "percentage"=> $percentage,
-            ]);
-        }
+        
         //ingresos generales del año
         $query_income_year = DB::table("bips")->where("bips.deleted_at",NULL)
                         ->whereYear("bips.created_at", $year)

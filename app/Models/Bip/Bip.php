@@ -17,7 +17,7 @@ class Bip extends Model
         'documents_reviewed',
         'client_id',
         'doctor_id',
-        'patient_id',
+        'patientID',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',
@@ -75,12 +75,12 @@ class Bip extends Model
     // filtro buscador
 
     public function scopefilterAdvanceBip($query,
-    $patient_id, 
+    $patientID, 
     $name_doctor, 
     $date){
         
-        if($patient_id){
-            $query->where("patient_id", $patient_id);
+        if($patientID){
+            $query->where("patientID", $patientID);
         }
 
         if($name_doctor){

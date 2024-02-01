@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Doctor;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Doctor\Specialitie;
 use Illuminate\Support\Facades\DB;
@@ -45,8 +46,10 @@ class DoctorController extends Controller
     {
         // $roles = Role::where("name","like","%DOCTOR%")->get();
         $roles = Role::get();
+        $locations = Location::get();
         return response()->json([
             "roles" => $roles,
+            "locations" => $locations,
         ]);
     }
 

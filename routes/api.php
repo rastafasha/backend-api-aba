@@ -55,6 +55,9 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // goal
     require __DIR__ . '/api_routes/goal.php';
+    
+    // location
+    require __DIR__ . '/api_routes/location.php';
 
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';

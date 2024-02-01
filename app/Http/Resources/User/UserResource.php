@@ -71,6 +71,7 @@ class UserResource extends JsonResource
             "caqh_bcbas_only"=>$this->resource->caqh_bcbas_only,
             "contract_type"=>$this->resource->contract_type,
             "salary"=>$this->resource->salary,
+            "location_id"=>$this->resource->location_id,
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y/m/d") : NULL,
             

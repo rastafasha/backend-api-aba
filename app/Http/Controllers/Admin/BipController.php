@@ -20,11 +20,11 @@ class BipController extends Controller
     public function index()
     {
 
-        $patient_id = $request->patient_id;
+        $patientID = $request->patientID;
         $name_doctor = $request->search;
         $date = $request->date;
 
-        $appointments = Appointment::filterAdvanceBip($patient_id, $name_doctor, $date)->orderBy("id", "desc")
+        $appointments = Appointment::filterAdvanceBip($patientID, $name_doctor, $date)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             "total"=>$appointments->total(),
@@ -51,7 +51,7 @@ class BipController extends Controller
     public function store(Request $request)
     {
         $patient = null;
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patientID", $request->patientID)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
@@ -73,7 +73,7 @@ class BipController extends Controller
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
             "client_id"=>$bip->client_id,
-            "patient_id"=>$bip->patient_id,
+            "patientID"=>$bip->patientID,
             "doctor_id" => $bip->doctor_id,
             "doctor"=>$bip->doctor_id ? 
                         [
@@ -143,12 +143,12 @@ class BipController extends Controller
         
     }
 
-    //filtro por  patient_id o n_doc para busquedas y asiganciones al paciente
+    //filtro por  patientID o n_doc para busquedas y asiganciones al paciente
     public function query_patient(Request $request)
     {
-        $patient_id =$request->get("patient_id");
+        $patientID =$request->get("patientID");
 
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patientID", $patientID)->first();
 
         if(!$patient){
             return response()->json([
@@ -162,7 +162,7 @@ class BipController extends Controller
             "first_name"=>$patient->first_name,
             "last_name"=>$patient->last_name,
             "phone"=>$patient->phone,
-            "patient_id"=>$patient->patient_id,
+            "patientID"=>$patient->patientID,
         ]);
 
     }
