@@ -177,8 +177,8 @@ class BipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $bip = Bip::findOrFail("client_id", $client_id)->first();
-        $bip_is_valid = Bip::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
+        // $bip = Bip::findOrFail("id", $id)->first();
+        // $bip_is_valid = Bip::where("id", "<>", $id)->first();
         
         
         $bip = Bip::findOrFail($id);
@@ -200,14 +200,21 @@ class BipController extends Controller
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
-            "doctor_id" => $bip->doctor_id,
-            "doctor"=>$bip->doctor_id ? 
-                        [
-                            "id"=> $doctor->id,
-                            "email"=> $doctor->email,
-                            "full_name" =>$doctor->name.' '.$doctor->surname,
-                        ]: NULL,
+            // "doctor_id" => $bip->doctor_id,
+            // "doctor"=>$bip->doctor_id ? 
+            //             [
+            //                 "id"=> $doctor->id,
+            //                 "email"=> $doctor->email,
+            //                 "full_name" =>$doctor->name.' '.$doctor->surname,
+            //             ]: NULL,
         ]);
+
+        // $bip = Bip::findOrFail($id);
+        // $bip->update();
+        // return response()->json([
+        //     "message" => 200
+        // ]);
+
         
 
 
