@@ -16,9 +16,14 @@ class ReductionGoal extends Model
         'bip_id',
         'sto',
         'goal',
+        'goal_id',
         'decription_goal',
         'status',
         'date',
+        'lto',
+        'description_lto',
+        'status_lto',
+        'date_lto',
 
     ];
 

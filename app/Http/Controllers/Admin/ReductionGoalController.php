@@ -46,6 +46,10 @@ class ReductionGoalController extends Controller
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date );
             $request->request->add(["date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
+        if($request->date_lto){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_lto );
+            $request->request->add(["date_lto" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
 
         $reduction_goal = ReductionGoal::create($request->all());
         
@@ -67,12 +71,12 @@ class ReductionGoalController extends Controller
 
         return response()->json([
             // "patient" => $patient,
-            "reduction_goal" => ReductionGoalsResource::make($reduction_goal),
-            "documents_reviewed"=>json_decode($insurance-> documents_reviewed),
-            "maladaptives"=>json_decode($insurance-> maladaptives),
-            "assestment_conducted_options"=>json_decode($insurance-> assestment_conducted_options),
-            "prevalent_setting_event_and_atecedents"=>json_decode($insurance-> prevalent_setting_event_and_atecedents),
-            "interventions"=>json_decode($insurance-> interventions),
+            "reduction_goal" => $reduction_goal,
+            "documents_reviewed"=>json_decode($reduction_goal-> documents_reviewed),
+            "maladaptives"=>json_decode($reduction_goal-> maladaptives),
+            "assestment_conducted_options"=>json_decode($reduction_goal-> assestment_conducted_options),
+            "prevalent_setting_event_and_atecedents"=>json_decode($reduction_goal-> prevalent_setting_event_and_atecedents),
+            "interventions"=>json_decode($reduction_goal-> interventions),
             
         ]);
         
@@ -151,6 +155,11 @@ class ReductionGoalController extends Controller
             $request->request->add(["date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
+        if($request->date_lto){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_lto );
+            $request->request->add(["date_lto" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+
         
        
         $bip->update($request->all());
@@ -175,6 +184,47 @@ class ReductionGoalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $goalreduction = ReductionGoal::findOrFail($id);
+        $goalreduction->delete();
+        return response()->json([
+            "message" => 200
+        ]);
+    }
+
+    //se obtiene el bip del usuario
+    public function showGoalsbyMaladaptive(Request $request, string $goal)
+    {
+        $goalreductions = ReductionGoal::where("goal", $goal)->first();
+        // $goalreductions = ReductionGoal::where("goal", "<>", $goal)->where("goal", $request->goal)->first();
+
+        if($goalreductions){
+            return response()->json([
+                "message"=>403,
+                "goalreductions"=>$goalreductions,
+                "message_text"=> 'el goal ya existe'
+            ]);
+        }
+        // $patient = Patient::where("id", $id)->first();
+        return response()->json([
+            "goalreductions" => $goalreductions,
+        ]);
+
+        
+    }
+    public function showGoalsbyBip($bip_id)
+    {
+        $goalreductionbips = ReductionGoal::where("bip_id", $bip_id)->first();
+        
+        if($goalreductionbips){
+            return response()->json([
+                "message"=>403,
+                "message_text"=> 'el bip_id ya existe'
+            ]);
+        }
+        return response()->json([
+            "goalreductionbips" => $goalreductionbips,
+        ]);
+
+        
     }
 }
