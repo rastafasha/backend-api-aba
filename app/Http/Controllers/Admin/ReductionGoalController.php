@@ -211,18 +211,13 @@ class ReductionGoalController extends Controller
 
         
     }
-    public function showGoalsbyBip($bip_id)
+    public function showgbyPatientId($patient_id)
     {
-        $goalreductionbips = ReductionGoal::where("bip_id", $bip_id)->first();
+        $goalReductionPatientIds = ReductionGoal::where("patient_id", $patient_id)->orderBy("id", "desc")->get();
         
-        if($goalreductionbips){
-            return response()->json([
-                "message"=>403,
-                "message_text"=> 'el bip_id ya existe'
-            ]);
-        }
+        
         return response()->json([
-            "goalreductionbips" => $goalreductionbips,
+            "goalReductionPatientIds" => $goalReductionPatientIds,
         ]);
 
         

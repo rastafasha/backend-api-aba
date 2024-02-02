@@ -5,6 +5,7 @@ namespace App\Models\Patient;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Location;
+use App\Models\Bip\ReductionGoal;
 use App\Models\Insurance\Insurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -247,6 +248,10 @@ class Patient extends Model
     {
         return $this->hasOne(Bip::class, 'patient_id');
         // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
+    }
+    public function reductiongoal()
+    {
+        return $this->hasMany(ReductionGoal::class, 'patient_id');
     }
 
     public function location()

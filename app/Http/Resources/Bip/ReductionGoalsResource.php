@@ -22,6 +22,7 @@ class ReductionGoalsResource extends JsonResource
             "sto"=>$this->resource->sto,
             "bip_id"=>$this->resource->bip_id,
             "goal_id"=>$this->resource->goal_id,
+            "patient_id"=>$this->resource->patient_id,
             "bips" =>$this->resource->bips ?
                 [
                     "id" =>$this->resource->bips->id,

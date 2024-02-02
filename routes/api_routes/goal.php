@@ -11,7 +11,7 @@ Route::post('goal/store', [ReductionGoalController::class, 'store'])->name('stor
 Route::get('goal/show/{id}', [ReductionGoalController::class, 'show'])->name('show');
 Route::get('goal/show/maladaptives/{id}', [ReductionGoalController::class, 'showbyMaladaptive'])->name('showbyMaladaptive');
 Route::get('goal/showbyGoal/{goal}', [ReductionGoalController::class, 'showGoalsbyMaladaptive'])->name('showGoalsbyMaladaptive');
-Route::get('goal/showgbyBip/{bip_id}', [ReductionGoalController::class, 'showGoalsbyBip'])->name('showGoalsbyBip');
+Route::get('goal/showgbyPatientId/{patient_id}', [ReductionGoalController::class, 'showgbyPatientId'])->name('showgbyPatientId');
 Route::post('goal/update/{bip}', [ReductionGoalController::class, 'update'])->name('update');
 Route::delete('goal/destroy/{id}', [ReductionGoalController::class, 'destroy'])->name('destroy');
 
