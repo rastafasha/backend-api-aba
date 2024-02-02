@@ -25,7 +25,7 @@ class PatientResource extends JsonResource
             "email"=>$this->resource->email,
             "phone"=>$this->resource->phone,
             "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
-            "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("Y/m/d") : NULL,
+            "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("d/m/Y") : NULL,
             "gender"=>$this->resource->gender,
             "address"=>$this->resource->address,
             "language"=>$this->resource->language,

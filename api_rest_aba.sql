@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 01-02-2024 a las 17:20:57
+-- Tiempo de generación: 01-02-2024 a las 23:51:54
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -55,7 +55,7 @@ CREATE TABLE `bips` (
 --
 
 INSERT INTO `bips` (`id`, `client_id`, `patient_id`, `doctor_id`, `type_of_assessment`, `documents_reviewed`, `background_information`, `previus_treatment_and_result`, `current_treatment_and_progress`, `education_status`, `phisical_and_medical_status`, `maladaptives`, `assestment_conducted`, `assestment_conducted_options`, `prevalent_setting_event_and_atecedents`, `interventions`, `reduction_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 5, 'cliente3243', 1, 2, '[{\"cde\": true, \"iep\": false, \"mnl\": true, \"referal\": true, \"medical_notes\": false, \"doctor_referal\": true}]', 'asdsa', 'dsadsa', 'dsads', 'dsadas', 'dsasd', '[{\"title\": \"mald\", \"definition\": \"adsdsa\", \"unit_malad\": 323}, {\"title\": \"mlkds\", \"definition\": \"dasds\", \"unit_malad\": 43}]', 'sadsa', '[{\"ados\": true, \"vineland_behavior_rating_scale\": false, \"functional_assessment_interview_completed\": true}]', '[{\"behavior\": \"das\", \"hypothesized_functions\": \"das\", \"prevalent_setting_event_and_atecedent\": \"das\"}, {\"behavior\": \"sdad\", \"hypothesized_functions\": \"sa\", \"prevalent_setting_event_and_atecedent\": \"dsa\"}]', '[{\"dra\": \"dsaad\", \"dro\": \"dsada\", \"ncr\": \"dasdas\", \"pairing\": \"dasdas\", \"shaping\": \"dasda\", \"chaining\": \"dsa\", \"redirection\": \"dasdas\", \"response_block\": \"dsad\", \"premack_principal\": \"dasda\", \"errorless_teaching\": \"dassd\"}]', NULL, '2024-01-30 21:41:01', '2024-01-30 21:41:01', NULL),
+(1, 5, 'cliente3243', 1, 2, '[{\"document_title\": \"ADOs\", \"document_status\": \"yes\"}]', 'asdsa', 'dsadsa', 'dsads', 'dsadas', 'dsasd', '[{\"baseline_level\": \"dsadasdas\", \"initial_interesting\": 32, \"maladaptive_behavior\": \"Negative Self talk\", \"topografical_definition\": \"adassad\"}, {\"baseline_level\": \"dasadssad\", \"initial_interesting\": 23, \"maladaptive_behavior\": \"dasdsa\", \"topografical_definition\": \"dasdsa\"}]', 'sadsa', '[{\"assestment_title\": \"dasdas\", \"assestment_status\": \"yes\"}]', '[{\"behavior\": \"das\", \"hypothesized_functions\": \"das\", \"prevalent_setting_event_and_atecedent\": \"das\"}, {\"behavior\": \"sdad\", \"hypothesized_functions\": \"sa\", \"prevalent_setting_event_and_atecedent\": \"dsa\"}]', '[{\"dra\": \"dsaad\", \"dro\": \"dsada\", \"ncr\": \"dasdas\", \"pairing\": \"dasdas\", \"shaping\": \"dasda\", \"chaining\": \"dsa\", \"redirection\": \"dasdas\", \"response_block\": \"dsad\", \"premack_principal\": \"dasda\", \"errorless_teaching\": \"dassd\"}]', NULL, '2024-01-30 21:41:01', '2024-02-02 00:17:49', NULL),
 (2, 5, 'cliente3243', 1, 2, '[{\"cde\": true, \"iep\": false, \"mnl\": true, \"referal\": true, \"medical_notes\": false, \"doctor_referal\": true}]', 'actualiadsads', 'dsadsa', 'dsadsdas', 'dsadas', 'dsasd', '[{\"title\": \"mald\", \"definition\": \"adsdsa\", \"unit_malad\": 323}, {\"title\": \"mlkds\", \"definition\": \"dasds\", \"unit_malad\": 43}]', 'sadsa', '[{\"ados\": true, \"vineland_behavior_rating_scale\": false, \"functional_assessment_interview_completed\": true}]', '[{\"behavior\": \"das\", \"hypothesized_functions\": \"das\", \"prevalent_setting_event_and_atecedent\": \"das\"}, {\"behavior\": \"sdad\", \"hypothesized_functions\": \"sa\", \"prevalent_setting_event_and_atecedent\": \"dsa\"}]', '[{\"dra\": \"dsaad\", \"dro\": \"dsada\", \"ncr\": \"dasdas\", \"pairing\": \"dasdas\", \"shaping\": \"dasda\", \"chaining\": \"dsa\", \"redirection\": \"dasdas\", \"response_block\": \"dsad\", \"premack_principal\": \"dasda\", \"errorless_teaching\": \"dassd\"}, {\"dra\": \"dasas\", \"dro\": \"dsas\", \"ncr\": \"dasasd\", \"pairing\": \"dsadsa\", \"shaping\": \"das\", \"chaining\": \"dsads\", \"redirection\": \"dasas\", \"response_block\": \"dsasd\", \"premack_principal\": \"dsadas\", \"errorless_teaching\": \"dasas\"}]', NULL, '2024-02-01 03:10:06', '2024-02-01 03:10:06', NULL),
 (3, 7, 'asd234', 1, 1, '[{\"cde\": true, \"mnl\": true, \"referal\": true, \"medical_notes\": true, \"doctor_referal\": true}]', 'dasads', 'dasdas', 'dasdas', 'dasdas', 'dsads', '[{\"title\": \"dsadas\", \"definition\": \"dasdas\", \"unit_malad\": 32}, {\"title\": \"dasas\", \"definition\": \"dasdas\", \"unit_malad\": 23}]', 'dasdas', '[{\"ados\": true, \"vineland_behavior_rating_scale\": true, \"functional_assessment_interview_completed\": true}]', '[{\"behavior\": \"dadas\", \"hypothesized_functions\": \"dsaad\", \"prevalent_setting_event_and_atecedent\": \"dsasd\"}, {\"behavior\": \"dasdasd\", \"hypothesized_functions\": \"asdas\", \"prevalent_setting_event_and_atecedent\": \"saddas\"}, {\"behavior\": \"dasdasdsa\", \"hypothesized_functions\": \"das\", \"prevalent_setting_event_and_atecedent\": \"dasdsa\"}]', '[{\"dra\": \"dasds\", \"dro\": \"dasad\", \"ncr\": \"dsadas\", \"pairing\": \"asads\", \"shaping\": \"dsada\", \"chaining\": \"dsaad\", \"redirection\": \"das\", \"response_block\": \"dasa\", \"premack_principal\": \"dasad\", \"errorless_teaching\": \"dsadasdsa\"}]', NULL, '2024-02-01 03:35:32', '2024-02-01 04:25:14', NULL);
 
@@ -458,12 +458,17 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `reduction_goals` (
   `id` bigint(20) NOT NULL,
+  `goal_id` double DEFAULT NULL,
   `sto` varchar(25) DEFAULT NULL,
   `bip_id` bigint(20) UNSIGNED NOT NULL,
   `goal` varchar(255) DEFAULT NULL,
   `decription_goal` text,
   `status` enum('on hold','initiated','mastered') NOT NULL DEFAULT 'on hold',
   `date` timestamp NULL DEFAULT NULL,
+  `lto` varchar(50) DEFAULT NULL,
+  `description_lto` text,
+  `status_lto` enum('on hold','initiated','mastered') NOT NULL DEFAULT 'on hold',
+  `date_lto` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -473,10 +478,21 @@ CREATE TABLE `reduction_goals` (
 -- Volcado de datos para la tabla `reduction_goals`
 --
 
-INSERT INTO `reduction_goals` (`id`, `sto`, `bip_id`, `goal`, `decription_goal`, `status`, `date`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'STO1', 1, 'mald', 'dasdas', 'initiated', '2024-01-17 08:00:00', '2024-01-30 21:41:24', '2024-01-30 21:41:24', NULL),
-(2, 'st02', 1, 'mald', 'das', 'initiated', '2024-01-24 08:00:00', '2024-01-31 03:22:47', '2024-01-31 03:22:47', NULL),
-(3, NULL, 1, 'mald', NULL, 'on hold', '2024-01-25 08:00:00', '2024-01-31 03:43:59', '2024-01-31 03:43:59', NULL);
+INSERT INTO `reduction_goals` (`id`, `goal_id`, `sto`, `bip_id`, `goal`, `decription_goal`, `status`, `date`, `lto`, `description_lto`, `status_lto`, `date_lto`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'STO1', 1, 'mald', 'dasdas', 'initiated', '2024-01-17 08:00:00', NULL, NULL, 'on hold', NULL, '2024-01-30 21:41:24', '2024-01-30 21:41:24', NULL),
+(2, 1, 'st02', 1, 'mald', 'das', 'initiated', '2024-01-24 08:00:00', NULL, NULL, 'on hold', NULL, '2024-01-31 03:22:47', '2024-01-31 03:22:47', NULL),
+(3, 1, NULL, 1, 'mald', NULL, 'on hold', '2024-01-25 08:00:00', NULL, NULL, 'on hold', NULL, '2024-01-31 03:43:59', '2024-02-02 03:44:19', '2024-02-02 03:44:19'),
+(4, 1, '32', 1, 'jjjj', 'das', 'mastered', NULL, NULL, NULL, 'on hold', NULL, '2024-02-02 00:57:27', '2024-02-02 03:36:43', '2024-02-02 03:36:43'),
+(5, 1, 'dads', 1, 'jjj', 'das', 'on hold', '2024-02-08 08:00:00', NULL, NULL, 'on hold', NULL, '2024-02-02 01:01:12', '2024-02-02 01:01:12', NULL),
+(6, 1, 'ds1', 1, 'jjj', 'da', 'initiated', '2024-02-15 08:00:00', NULL, NULL, 'on hold', NULL, '2024-02-02 01:06:06', '2024-02-02 01:06:06', NULL),
+(7, 2, 'tr5', 1, 'jjj', 'das', 'on hold', '2024-02-16 08:00:00', NULL, NULL, 'on hold', NULL, '2024-02-02 01:08:16', '2024-02-02 01:08:16', NULL),
+(8, 2, 'hyt4', 1, 'Negative Self talk', 'asdsda', 'mastered', '2024-02-17 08:00:00', NULL, NULL, 'on hold', NULL, '2024-02-02 01:09:22', '2024-02-02 01:09:22', NULL),
+(9, 2, 'daads', 1, 'Negative Self talk', 'dasasd', 'mastered', '2024-02-21 08:00:00', NULL, NULL, 'on hold', NULL, '2024-02-02 01:12:08', '2024-02-02 01:12:08', NULL),
+(10, 2, NULL, 1, 'dasdsa', NULL, 'on hold', NULL, 'lto01', 'sdadas', 'on hold', '2024-02-15 08:00:00', '2024-02-02 01:30:14', '2024-02-02 03:39:19', '2024-02-02 03:39:19'),
+(11, NULL, NULL, 1, 'Negative Self talk', NULL, 'on hold', NULL, 'lto02', 'das', 'on hold', '2024-02-14 08:00:00', '2024-02-02 03:41:06', '2024-02-02 03:41:06', NULL),
+(12, NULL, NULL, 1, 'dasdsa', NULL, 'on hold', NULL, 'lto04', 'dasdsa', 'mastered', '2024-02-21 08:00:00', '2024-02-02 03:42:38', '2024-02-02 03:42:38', NULL),
+(13, NULL, NULL, 1, 'dasdsa', NULL, 'on hold', NULL, 'lto9', 'dsaadsasd', 'on hold', '2024-02-07 08:00:00', '2024-02-02 03:47:15', '2024-02-02 03:47:15', NULL),
+(14, NULL, NULL, 1, 'dasdsa', NULL, 'on hold', NULL, NULL, NULL, 'on hold', NULL, '2024-02-02 03:48:57', '2024-02-02 03:49:06', '2024-02-02 03:49:06');
 
 -- --------------------------------------------------------
 
@@ -840,7 +856,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `reduction_goals`
 --
 ALTER TABLE `reduction_goals`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_clinicos`
