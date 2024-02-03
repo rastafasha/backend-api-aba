@@ -20,6 +20,7 @@ use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
+use App\Http\Resources\User\UserCollection;
 
 class PatientController extends Controller
 {
@@ -62,44 +63,78 @@ class PatientController extends Controller
 
     public function config()
     {
-        // $roles = Role::where("name","like","%DOCTOR%")->get();
         $specialists = User::where("status",'active')->get();
+        // $roles = Role::where("name","like","%DOCTOR%")->get();
+
+        $role_rbt= User::orderBy("id", "desc")
+        ->whereHas("roles", function($q){
+            $q->where("name","like","%RBT%");
+        })
+        ->get();
+        $role_bcba= User::orderBy("id", "desc")
+        ->whereHas("roles", function($q){
+            $q->where("name","like","%BCBA%");
+        })
+        ->get();
+        $role_admin= User::orderBy("id", "desc")
+        ->whereHas("roles", function($q){
+            $q->where("name","like","%ADMIN%");
+        })
+        ->get();
+        $role_manager= User::orderBy("id", "desc")
+        ->whereHas("roles", function($q){
+            $q->where("name","like","%MANAGER%");
+        })
+        ->get();
+        $role_superadmin= User::orderBy("id", "desc")
+        ->whereHas("roles", function($q){
+            $q->where("name","like","%SUPERADMIN%");
+        })
+        ->get();
+        
+        
         $insurances = Insurance::get();
         $locations = Location::get();
         
-        $documents = collect([]);
+        // $documents = collect([]);
 
-        $patient_documents = BipFile::all();
-        foreach($patient_documents->groupBy("name") as $key => $patient_document){
-            // dd($schedule_hour);
-            $documents->push([
-                "client_id" => $key,
-                "name"=> $file->name,
-                "size"=> $file->size,
-                "file"=> $file->file,
-                'file'=>$this->resource-> file->map(function($file){
-                    return [
-                        'id'=> $file->id,
-                        'client_id'=> $file->client_id,
-                        'name_file'=> $file->name_file,
-                        'size'=> $file->size,
-                        'file'=> env("APP_URL")."storage/".$file->file,
-                        'type'=> $file->type,
-                    ];
-                })
-            ]);
+        // $patient_documents = BipFile::all();
+        // foreach($patient_documents->groupBy("name") as $key => $patient_document){
+        //     // dd($schedule_hour);
+        //     $documents->push([
+        //         "client_id" => $key,
+        //         "name"=> $file->name,
+        //         "size"=> $file->size,
+        //         "file"=> $file->file,
+        //         'file'=>$this->resource-> file->map(function($file){
+        //             return [
+        //                 'id'=> $file->id,
+        //                 'client_id'=> $file->client_id,
+        //                 'name_file'=> $file->name_file,
+        //                 'size'=> $file->size,
+        //                 'file'=> env("APP_URL")."storage/".$file->file,
+        //                 'type'=> $file->type,
+        //             ];
+        //         })
+        //     ]);
 
-        }
+        // }
         
         return response()->json([
             "specialists" => $specialists,
             "insurances" => $insurances,
             "locations" => $locations,
+            "roles_rbt" => $role_rbt,
+            "roles_bcba" => $role_bcba,
+            "roles_admin" => $role_admin,
+            "roles_manager" => $role_manager,
+            "roles_superadmin" => $role_superadmin,
             // "documents" => $documents,
             
         ]);
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
