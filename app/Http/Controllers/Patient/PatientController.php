@@ -145,11 +145,13 @@ class PatientController extends Controller
      */
     public function profile($id)
     {
-       
+        
         $patient = Patient::findOrFail($id);
+
 
         return response()->json([
             "patient" => $patient,
+            
             // "patient" => PatientResource::make($patient),
         ]);
     }
