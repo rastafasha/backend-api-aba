@@ -256,12 +256,14 @@ class Patient extends Model
 
     public function location()
     {
-        return $this->hasMany(Location::class, 'location_id');
+        return $this->hasMany(Location::class);
     }
 
 
     //filtro buscador
-    public function scopefilterAdvancePatient($query,$patient_id, $name_patient, $email_patient,){
+    public function scopefilterAdvancePatient($query,
+    $patient_id, $name_patient, $email_patient,
+    ){
         
         if($patient_id){
             $query->where("patient_id", $patient_id);

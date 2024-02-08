@@ -37,7 +37,7 @@ class AdminUserController extends Controller
         //    }
         
         $users = User::select([
-            "id", "name", "email", "rolename"
+            "id", "name", "email",
         ])
             ->withCount([
                 // "payments",
@@ -71,7 +71,7 @@ class AdminUserController extends Controller
         }
 
         $user = User::select([
-            "id", "name", "email", "rolename","created_at"
+            "id", "name", "email","created_at"
         ])
             // ->with([
             //     // "payments",
@@ -154,7 +154,7 @@ class AdminUserController extends Controller
         return [
             "name" => request("name"),
             "email" => request("email"),
-            "rolename" => request("rolename"),
+            
         ];
     }
 

@@ -16,11 +16,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Patient\PatientPerson;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
 use App\Http\Resources\Patient\PatientCollection;
+use App\Http\Resources\Insurance\InsuranceCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
-use App\Http\Resources\User\UserCollection;
 
 class PatientController extends Controller
 {
@@ -63,6 +64,7 @@ class PatientController extends Controller
 
     public function config()
     {
+        // $patient= Patient::where("patient_id")->first();
         $specialists = User::where("status",'active')->get();
         // $roles = Role::where("name","like","%DOCTOR%")->get();
 
@@ -123,6 +125,7 @@ class PatientController extends Controller
         return response()->json([
             "specialists" => $specialists,
             "insurances" => $insurances,
+            // "insurances" => InsuranceCollection::make($insurances),//trae el json convertido para manipular
             "locations" => $locations,
             "roles_rbt" => $role_rbt,
             "roles_bcba" => $role_bcba,
@@ -143,16 +146,12 @@ class PatientController extends Controller
     public function profile($id)
     {
        
-        $data_patient = [];
         $patient = Patient::findOrFail($id);
-    
-            
-            $data_patient = [
-                "patient" => PatientResource::make($patient),
-                "services"=>$patient->pa_services ? json_decode($patient->pa_services) : [],
-            ];
 
-        return response()->json($data_patient);
+        return response()->json([
+            "patient" => $patient,
+            // "patient" => PatientResource::make($patient),
+        ]);
     }
 
     /**
@@ -232,8 +231,10 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
 
         return response()->json([
-            "patient" => PatientResource::make($patient),
-            "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
+            "patient" => $patient,
+            "pa_assessments"=>json_decode($patient-> pa_assessments),
+            // "patient" => PatientResource::make($patient),
+            
         ]);
     }
 

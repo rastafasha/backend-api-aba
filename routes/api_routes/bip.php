@@ -11,7 +11,8 @@ Route::get('bip/profile/{id}', [BipController::class, 'showProfile'])->name('sho
 Route::post('bip/store', [BipController::class, 'store'])->name('store');
 Route::put('bip/update/{id}', [BipController::class, 'update'])->name('update');
 
-Route::get('bip/show/byuser/{id}', [BipController::class, 'showbyUser'])->name('showbyUser');
+Route::get('bip/show/byuser/{client_id}', [BipController::class, 'showbyUser'])->name('showbyUser');
+Route::get('bip/show/byuserpatientid/{patient_id}', [BipController::class, 'showbyUserPatientId'])->name('showbyUserPatientId');
 Route::delete('bip/destroy/{id}', [BipController::class, 'destroy'])->name('destroy');
 
 

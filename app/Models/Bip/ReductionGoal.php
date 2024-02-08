@@ -15,17 +15,12 @@ class ReductionGoal extends Model
 
     protected $fillable =[
         'bip_id',
-        'sto',
-        'goal',
-        'goal_id',
         'patient_id',
-        'decription_goal',
-        'status',
-        'date',
-        'lto',
-        'description_lto',
-        'status_lto',
-        'date_lto',
+        'client_id',
+        'current_status',
+        'maladaptive',
+        'goalstos',//json
+        'goalltos',//json
 
     ];
 
@@ -36,5 +31,9 @@ class ReductionGoal extends Model
     public function patient()
     {
         return $this->hasMany(Patient::class,'patient_id');
+    }
+    public function client()
+    {
+        return $this->hasMany(Patient::class,'client_id');
     }
 }

@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->longtext('designation')->nullable();
             $table->text('address')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('rolename', [User::SUPERADMIN, User::GUEST])->default(User::GUEST);
+            // $table->enum('rolename', [User::SUPERADMIN, User::GUEST])->default(User::GUEST);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

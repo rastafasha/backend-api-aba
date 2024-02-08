@@ -50,8 +50,10 @@ class PatientResource extends JsonResource
             //benefits
             "insurer"=>$this->resource->insurer,
             // "insurer"=>$this->resource->insurer ? [
-            //     "id"=> $this->resource->insurer->id,
-            //     "name"=> $this->resource->insurer->name,
+            //     // "id"=> $this->resource->insurer->id,
+            //     "insurer_name" =>$insurer->insurer_name,
+            //     'notes'=> json_decode($insurer-> notes),
+            //     'services'=> json_decode($insurer-> services),
             // ]:NULL,
 
             "insuranceId"=>$this->resource->insuranceId,
@@ -83,18 +85,23 @@ class PatientResource extends JsonResource
             //pas
             "pa_assessments"=>json_decode($this->resource-> pa_assessments),
 
-            //no borrar
-            // "pa_assessment"=>$this->resource->pa_assessment,
-            // "pa_assessment_start_date"=>$this->resource->pa_assessment_start_date ? Carbon::parse($this->resource->pa_assessment_start_date)->format("Y/m/d") : NULL,
-            // "pa_assessment_end_date"=>$this->resource->pa_assessment_end_date ? Carbon::parse($this->resource->pa_assessment_end_date)->format("Y/m/d") : NULL,
-            
-            // 'pa_services'=> $this->resource->pa_services,
-            // "pa_services_start_date"=>$this->resource->pa_services_start_date ? Carbon::parse($this->resource->pa_services_start_date)->format("Y/m/d") : NULL,
-            // "pa_services_end_date"=>$this->resource->pa_services_end_date ? Carbon::parse($this->resource->pa_services_end_date)->format("Y/m/d") : NULL,
-            
             
                     
             "location_id" =>$this->resource->location_id,
+            // "location"=> $this->resource->location_id ?[
+            //     "id" =>$this->resource->location->id,
+            //     "title"=>$this->resource->location->title,
+            //     "address"=>$this->resource->location->address,
+            //     "phone1"=>$this->resource->phone1,
+            //     "phone2"=>$this->resource->location->phone2,
+            //     "email"=>$this->resource->location->email,
+            //     "city"=>$this->resource->location->city,
+            //     "state"=>$this->resource->location->state,
+            //     "zip"=>$this->resource->location->zip,
+            // ]:null,
+            
+            
+
 
             "rbt_id" =>$this->resource->rbt_id,
             // "rbt" =>$this->resource->rbt ? 
@@ -152,12 +159,12 @@ class PatientResource extends JsonResource
             //         //         ]:NULL,
             //     ]: NULL,
             "clin_director_id"=>$this->resource->clin_director_id,
-            // "clin_director" =>$this->resource->clin_director ? 
+            // "clin_director_id" =>$this->resource->clin_director_id ? 
             //     [
-            //         "id" =>$this->resource->clin_director->id,
+            //         "id" =>$this->resource->clin_director_id,
             //         "full_name" =>$this->resource->clin_director->name.' '.$this->resource->clin_director->surname,
             //         // "avatar"=> $this->resource->clin_director->avatar ? env("APP_URL")."storage/".$this->resource->clin_director->avatar : null,
-            //         "avatar"=> $this->resource->clin_director->avatar ? env("APP_URL").$this->resource->clin_director->avatar : null,
+            //         // "avatar"=> $this->resource->clin_director->avatar ? env("APP_URL").$this->resource->clin_director->avatar : null,
             //         // "speciality_id" => $this->resource->clin_director->speciality_id,
             //         //         "speciality"=>$this->resource->clin_director->speciality ? [
             //         //             "id"=> $this->resource->clin_director->speciality->id,
@@ -167,6 +174,20 @@ class PatientResource extends JsonResource
             //     ]: NULL,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             
+
+
+
+            //no borrar
+            // "pa_assessment"=>$this->resource->pa_assessment,
+            // "pa_assessment_start_date"=>$this->resource->pa_assessment_start_date ? Carbon::parse($this->resource->pa_assessment_start_date)->format("Y/m/d") : NULL,
+            // "pa_assessment_end_date"=>$this->resource->pa_assessment_end_date ? Carbon::parse($this->resource->pa_assessment_end_date)->format("Y/m/d") : NULL,
+            
+            // 'pa_services'=> $this->resource->pa_services,
+            // "pa_services_start_date"=>$this->resource->pa_services_start_date ? Carbon::parse($this->resource->pa_services_start_date)->format("Y/m/d") : NULL,
+            // "pa_services_end_date"=>$this->resource->pa_services_end_date ? Carbon::parse($this->resource->pa_services_end_date)->format("Y/m/d") : NULL,
+            
+            
+            // "location"=> $this->resource->location_id,
 
         ];
     }

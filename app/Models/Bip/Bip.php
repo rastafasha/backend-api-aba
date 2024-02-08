@@ -65,7 +65,7 @@ class Bip extends Model
     // }
      public function reduction_goals()
     {
-        return $this->hasMany(ReductionGoal::class);
+        return $this->hasMany(ReductionGoal::class,'reduction_id');
     }
 
     // public function bip_files(){

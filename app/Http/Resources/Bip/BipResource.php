@@ -61,6 +61,22 @@ class BipResource extends JsonResource
             "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($this->resource-> interventions),
+            "goal_stos"=>json_decode($this->resource->goal_stos),
+            "goal_ltos"=>json_decode($this->resource->goal_ltos),
+            
+            
+
+
+            "reduction_goal"=>$this->resource->reduction_goals ? 
+                [
+                    "id"=> $this->resource->reduction_goal->id,
+                    "maladaptive"=>$this->resource->maladaptive,
+                    "current_status"=>$this->resource->current_status,
+                    "goal_stos"=>json_decode($this->resource->goal_stos),
+                    "goal_ltos"=>json_decode($this->resource->goal_ltos),
+                ]: NULL,
+            
+            
             
             //no borrar
             // "behavior"=>$this->resource->behavior,

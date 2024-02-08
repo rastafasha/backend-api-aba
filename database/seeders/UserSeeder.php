@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $users = [
 
             [
-                "rolename" => User::SUPERADMIN,
+                // "rolename" => User::SUPERADMIN,
                 "name" => "superadministrador",
                 "email" => "superadmin@superadmin.com",
                 "password" => bcrypt("password"),

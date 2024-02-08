@@ -44,22 +44,11 @@ class DoctorController extends Controller
     }
     public function config()
     {
-        // $role_rbt = Role::where("roles","like","%RBT%")->get();
-        // $role_bcba = Role::where("roles","like","%BCBA%")->get();
-        // $role_bcba = Role::where("roles","like","%BCBA%")->get();
-        // $role_admin = Role::where("roles","like","%ADMIN%")->get();
-        // $role_manager = Role::where("roles","like","%MANAGER%")->get();
-        // $role_superadmin = Role::where("roles","like","%SUPERADMIN%")->get();
+        
         $roles = Role::get();
         $locations = Location::get();
         return response()->json([
             "roles" => $roles,
-            // "role_rbt" => $role_rbt,
-            // "role_bcba" => $role_bcba,
-            // "role_bcba" => $role_bcba,
-            // "role_admin" => $role_admin,
-            // "role_manager" => $role_manager,
-            // "role_superadmin" => $role_superadmin,
             "locations" => $locations,
         ]);
     }

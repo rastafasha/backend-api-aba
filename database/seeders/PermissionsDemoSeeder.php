@@ -98,7 +98,7 @@ class PermissionsDemoSeeder extends Seeder
             'name' => 'superadmin',
             'email' => 'superadmin@superadmin.com',
             'password' => bcrypt('password'),
-            "rolename" => User::SUPERADMIN,
+            // "rolename" => User::SUPERADMIN,
         ]);
 
         

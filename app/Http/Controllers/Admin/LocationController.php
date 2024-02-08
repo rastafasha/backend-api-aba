@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Models\Patient\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Location\LocationResource;
@@ -41,37 +42,13 @@ class LocationController extends Controller
     public function config()
     {
         // $roles = Role::where("name","like","%DOCTOR%")->get();
-        $specialists = User::where("status",'active')->get();
-        $insurances = Location::get();
+        // $specialists = User::where("status",'active')->get();
         
-        // $documents = collect([]);
-
-        // $patient_documents = BipFile::all();
-        // foreach($patient_documents->groupBy("name") as $key => $patient_document){
-        //     // dd($schedule_hour);
-        //     $documents->push([
-        //         "client_id" => $key,
-        //         "name"=> $file->name,
-        //         "size"=> $file->size,
-        //         "file"=> $file->file,
-        //         'file'=>$this->resource-> file->map(function($file){
-        //             return [
-        //                 'id'=> $file->id,
-        //                 'client_id'=> $file->client_id,
-        //                 'name_file'=> $file->name_file,
-        //                 'size'=> $file->size,
-        //                 'file'=> env("APP_URL")."storage/".$file->file,
-        //                 'type'=> $file->type,
-        //             ];
-        //         })
-        //     ]);
-
-        // }
+        
         
         return response()->json([
-            "specialists" => $specialists,
-            "insurances" => $insurances,
-            // "documents" => $documents,
+            // "specialists" => $specialists,
+            // "patients" => $patients,
             
         ]);
     }
@@ -117,10 +94,18 @@ class LocationController extends Controller
      */
     public function show($id)
     {
+        
+        $specialists = User::where("location_id",$id)->get();
+        $patients = Patient::where("location_id",$id)->get();
+
         $location = Location::findOrFail($id);
+
+
 
         return response()->json([
             "location" => LocationResource::make($location),
+            "specialists" => $specialists,
+            "patients" => $patients,
             // "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }

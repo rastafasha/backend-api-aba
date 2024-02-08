@@ -21,6 +21,7 @@ class Location extends Model
         'state',
         'zip',
         'email',
+        'avatar',
     ];
 
     //relations

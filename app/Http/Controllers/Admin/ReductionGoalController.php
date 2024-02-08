@@ -38,24 +38,20 @@ class ReductionGoalController extends Controller
     public function store(Request $request)
     {
         $patient_is_valid = Patient::where("id", $request->id)->first();
-        // $bip = Bip::where("id", $request->bip_id)->first();
-        // $reduction_goal = ReductionGoal::findOrFail($request->bip_id);
 
+        $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
+        $request->request->add(["goalltos"=>json_encode($request->goalltos)]);
         
-        if($request->date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date );
-            $request->request->add(["date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
-        }
-        if($request->date_lto){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_lto );
-            $request->request->add(["date_lto" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
 
         $reduction_goal = ReductionGoal::create($request->all());
         
         
         return response()->json([
             "message"=>200,
+            "id"=>$reduction_goal->id,
+            'reduction_goal' => new ReductionGoalsResource($reduction_goal),
+            "goalstos"=>json_decode($reduction_goal-> goalstos),
+            "goalltos"=>json_decode($reduction_goal-> goalltos),
         ]);
     }
 
@@ -72,11 +68,14 @@ class ReductionGoalController extends Controller
         return response()->json([
             // "patient" => $patient,
             "reduction_goal" => $reduction_goal,
+            "client_id" => $client_id,
             "documents_reviewed"=>json_decode($reduction_goal-> documents_reviewed),
             "maladaptives"=>json_decode($reduction_goal-> maladaptives),
             "assestment_conducted_options"=>json_decode($reduction_goal-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($reduction_goal-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($reduction_goal-> interventions),
+            "goal_stos"=>json_decode($reduction_goal-> goal_stos),
+            "goal_ltos"=>json_decode($reduction_goal-> goal_ltos),
             
         ]);
         
@@ -92,15 +91,15 @@ class ReductionGoalController extends Controller
 
         
     }
-    public function showbyMaladaptive($goal)
-    {
-        $goalmaladaptives = ReductionGoal::where("goal", $goal)->first();
-        return response()->json([
-            "goalmaladaptives" => $goalmaladaptives,
-        ]);
+    // public function showbyMaladaptive($goal)
+    // {
+    //     $goalmaladaptives = ReductionGoal::where("goal", $goal)->first();
+    //     return response()->json([
+    //         "goalmaladaptives" => $goalmaladaptives,
+    //     ]);
 
         
-    }
+    // }
 
     public function query_patient(Request $request)
     {
@@ -133,45 +132,33 @@ class ReductionGoalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $patient_id)
     {
-        $patient_is_valid = Patient::where("id", "<>", $id)->where("client_id", $request->client_id)->first();
-        // $bip = ReductionGoal::findOrFail($request->client_id);
-        // $request->request->add(["pa_services"=>json_encode($request->services)]);
-
+        // $patient_is_valid = Patient::findOrFail("patient_id", $patient_id)->first();
+        $reduction_goal = Bip::where("patient_id", "<>", $patient_id)->first();
+        // $reduction_goal = ReductionGoal::findOrFail("client_id", $client_id)->first();
         
-        if($patient_is_valid){
+        
+        if($reduction_goal){
             return response()->json([
                 "message"=>403,
-                "message_text"=> 'el paciente ya existe'
+                "message_text"=> 'el patient ya existe'
             ]);
         }
         
-        $reduction_goal = ReductionGoal::findOrFail($id);
-        
-        
-        if($request->date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date );
-            $request->request->add(["date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
-        }
+        $reduction_goal = ReductionGoal::findOrFail($patient_id);
 
-        if($request->date_lto){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_lto );
-            $request->request->add(["date_lto" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
+        $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
+        $request->request->add(["goalltos"=>json_encode($request->goalltos)]);
 
+        $reduction_goal->update($request->all());
         
-       
-        $bip->update($request->all());
-        
-        // error_log($bip);
-
-        // if($patient->person){
-        //     $patient->person->update($request->all());
-        // }
         return response()->json([
             "message"=>200,
-            "bip"=>$bip,
+            "reduction_goal"=>$reduction_goal,
+            "patient_id"=>$patient_id,
+            "goalstos"=>json_decode($reduction_goal-> goalstos),
+            "goalltos"=>json_decode($reduction_goal-> goalltos),
         ]);
     }
 
@@ -192,9 +179,9 @@ class ReductionGoalController extends Controller
     }
 
     //se obtiene el bip del usuario
-    public function showGoalsbyMaladaptive(Request $request, string $goal)
+    public function showGoalsbBipId(Request $request, string $bip_id)
     {
-        $goalreductions = ReductionGoal::where("goal", $goal)->first();
+        $goalreductions = ReductionGoal::where("bip_id", $bip_id)->first();
         // $goalreductions = ReductionGoal::where("goal", "<>", $goal)->where("goal", $request->goal)->first();
 
         if($goalreductions){
@@ -204,20 +191,53 @@ class ReductionGoalController extends Controller
                 "message_text"=> 'el goal ya existe'
             ]);
         }
-        // $patient = Patient::where("id", $id)->first();
+        $goalreductions = ReductionGoal::where("bip_id", $bip_id)->first();
         return response()->json([
-            "goalreductions" => $goalreductions,
+            // "goalreductions" => $goalreductions,
+            "goalreductions" => ReductionGoalsResource::make($goalreductions),
+            "goalstos"=>json_decode($goalReductionPatientIds->goalstos),
+            "goalltos"=>json_decode($goalReductionPatientIds->goalltos),
+        ]);
+
+        
+    }
+    // , $patient_id
+    public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
+    {
+        
+        // $patient_is_valid = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();
+        // $patient_id = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();
+
+        // if($patient_is_valid){
+        //     return response()->json([
+        //         "message"=>403,
+        //         "message_text"=> 'el patient ya existe'
+        //     ]);
+        // }
+        $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
+        
+        
+        return response()->json([
+            // "patient_id"=>$patient_id,
+            "goalsmaladaptive" => ReductionGoalsCollection::make($goalsmaladaptive) ,
+            
+            
         ]);
 
         
     }
     public function showgbyPatientId($patient_id)
     {
-        $goalReductionPatientIds = ReductionGoal::where("patient_id", $patient_id)->orderBy("id", "desc")->get();
+        $goalReductionPatientIds = ReductionGoal::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         
         
         return response()->json([
-            "goalReductionPatientIds" => $goalReductionPatientIds,
+            "goalReductionPatientIds" => ReductionGoalsCollection::make($goalReductionPatientIds) ,
+            // "goalReductionPatientIds" => $goalReductionPatientIds ,
+            // "goalstos"=>json_decode($goalReductionPatientIds->goalstos),
+            // "goalltos"=>json_decode($goalReductionPatientIds->goalltos),
+            
+            
         ]);
 
         

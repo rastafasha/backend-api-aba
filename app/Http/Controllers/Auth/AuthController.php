@@ -158,7 +158,7 @@ class AuthController extends Controller
             'user'=>[
                 "name"=>auth('api')->user()->name,
                 "surname"=>auth('api')->user()->surname,
-                "rolename"=>auth('api')->user()->rolename,
+                // "rolename"=>auth('api')->user()->rolename,
                 "email"=>auth('api')->user()->email,
                 "permissions"=>$permissions,
 
