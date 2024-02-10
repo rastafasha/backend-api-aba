@@ -151,6 +151,7 @@ class PatientController extends Controller
 
         return response()->json([
             "patient" => $patient,
+            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             
             // "patient" => PatientResource::make($patient),
         ]);
@@ -166,8 +167,8 @@ class PatientController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["pa_services"=>json_encode($request->services)]);
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
+        // $request->request->add(["pa_services"=>json_encode($request->services)]);
 
         if($patient_is_valid){
             return response()->json([
@@ -234,7 +235,8 @@ class PatientController extends Controller
 
         return response()->json([
             "patient" => $patient,
-            "pa_assessments"=>json_decode($patient-> pa_assessments),
+            // "pa_assessments"=>json_decode($patient-> pa_assessments),
+            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             // "patient" => PatientResource::make($patient),
             
         ]);
@@ -254,7 +256,7 @@ class PatientController extends Controller
         
         $patient_is_valid = Patient::where("id", "<>", $id)->first();
         
-        $request->request->add(["pa_services"=>json_encode($request->services)]);
+        // $request->request->add(["pa_services"=>json_encode($request->services)]);
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
 
         
@@ -308,7 +310,7 @@ class PatientController extends Controller
         return response()->json([
             "message"=>200,
             "patient"=>$patient,
-            "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
+            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
 

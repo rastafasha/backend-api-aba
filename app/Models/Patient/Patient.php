@@ -46,7 +46,8 @@ class Patient extends Model
         'summer_schedule',
 
         //benefits
-        'insurer',
+        'insurer_id',
+
         'insuranceId',
         'insurer_secundary',
         'insuranceId_secundary',
@@ -242,7 +243,7 @@ class Patient extends Model
 
     public function insurer()
     {
-        return $this->hasMany(Insurance::class, 'insurer');
+        return $this->hasMany(Insurance::class, 'insurer_id');
     }
     public function bip()
     {

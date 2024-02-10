@@ -132,21 +132,21 @@ class ReductionGoalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $patient_id)
+    public function update(Request $request, $id)
     {
         // $patient_is_valid = Patient::findOrFail("patient_id", $patient_id)->first();
-        $reduction_goal = Bip::where("patient_id", "<>", $patient_id)->first();
-        // $reduction_goal = ReductionGoal::findOrFail("client_id", $client_id)->first();
+        // $patient_is_valid = Bip::where("patient_id", "<>", $patient_id)->first();
+        // $reduction_id = ReductionGoal::findOrFail("id", $request->id)->first();
         
         
-        if($reduction_goal){
-            return response()->json([
-                "message"=>403,
-                "message_text"=> 'el patient ya existe'
-            ]);
-        }
+        // if($patient_is_valid){
+        //     return response()->json([
+        //         "message"=>403,
+        //         "message_text"=> 'el patient ya existe'
+        //     ]);
+        // }
         
-        $reduction_goal = ReductionGoal::findOrFail($patient_id);
+        $reduction_goal = ReductionGoal::findOrFail($id);
 
         $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
         $request->request->add(["goalltos"=>json_encode($request->goalltos)]);
@@ -156,7 +156,7 @@ class ReductionGoalController extends Controller
         return response()->json([
             "message"=>200,
             "reduction_goal"=>$reduction_goal,
-            "patient_id"=>$patient_id,
+            // "patient_id"=>$patient_id,
             "goalstos"=>json_decode($reduction_goal-> goalstos),
             "goalltos"=>json_decode($reduction_goal-> goalltos),
         ]);

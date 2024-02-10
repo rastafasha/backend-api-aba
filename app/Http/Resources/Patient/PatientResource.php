@@ -48,12 +48,12 @@ class PatientResource extends JsonResource
             "patient_control"=>$this->resource->patient_control,
             
             //benefits
-            "insurer"=>$this->resource->insurer,
-            // "insurer"=>$this->resource->insurer ? [
-            //     // "id"=> $this->resource->insurer->id,
-            //     "insurer_name" =>$insurer->insurer_name,
-            //     'notes'=> json_decode($insurer-> notes),
-            //     'services'=> json_decode($insurer-> services),
+            "insurer_id"=>$this->resource->insurer_id,
+            // "insurer"=>$this->resource->insurer_id ? [
+            //     "id"=> $this->resource->insurer_id,
+            //     "insurer_name" =>$this->resource->insurer_name,
+            //     'notes'=> json_decode($this->resource->insurer-> notes)? : null,
+            //     'services'=> json_decode($this->resource->insurer-> services)? : null,
             // ]:NULL,
 
             "insuranceId"=>$this->resource->insuranceId,
@@ -83,7 +83,7 @@ class PatientResource extends JsonResource
             "submitted"=>$this->resource->submitted,
             
             //pas
-            "pa_assessments"=>json_decode($this->resource-> pa_assessments),
+            "pa_assessments"=>json_decode($this->resource-> pa_assessments) ? : null,
 
             
                     
