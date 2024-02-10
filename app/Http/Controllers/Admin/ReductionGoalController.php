@@ -162,6 +162,16 @@ class ReductionGoalController extends Controller
         ]);
     }
 
+    public function updateSto(Request $request, $id)
+    {
+        
+        $goalstos = ReductionGoal::findOrfail($id);
+        $goalstos = $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
+        $goalstos->update();
+        return $goalstos;
+        
+    }
+
 
     /**
      * Remove the specified resource from storage.

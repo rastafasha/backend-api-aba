@@ -24,3 +24,6 @@ Route::delete('goal/destroy/{id}', [ReductionGoalController::class, 'destroy'])-
 
 Route::put('/goal/update/eligibility/{bip:id}', [ReductionGoalController::class, 'updateEligibility'])
     ->name('goal.updateEligibility');
+Route::put('/goal/update/sto/{goal:id}', [ReductionGoalController::class, 'updateSto'])
+    ->name('goal.updateSto');
+    
