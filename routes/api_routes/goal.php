@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ReductionGoalController;
+use App\Http\Controllers\Admin\Bip\ReductionGoalController;
 
 Route::get('goal', [ReductionGoalController::class, 'index'])->name('index');
 Route::get('goal/profile/{id}', [ReductionGoalController::class, 'showbyProfile'])->name('showbyProfile');

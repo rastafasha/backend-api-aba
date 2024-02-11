@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\BipController;
+use App\Http\Controllers\Admin\Bip\BipController;
 
 Route::get('bip', [BipController::class, 'index'])->name('index');
 Route::get('bip/show/{id}', [BipController::class, 'show'])->name('show');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Bip;
 
 use Carbon\Carbon;
 use App\Models\Bip\Bip;
@@ -74,8 +74,8 @@ class ReductionGoalController extends Controller
             "assestment_conducted_options"=>json_decode($reduction_goal-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($reduction_goal-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($reduction_goal-> interventions),
-            "goal_stos"=>json_decode($reduction_goal-> goal_stos),
-            "goal_ltos"=>json_decode($reduction_goal-> goal_ltos),
+            "goalstos"=>json_decode($reduction_goal-> goalstos),
+            "goalltos"=>json_decode($reduction_goal-> goalltos),
             
         ]);
         
