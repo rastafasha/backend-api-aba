@@ -398,7 +398,7 @@ class PatientController extends Controller
     public function updateEligibility(Request $request, $id)
     {
         $patient = Patient::findOrfail($id);
-        $patient->eligibility = $request->eligibility;
+        $patient->status = $request->status;
         $patient->update();
         return $patient;
         

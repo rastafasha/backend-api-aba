@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SustitutionGoal extends Model
+class GeneralizationTraining extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -17,11 +17,10 @@ class SustitutionGoal extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'current_sustitution',
-        'maladaptive',
-        'description',
-        'goalstos',//json
-        'goalltos',//json
+        'generalization',
+        'risk_assestment',
+        'discharge_plan',
+        'transition_fading_plans',//json
 
     ];
 
@@ -32,9 +31,5 @@ class SustitutionGoal extends Model
     public function patient()
     {
         return $this->hasMany(Patient::class,'patient_id');
-    }
-    public function client()
-    {
-        return $this->hasMany(Patient::class,'client_id');
     }
 }

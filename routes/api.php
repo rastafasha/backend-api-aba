@@ -53,10 +53,37 @@ Route::group(['middleware' => 'api'], function ($router) {
     // bip
     require __DIR__ . '/api_routes/bip.php';
 
-    // goal
+    // goals
+    // reduction goals
     require __DIR__ . '/api_routes/goal.php';
+    
     // goal sustitution
     require __DIR__ . '/api_routes/goal_sustitution.php';
+    
+    // goal family_envolments
+    require __DIR__ . '/api_routes/family_envolments.php';
+    
+    // goal behavior_asistant
+    require __DIR__ . '/api_routes/behavior_asistant.php';
+
+    // goal consent_to_treatment
+    require __DIR__ . '/api_routes/consent_to_treatment.php';
+
+    // goal crisis_plan
+    require __DIR__ . '/api_routes/crisis_plan.php';
+
+    // goal de_escalation_technique
+    require __DIR__ . '/api_routes/de_escalation_technique.php';
+
+    // goal generalization_training
+    require __DIR__ . '/api_routes/generalization_training.php';
+
+    // goal monitoring_evaluating
+    require __DIR__ . '/api_routes/monitoring_evaluating.php';
+
+
+    // goals
+
     
     // location
     require __DIR__ . '/api_routes/location.php';

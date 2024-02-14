@@ -5,7 +5,7 @@ namespace App\Http\Resources\Bip;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SustitutionGoalsResource extends JsonResource
+class MonitoringEvaluatingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,13 +17,11 @@ class SustitutionGoalsResource extends JsonResource
     {
         return [
             "id"=>$this->resource->id,
-            "maladaptive"=>$this->resource->maladaptive,
             "patient_id"=>$this->resource->patient_id,
-            "current_sustitution"=>$this->resource->current_sustitution,
+            "client_id"=>$this->resource->client_id,
             "bip_id"=>$this->resource->bip_id,
-            "description"=>$this->resource->description,
-            "goalstos"=>json_decode($this->resource->goalstos) ? : null,
-            "goalltos"=>json_decode($this->resource->goalltos) ? : null,
+            "treatment_fidelity"=>$this->resource->treatment_fidelity,
+            "rbt_training_goals"=>json_decode($this->resource->rbt_training_goals) ? : null,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 
         ];

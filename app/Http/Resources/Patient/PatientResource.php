@@ -56,6 +56,7 @@ class PatientResource extends JsonResource
             //     'services'=> json_decode($this->resource->insurer-> services)? : null,
             // ]:NULL,
 
+            "status"=>$this->resource->status,
             "insuranceId"=>$this->resource->insuranceId,
             "insurer_secundary"=>$this->resource->insurer_secundary,          
             "insuranceId_secundary"=>$this->resource->insuranceId_secundary,          

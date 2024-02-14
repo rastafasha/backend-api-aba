@@ -73,11 +73,11 @@ class Patient extends Model
         'asd_diagnosis',
         'cde',
         'submitted',
-
+        
         //pas
         'pa_assessments',
         
-
+        
         //specialits
         'rbt_id',
         'rbt2_id',
@@ -86,6 +86,7 @@ class Patient extends Model
         'clin_director_id',
         
         'location_id',
+        'status',
 
         //??
         // 'current_auth_expires',
