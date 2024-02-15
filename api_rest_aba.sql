@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 08-02-2024 a las 06:01:04
+-- Tiempo de generación: 15-02-2024 a las 02:16:20
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `api_rest_aba`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `behavior_asistants`
+--
+
+CREATE TABLE `behavior_asistants` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `description` text,
+  `behavior_assistant_work_schedule` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `behavior_asistants`
+--
+
+INSERT INTO `behavior_asistants` (`id`, `bip_id`, `patient_id`, `client_id`, `description`, `behavior_assistant_work_schedule`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsadasdasdsad', '[{\"friday\": \"dsadas\", \"monday\": \"dsadas\", \"tuesday\": \"dsads\", \"saturday\": \"dsads\", \"thursday\": \"dsadsa\", \"wednesday\": \"dsadsa\"}, {\"friday\": \"dasds\", \"monday\": \"adsa\", \"tuesday\": \"dsada\", \"saturday\": \"dsads\", \"thursday\": \"dsadsa\", \"wednesday\": \"dsads\"}]', '2024-02-14 22:43:28', '2024-02-14 22:44:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,6 +105,33 @@ CREATE TABLE `bip_files` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `consent_to_treatments`
+--
+
+CREATE TABLE `consent_to_treatments` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `analyst_signature` varchar(255) DEFAULT NULL,
+  `analyst_signature_date` timestamp NULL DEFAULT NULL,
+  `parent_guardian_signature` varchar(255) DEFAULT NULL,
+  `parent_guardian_signature_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `consent_to_treatments`
+--
+
+INSERT INTO `consent_to_treatments` (`id`, `bip_id`, `patient_id`, `client_id`, `analyst_signature`, `analyst_signature_date`, `parent_guardian_signature`, `parent_guardian_signature_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(8, 1, 'cliente3243', 5, '/private/var/folders/hh/9ckqqb6j3210rk4rtpd2bbf40000gn/T/php4yo8bF', '2024-02-15 16:00:00', NULL, '2024-02-22 16:00:00', '2024-02-15 04:40:26', '2024-02-15 04:40:26', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `contacts`
 --
 
@@ -97,6 +149,61 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `crisis_plans`
+--
+
+CREATE TABLE `crisis_plans` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `crisis_description` text,
+  `crisis_note` text,
+  `caregiver_requirements_for_prevention_of_crisis` text,
+  `risk_factors` json DEFAULT NULL,
+  `suicidalities` json DEFAULT NULL,
+  `homicidalities` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `crisis_plans`
+--
+
+INSERT INTO `crisis_plans` (`id`, `bip_id`, `patient_id`, `client_id`, `crisis_description`, `crisis_note`, `caregiver_requirements_for_prevention_of_crisis`, `risk_factors`, `suicidalities`, `homicidalities`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsaads', 'dasadsdas', NULL, '[{\"other\": \"dsadasdadsadsa\", \"elopement\": true, \"aggression\": true, \"do_not_apply\": true, \"fire_setting\": true, \"impulsive_behavior\": true, \"psychotic_symptoms\": true, \"assaultive_behavior\": true, \"current_family_violence\": true, \"current_substance_abuse\": true, \"self_injurious_behavior\": true, \"self_mutilation_cutting\": true, \"dealing_with_significant\": true, \"sexually_offending_behavior\": true, \"caring_for_ill_family_recipient\": true, \"prior_psychiatric_inpatient_admission\": true}]', '[{\"plan\": true, \"means\": true, \"ideation\": true, \"not_present\": false, \"prior_attempt\": false}]', '[{\"plan_homicidality\": true, \"means_homicidality\": true, \"ideation_homicidality\": false, \"not_present_homicidality\": false, \"prior_attempt_homicidality\": true}]', '2024-02-14 23:15:10', '2024-02-15 05:19:09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `de_escalation_techniques`
+--
+
+CREATE TABLE `de_escalation_techniques` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `description` text,
+  `service_recomendation` text,
+  `recomendation_lists` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `de_escalation_techniques`
+--
+
+INSERT INTO `de_escalation_techniques` (`id`, `bip_id`, `patient_id`, `client_id`, `description`, `service_recomendation`, `recomendation_lists`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsaadsdasdas', 'dassddasds', '[{\"cpt\": \"sdada\", \"location\": \"In Home/School\", \"num_units\": 2, \"breakdown_per_week\": \"dsadas\", \"description_service\": \"adsads\"}, {\"cpt\": \"dasdsadsa\", \"location\": \"In Home/Community\", \"num_units\": 23, \"breakdown_per_week\": \"23dsadsa\", \"description_service\": \"dsa\"}]', '2024-02-14 21:52:35', '2024-02-14 22:48:16', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `failed_jobs`
 --
 
@@ -109,6 +216,58 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `family_envolments`
+--
+
+CREATE TABLE `family_envolments` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `description` text,
+  `caregivers_training_goals` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `family_envolments`
+--
+
+INSERT INTO `family_envolments` (`id`, `bip_id`, `patient_id`, `client_id`, `description`, `caregivers_training_goals`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsaasddasdas', '[{\"criteria\": \"asads\", \"initiation\": \"2024-02-13T04:00:00.000Z\", \"caregiver_goal\": \"daads\", \"current_status\": \"pending\", \"outcome_measure\": \"asdasdd\"}, {\"criteria\": \"dasads\", \"initiation\": \"2024-02-15T04:00:00.000Z\", \"caregiver_goal\": \"addasads\", \"current_status\": \"yes\", \"outcome_measure\": \"dasasddas\"}]', '2024-02-11 23:06:11', '2024-02-11 23:23:07', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `generalization_trainings`
+--
+
+CREATE TABLE `generalization_trainings` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `generalization` text,
+  `risk_assestment` text,
+  `discharge_plan` text,
+  `transition_fading_plans` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `generalization_trainings`
+--
+
+INSERT INTO `generalization_trainings` (`id`, `bip_id`, `patient_id`, `client_id`, `generalization`, `risk_assestment`, `discharge_plan`, `transition_fading_plans`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsadsa', 'dsadas', 'dasdsad', '[{\"phase\": \"sadsa\", \"description\": \"dsadsa\"}, {\"phase\": \"dsadsad\", \"description\": \"sadsa\"}]', '2024-02-14 22:38:07', '2024-02-14 22:39:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -285,6 +444,31 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `monitoring_evaluatings`
+--
+
+CREATE TABLE `monitoring_evaluatings` (
+  `id` bigint(20) NOT NULL,
+  `bip_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `patient_id` varchar(255) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `treatment_fidelity` text,
+  `rbt_training_goals` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `monitoring_evaluatings`
+--
+
+INSERT INTO `monitoring_evaluatings` (`id`, `bip_id`, `patient_id`, `client_id`, `treatment_fidelity`, `rbt_training_goals`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cliente3243', 5, 'dsadsadsdsa', '[{\"lto\": \"1\", \"date\": \"2024-02-15T04:00:00.000Z\", \"goal\": \"dassad\", \"status\": \"inprogress\", \"decription\": \"dsadsa\"}, {\"lto\": \"LTO1da\", \"date\": \"2024-02-21T04:00:00.000Z\", \"goal\": \"asd\", \"status\": \"mastered\", \"decription\": \"sdadsadsa\"}]', '2024-02-14 22:55:55', '2024-02-14 22:56:22', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `password_resets`
 --
 
@@ -328,7 +512,7 @@ CREATE TABLE `patients` (
   `schedule` varchar(255) DEFAULT NULL,
   `summer_schedule` varchar(255) DEFAULT NULL,
   `special_note` text,
-  `insurer` varchar(255) DEFAULT NULL,
+  `insurer_id` bigint(20) UNSIGNED DEFAULT NULL,
   `insuranceId` varchar(50) DEFAULT NULL,
   `insuranceId_secundary` varchar(150) DEFAULT NULL,
   `elegibility_date` timestamp NULL DEFAULT NULL,
@@ -339,8 +523,7 @@ CREATE TABLE `patients` (
   `copayments` varchar(150) DEFAULT NULL,
   `oop` varchar(150) DEFAULT NULL,
   `diagnosis_code` varchar(255) DEFAULT NULL,
-  `elegibility_day` timestamp NULL DEFAULT NULL,
-  `eligibility` enum('pending','yes','no') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','yes','no') NOT NULL DEFAULT 'pending',
   `patient_control` varchar(255) DEFAULT NULL,
   `pa_assessments` json DEFAULT NULL,
   `compayment_per_visit` varchar(255) DEFAULT NULL,
@@ -355,6 +538,7 @@ CREATE TABLE `patients` (
   `asd_diagnosis` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
   `cde` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
   `submitted` enum('waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'waiting',
+  `eligibility` enum('pending','waiting','reviewing','psycho eval','requested','need new','yes','no','2 insurance') NOT NULL DEFAULT 'pending',
   `rbt_id` bigint(20) DEFAULT NULL,
   `rbt2_id` bigint(20) DEFAULT NULL,
   `bcba_id` bigint(20) DEFAULT NULL,
@@ -369,15 +553,16 @@ CREATE TABLE `patients` (
 -- Volcado de datos para la tabla `patients`
 --
 
-INSERT INTO `patients` (`id`, `location_id`, `patient_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `home_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insurer`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `elegibility_day`, `eligibility`, `patient_control`, `pa_assessments`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `rbt_id`, `rbt2_id`, `bcba_id`, `bcba2_id`, `clin_director_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(4, NULL, 'prueba4', 'prueba4', 'prueba4', 'prueba4@prueba4.com', '2132', 'prueba4, prueba4, prueba4', 'prueba4', 'prueba4', '534354', '234423', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 2, '2024-01-27 16:00:00', '32', 'patients/gpZvc8J7nt67vm0qUMMAfhNNfKnAtMH1zzr6r3HD.jpg', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', '2', 'prueba4', 'prueba4', '2024-01-26 16:00:00', '03', '3243/432', '2545/354543', '20%/43%', '12/12', '340/434', 'prueba4', NULL, 'yes', 'prueba4', NULL, NULL, 'prueba4', 'waiting', 'requested', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'psycho eval', '2 insurance', '2 insurance', 5, 3, 3, 3, 4, '2024-01-28 01:39:48', '2024-01-28 01:46:25', NULL),
-(5, NULL, 'cliente3243', 'ClientePrueba', 'ClienteAp', 'ClientePrueba@cliente.com', '3234', 'ads, dsadsa, adsdsa,dasdas', 'daad', 'das', '23443', '23432', 'dsada', 'dasda', 'asd', 'dsadsa', 'dsasd', 1, '2024-01-23 16:00:00', '23', 'patients/hacQifivrjCOOU1U9NjAmi2SUIOO5q0jD4vQICSY.jpg', 'dasdsa', 'adsdsa', 'ddas', 'dasda', 'dsaad', 'dsads', '2', 'dsadas', 'adsdsa', '2024-01-24 16:00:00', '03', '32320/2332', '2323/2332', '23/32', '23/23', '324/3232', 'dadsda', NULL, 'yes', 'adsds', NULL, NULL, 'asddsa', 'waiting', 'requested', 'reviewing', 'reviewing', 'reviewing', 'psycho eval', 'psycho eval', 'reviewing', 'reviewing', 'reviewing', 1, 2, 3, 5, 4, '2024-01-30 21:39:09', '2024-01-30 21:39:31', NULL),
-(6, NULL, 'cliente3', 'Cliente3', 'Clientepe', 'Cliente3@cliente.com', '24334', 'adsdas', 'qdasdsa', 'dadsa', '234423', '234432', 'dasd', '3123321', 'Cliente3', NULL, NULL, 1, '2024-01-30 16:00:00', '14', 'patients/DCcvJc7Lc3pGGN0Brb2a29hCmBBgdJCMeAdC4lec.jpg', 'undefined', 'dsads', 'dasda', 'Cliente3', 'Cliente3', 'Cliente3', '1', 'das', 'das', '2024-01-31 16:00:00', '03', 'das', 'das', 'dsa', 'das', 'dsa', 'undefined', NULL, 'yes', 'dsa', NULL, NULL, 'das', 'requested', 'requested', 'reviewing', 'psycho eval', 'requested', 'reviewing', 'psycho eval', 'psycho eval', 'reviewing', 'reviewing', 3, 2, 2, 2, 2, '2024-01-31 02:32:32', '2024-02-02 17:35:22', NULL),
-(7, NULL, 'asd234', 'asdasddsa', 'asdasddsa', 'dasads@das.com', 'dasad', 'adsda, dasdas, adsdas', 'dasad', 'dada', 'dadas', 'dadsa', 'dasdas', 'dasda', 'das', 'dasdsa', 'dsads', 2, '2024-01-18 16:00:00', '32', 'patients/n7D5rEBEPBuzn13Q0GGMT01Vy6aF7cxkB5ka8VVO.jpg', 'asddsa', 'asdas', 'dasasd', 'dsadsa', 'dsads', 'dsasd', '2', 'das', 'dsa', '2024-01-11 16:00:00', '12', 'adsdsa', 'dsads', 'dsa', 'dsads', 'dsasd', 'dsasd', NULL, 'yes', 'asdads12321', NULL, NULL, 'das', 'waiting', 'requested', 'reviewing', 'psycho eval', 'need new', 'need new', '2 insurance', 'reviewing', 'yes', 'no', 4, 3, 4, 1, 4, '2024-02-01 01:07:31', '2024-02-01 03:34:12', NULL),
-(8, 2, 'cli32232', 'dsads', 'dsads', 'dsad', 'dasdas', 'dsaad', 'dsada', 'dsasd', 'dasddsa', 'dsaads', 'dsaads', 'dsaads', 'dasdas', 'dsads', 'dasdas', 1, '2024-10-01 08:00:00', '32', NULL, 'ddsadas', 'das', 'adsads', 'dsasd', 'dsaads', 'dsaasd', '2', 'saddsa', 'dsaads', '2024-01-26 08:00:00', '12', 'dasads', 'dsads', 'dsasd', 'dsads', 'dsaads', 'dsads', NULL, 'pending', 'dsaasd', '\"[{\\\"pa_assessment\\\":\\\"saads\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"dasads\\\",\\\"pa_services_start_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-07T04:00:00.000Z\\\"},{\\\"pa_assessment\\\":\\\"dasdas\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"dsadas\\\",\\\"pa_services_start_date\\\":\\\"2024-02-22T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-13T04:00:00.000Z\\\"}]\"', NULL, 'dasads', 'requested', 'psycho eval', 'need new', 'psycho eval', 'psycho eval', 'psycho eval', 'requested', 'yes', 'reviewing', 'requested', 6, 5, 7, 4, 1, '2024-02-01 01:36:04', '2024-02-03 20:36:20', NULL),
-(9, 1, 'adsds9999', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh, jhgjgh jhgjgh, jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 1, '2024-08-02 08:00:00', '12', 'patients/04E4P35o771AxL2Tow4OFDY3kQPAOA08uMzlxxiT.jpg', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', '1', 'fsdf', 'dasads', '2024-02-09 08:00:00', '12', 'asdads', 'dsa', 'dsa', 'dsa', 'das', 'jhgjgh', NULL, 'pending', 'dsa', '\"[{\\\"pa_assessment\\\":\\\"asd\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-07T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"das\\\",\\\"pa_services_start_date\\\":\\\"2024-02-21T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-21T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97153\\\",\\\"n_units\\\":\\\"asddsa\\\"},{\\\"pa_assessment\\\":\\\"dsadas\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"adsdas\\\",\\\"pa_services_start_date\\\":\\\"2024-02-09T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97156\\\",\\\"n_units\\\":\\\"das\\\"}]\"', NULL, 'sdf', 'waiting', 'psycho eval', 'psycho eval', 'psycho eval', 'psycho eval', '2 insurance', 'requested', 'need new', 'reviewing', 'reviewing', 6, 6, 7, 7, 1, '2024-02-03 23:16:34', '2024-02-03 23:18:27', NULL),
-(10, 3, 'fsddfs5', 'gfdfgd', 'fgdfgd', 'fdssd', 'fsdsfd', 'sdfsd', 'sfdfds', 'fdsdsf', 'fdssdf', 'fsddsffdsfsd', 'fdsfds', 'fsdfds', 'fdsfsd', 'fsdfsd', 'fdsfsd', 2, '2024-02-08 16:00:00', '34', NULL, 'fsdfs', 'fdsdf', 'fdsfd', 'fdssdf', 'fdsfd', 'fssd', '1', 'fdfdsfds', 'dfsfds', '2024-02-08 16:00:00', '12', 'dfsdsf', 'fdsdsf', 'fdsdfs', 'fdsfds', 'fsdfds', 'fdsfsd', NULL, 'pending', 'dfsfds', '\"[{\\\"pa_assessment\\\":\\\"fdsfsd\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"fdsdfs\\\",\\\"pa_services_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-29T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97155\\\",\\\"n_units\\\":\\\"fdsfds\\\"}]\"', NULL, 'fsdsdf', 'requested', 'waiting', 'psycho eval', 'need new', '2 insurance', 'psycho eval', '2 insurance', 'yes', 'psycho eval', '2 insurance', 6, 5, 7, 4, 1, '2024-02-03 23:34:13', '2024-02-07 04:15:51', NULL),
-(11, 3, 'revision1', 'revision2', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 2, '2024-02-07 16:00:00', '23', 'patients/tZ0LZWP0A4HqawCeyFp9ZXEbtdNl2GCzGhuCw94V.jpg', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'undefined', 'revision', 'revision', '2024-02-08 16:00:00', '12', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', NULL, 'pending', 'revision', '\"[]\"', NULL, 'revision', 'requested', 'reviewing', 'reviewing', 'reviewing', 'requested', 'reviewing', 'reviewing', 'requested', 'reviewing', 'reviewing', 6, 5, 7, 4, 3, '2024-02-07 19:21:08', '2024-02-08 08:59:26', NULL);
+INSERT INTO `patients` (`id`, `location_id`, `patient_id`, `first_name`, `last_name`, `email`, `phone`, `language`, `parent_guardian_name`, `relationship`, `home_phone`, `work_phone`, `school_name`, `school_number`, `zip`, `state`, `address`, `gender`, `birth_date`, `age`, `avatar`, `city`, `education`, `profession`, `schedule`, `summer_schedule`, `special_note`, `insurer_id`, `insuranceId`, `insuranceId_secundary`, `elegibility_date`, `pos_covered`, `deductible_individual_I_F`, `balance`, `coinsurance`, `copayments`, `oop`, `diagnosis_code`, `status`, `patient_control`, `pa_assessments`, `compayment_per_visit`, `insurer_secundary`, `welcome`, `consent`, `insurance_card`, `mnl`, `referral`, `ados`, `iep`, `asd_diagnosis`, `cde`, `submitted`, `eligibility`, `rbt_id`, `rbt2_id`, `bcba_id`, `bcba2_id`, `clin_director_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(4, NULL, 'prueba4', 'prueba4', 'prueba4', 'prueba4@prueba4.com', '2132', 'prueba4, prueba4, prueba4', 'prueba4', 'prueba4', '534354', '234423', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 2, '2024-01-27 16:00:00', '32', 'patients/gpZvc8J7nt67vm0qUMMAfhNNfKnAtMH1zzr6r3HD.jpg', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 2, 'prueba4', 'prueba4', '2024-01-26 16:00:00', '03', '3243/432', '2545/354543', '20%/43%', '12/12', '340/434', 'prueba4', 'yes', 'prueba4', NULL, NULL, 'prueba4', 'waiting', 'requested', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'reviewing', 'psycho eval', '2 insurance', '2 insurance', 'pending', 5, 3, 3, 3, 4, '2024-01-28 01:39:48', '2024-01-28 01:46:25', NULL),
+(5, NULL, 'cliente3243', 'ClientePrueba', 'ClienteAp', 'ClientePrueba@cliente.com', '3234', 'ads, dsadsa, adsdsa,dasdas', 'daad', 'das', '23443', '23432', 'dsada', 'dasda', 'asd', 'dsadsa', 'dsasd', 1, '2024-01-23 16:00:00', '23', 'patients/hacQifivrjCOOU1U9NjAmi2SUIOO5q0jD4vQICSY.jpg', 'dasdsa', 'adsdsa', 'ddas', 'dasda', 'dsaad', 'dsads', 2, 'dsadas', 'adsdsa', '2024-01-24 16:00:00', '03', '32320/2332', '2323/2332', '23/32', '23/23', '324/3232', 'dadsda', 'yes', 'adsds', NULL, NULL, 'asddsa', 'waiting', 'requested', 'reviewing', 'reviewing', 'reviewing', 'psycho eval', 'psycho eval', 'reviewing', 'reviewing', 'reviewing', 'pending', 1, 2, 3, 5, 4, '2024-01-30 21:39:09', '2024-01-30 21:39:31', NULL),
+(6, NULL, 'cliente3', 'Cliente3', 'Clientepe', 'Cliente3@cliente.com', '24334', 'adsdas', 'qdasdsa', 'dadsa', '234423', '234432', 'dasd', '3123321', 'Cliente3', NULL, NULL, 1, '2024-01-30 16:00:00', '14', 'patients/DCcvJc7Lc3pGGN0Brb2a29hCmBBgdJCMeAdC4lec.jpg', 'undefined', 'dsads', 'dasda', 'Cliente3', 'Cliente3', 'Cliente3', 1, 'das', 'das', '2024-01-31 16:00:00', '03', 'das', 'das', 'dsa', 'das', 'dsa', 'undefined', 'yes', 'dsa', NULL, NULL, 'das', 'requested', 'requested', 'reviewing', 'psycho eval', 'requested', 'reviewing', 'psycho eval', 'psycho eval', 'reviewing', 'reviewing', 'pending', 3, 2, 2, 2, 2, '2024-01-31 02:32:32', '2024-02-02 17:35:22', NULL),
+(7, NULL, 'asd234', 'asdasddsa', 'asdasddsa', 'dasads@das.com', 'dasad', 'adsda, dasdas, adsdas', 'dasad', 'dada', 'dadas', 'dadsa', 'dasdas', 'dasda', 'das', 'dasdsa', 'dsads', 2, '2024-01-18 16:00:00', '32', 'patients/n7D5rEBEPBuzn13Q0GGMT01Vy6aF7cxkB5ka8VVO.jpg', 'asddsa', 'asdas', 'dasasd', 'dsadsa', 'dsads', 'dsasd', 2, 'das', 'dsa', '2024-01-11 16:00:00', '12', 'adsdsa', 'dsads', 'dsa', 'dsads', 'dsasd', 'dsasd', 'yes', 'asdads12321', NULL, NULL, 'das', 'waiting', 'requested', 'reviewing', 'psycho eval', 'need new', 'need new', '2 insurance', 'reviewing', 'yes', 'no', 'pending', 4, 3, 4, 1, 4, '2024-02-01 01:07:31', '2024-02-01 03:34:12', NULL),
+(8, 2, 'cli32232', 'dsads', 'dsads', 'dsad', 'dasdas', 'dsaad', 'dsada', 'dsasd', 'dasddsa', 'dsaads', 'dsaads', 'dsaads', 'dasdas', 'dsads', 'dasdas', 1, '2024-10-01 08:00:00', '32', NULL, 'ddsadas', 'das', 'adsads', 'dsasd', 'dsaads', 'dsaasd', 2, 'saddsa', 'dsaads', '2024-01-26 08:00:00', '12', 'dasads', 'dsads', 'dsasd', 'dsads', 'dsaads', 'dsads', 'pending', 'dsaasd', '\"[{\\\"pa_assessment\\\":\\\"saads\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"dasads\\\",\\\"pa_services_start_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-07T04:00:00.000Z\\\"},{\\\"pa_assessment\\\":\\\"dasdas\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-08T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"dsadas\\\",\\\"pa_services_start_date\\\":\\\"2024-02-22T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-13T04:00:00.000Z\\\"}]\"', NULL, 'dasads', 'requested', 'psycho eval', 'need new', 'psycho eval', 'psycho eval', 'psycho eval', 'requested', 'yes', 'reviewing', 'requested', 'pending', 6, 5, 7, 4, 1, '2024-02-01 01:36:04', '2024-02-03 20:36:20', NULL),
+(9, 1, 'adsds9999', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh, jhgjgh jhgjgh, jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 1, '2024-08-02 08:00:00', '12', 'patients/04E4P35o771AxL2Tow4OFDY3kQPAOA08uMzlxxiT.jpg', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 'jhgjgh', 1, 'fsdf', 'dasads', '2024-02-09 08:00:00', '12', 'asdads', 'dsa', 'dsa', 'dsa', 'das', 'jhgjgh', 'pending', 'dsa', '\"[{\\\"pa_assessment\\\":\\\"asd\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-07T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"das\\\",\\\"pa_services_start_date\\\":\\\"2024-02-21T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-21T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97153\\\",\\\"n_units\\\":\\\"asddsa\\\"},{\\\"pa_assessment\\\":\\\"dsadas\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"adsdas\\\",\\\"pa_services_start_date\\\":\\\"2024-02-09T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97156\\\",\\\"n_units\\\":\\\"das\\\"}]\"', NULL, 'sdf', 'waiting', 'psycho eval', 'psycho eval', 'psycho eval', 'psycho eval', '2 insurance', 'requested', 'need new', 'reviewing', 'reviewing', 'pending', 6, 6, 7, 7, 1, '2024-02-03 23:16:34', '2024-02-03 23:18:27', NULL),
+(10, 3, 'fsddfs5', 'gfdfgd', 'fgdfgd', 'fdssd', 'fsdsfd', 'sdfsd', 'sfdfds', 'fdsdsf', 'fdssdf', 'fsddsffdsfsd', 'fdsfds', 'fsdfds', 'fdsfsd', 'fsdfsd', 'fdsfsd', 2, '2024-02-08 16:00:00', '34', NULL, 'fsdfs', 'fdsdf', 'fdsfd', 'fdssdf', 'fdsfd', 'fssd', 1, 'fdfdsfds', 'dfsfds', '2024-02-08 16:00:00', '12', 'dfsdsf', 'fdsdsf', 'fdsdfs', 'fdsfds', 'fsdfds', 'fdsfsd', 'pending', 'dfsfds', '\"[{\\\"pa_assessment\\\":\\\"fdsfsd\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"fdsdfs\\\",\\\"pa_services_start_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-29T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97155\\\",\\\"n_units\\\":\\\"fdsfds\\\"}]\"', NULL, 'fsdsdf', 'requested', 'waiting', 'psycho eval', 'need new', '2 insurance', 'psycho eval', '2 insurance', 'yes', 'psycho eval', '2 insurance', 'pending', 6, 5, 7, 4, 1, '2024-02-03 23:34:13', '2024-02-07 04:15:51', NULL),
+(11, 3, 'revision1', 'revision2', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 2, '2024-02-07 16:00:00', '23', 'patients/tZ0LZWP0A4HqawCeyFp9ZXEbtdNl2GCzGhuCw94V.jpg', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 2, 'revision', 'revision', '2024-02-08 16:00:00', '12', 'revision', 'revision', 'revision', 'revision', 'revision', 'revision', 'pending', 'revision', '\"[]\"', NULL, 'revision', 'requested', 'reviewing', 'reviewing', 'reviewing', 'requested', 'reviewing', 'reviewing', 'requested', 'reviewing', 'reviewing', 'pending', 6, 5, 7, 4, 3, '2024-02-07 19:21:08', '2024-02-10 05:05:25', NULL),
+(12, 2, 'pbene01', 'prueba', 'beneficios', 'beneficios@beneficios.com', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 2, '2024-02-09 16:00:00', '3', 'patients/HU5aESUxm9Y7MN0LNv1V8sefRtD2vr7Ez0x2IPhs.jpg', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 'beneficios', 1, 'beneficios', 'beneficios', '2024-02-15 16:00:00', '12', 'beneficios/beneficios', 'beneficios/beneficios', 'beneficios/beneficios', 'beneficios/beneficios', 'beneficios', 'beneficios', 'pending', 'beneficios', '\"[{\\\"pa_assessment\\\":\\\"beneficios\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-09T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"beneficios2\\\",\\\"pa_services_start_date\\\":\\\"2024-02-16T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"cpt\\\":\\\"H0032\\\",\\\"n_units\\\":\\\"beneficios\\\"},{\\\"pa_assessment\\\":\\\"asdsa\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-15T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"asd\\\",\\\"pa_services_start_date\\\":\\\"2024-02-21T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-22T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97156\\\",\\\"n_units\\\":23},{\\\"pa_assessment\\\":\\\"dsadas\\\",\\\"pa_assessment_start_date\\\":\\\"2024-02-07T04:00:00.000Z\\\",\\\"pa_assessment_end_date\\\":\\\"2024-02-14T04:00:00.000Z\\\",\\\"pa_services\\\":\\\"asddas\\\",\\\"pa_services_start_date\\\":\\\"2024-02-06T04:00:00.000Z\\\",\\\"pa_services_end_date\\\":\\\"2024-02-29T04:00:00.000Z\\\",\\\"cpt\\\":\\\"97157\\\",\\\"n_units\\\":33}]\"', NULL, 'beneficios', 'yes', 'requested', 'need new', 'requested', 'psycho eval', 'reviewing', 'need new', 'need new', 'psycho eval', 'need new', 'requested', 6, 5, 4, 7, 1, '2024-02-08 21:52:19', '2024-02-12 23:50:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -479,8 +664,8 @@ CREATE TABLE `reduction_goals` (
 --
 
 INSERT INTO `reduction_goals` (`id`, `maladaptive`, `current_status`, `patient_id`, `client_id`, `bip_id`, `goalstos`, `goalltos`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Negative Self talk', '15days', 'cliente3243', 5, 1, '[{\"sto\": \"dads\", \"date_sto\": \"2024-02-14T04:00:00.000Z\", \"status_sto\": \"initiated\", \"maladaptive\": \"Negative Self talk\", \"decription_sto\": \"asddsa\"}, {\"sto\": \"das\", \"date_sto\": \"2024-02-15T04:00:00.000Z\", \"status_sto\": \"mastered\", \"maladaptive\": \"Negative Self talk\", \"decription_sto\": \"dasads\"}]', '[{\"lto\": \"ads\", \"date_lto\": \"2024-02-21T04:00:00.000Z\", \"status_lto\": \"mastered\", \"decription_lto\": \"dasdsa\"}]', '2024-02-08 04:23:00', '2024-02-08 04:23:00', NULL),
-(3, 'dasdsa', '25 days', 'cliente3243', 5, 1, '[{\"sto\": \"dads\", \"date_sto\": \"2024-02-14T04:00:00.000Z\", \"status_sto\": \"initiated\", \"maladaptive\": \"Negative Self talk\", \"decription_sto\": \"asddsa\"}, {\"sto\": \"das\", \"date_sto\": \"2024-02-15T04:00:00.000Z\", \"status_sto\": \"mastered\", \"maladaptive\": \"Negative Self talk\", \"decription_sto\": \"dasads\"}, {\"sto\": \"1\", \"date_sto\": \"2024-02-15T04:00:00.000Z\", \"status_sto\": \"initiated\", \"maladaptive\": \"dasdsa\", \"decription_sto\": \"asddas\"}]', '[{\"lto\": \"ads\", \"date_lto\": \"2024-02-21T04:00:00.000Z\", \"status_lto\": \"mastered\", \"decription_lto\": \"dasdsa\"}, {\"lto\": \"1\", \"date_lto\": \"2024-02-06T04:00:00.000Z\", \"status_lto\": \"initiated\", \"decription_lto\": \"dasdsa1\"}]', '2024-02-08 08:46:58', '2024-02-08 08:46:58', NULL);
+(1, 'Negative Self talk', '15 incidents per week', 'cliente3243', 5, 1, '[{\"sto\": \"STO3\", \"date_sto\": \"2024-02-14T04:00:00.000Z\", \"status_sto\": \"on hold\", \"maladaptive\": \"dasdsa\", \"decription_sto\": \"sdasa\", \"status_sto_edit\": \"mastered\"}, {\"sto\": \"1\", \"date_sto\": \"2024-02-13T04:00:00.000Z\", \"status_sto\": \"mastered\", \"maladaptive\": \"Negative Self talk\", \"decription_sto\": \"jghjgjhg\", \"status_sto_edit\": \"mastered\"}]', '[{\"lto\": \"23\", \"date_lto\": \"2024-02-14T04:00:00.000Z\", \"status_lto\": \"discontinued\", \"decription_lto\": \"dasas\"}]', '2024-02-10 07:05:36', '2024-02-12 20:05:25', NULL),
+(2, 'dasdsa', 'das', 'cliente3243', 5, 1, '[{\"sto\": \"STO3\", \"date_sto\": \"2024-02-14T04:00:00.000Z\", \"status_sto\": \"mastered\", \"maladaptive\": \"dasdsa\", \"decription_sto\": \"sdasa\", \"status_sto_edit\": \"mastered\"}]', '[{\"lto\": \"23\", \"date_lto\": \"2024-02-14T04:00:00.000Z\", \"status_lto\": \"discontinued\", \"decription_lto\": \"dasas\"}]', '2024-02-10 22:21:20', '2024-02-10 22:21:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -552,7 +737,40 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (35, 6),
 (41, 6),
 (43, 6),
-(44, 6);
+(44, 6),
+(47, 6),
+(48, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sustitution_goals`
+--
+
+CREATE TABLE `sustitution_goals` (
+  `id` bigint(20) NOT NULL,
+  `maladaptive` varchar(255) DEFAULT NULL,
+  `description` text,
+  `current_sustitution` varchar(155) DEFAULT NULL,
+  `patient_id` varchar(150) DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `bip_id` bigint(20) UNSIGNED NOT NULL,
+  `goalstos` json DEFAULT NULL,
+  `goalltos` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `sustitution_goals`
+--
+
+INSERT INTO `sustitution_goals` (`id`, `maladaptive`, `description`, `current_sustitution`, `patient_id`, `client_id`, `bip_id`, `goalstos`, `goalltos`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 'Negative Self talk', 'dasdas', NULL, 'cliente3243', 5, 1, '[{\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asddas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"mastered\", \"sustitution_decription_sto\": \"adsdas\", \"sustitution_status_sto_edit\": \"mastered\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asdasdas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"discontinued\", \"sustitution_decription_sto\": \"asddas\", \"sustitution_status_sto_edit\": \"discontinued\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"dsa\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"mastered\", \"sustitution_decription_sto\": \"adsdasads\", \"sustitution_status_sto_edit\": \"mastered\"}]', '[{\"sustitution_lto\": \"saddsa\", \"sustitution_date_lto\": \"2024-02-06T04:00:00.000Z\", \"sustitution_status_lto\": \"initiated\", \"sustitution_decription_lto\": \"dsadas\"}]', '2024-02-15 06:00:50', '2024-02-15 06:13:45', NULL),
+(3, 'Negative Self talk', 'dasdas', 'saddas', 'cliente3243', 5, 1, '[{\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"ads\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"sustitution_decription_sto\": \"dsadsa\", \"sustitution_status_sto_edit\": \"initiated\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asddas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"mastered\", \"sustitution_decription_sto\": \"adsdas\", \"sustitution_status_sto_edit\": \"mastered\"}]', '[{\"sustitution_lto\": \"saddsa\", \"sustitution_date_lto\": \"2024-02-06T04:00:00.000Z\", \"sustitution_status_lto\": \"initiated\", \"sustitution_decription_lto\": \"dsadas\"}]', '2024-02-15 06:05:04', '2024-02-15 06:05:04', NULL),
+(4, 'Negative Self talk', 'dasdas', NULL, 'cliente3243', 5, 1, '[{\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"ads\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"sustitution_decription_sto\": \"dsadsa\", \"sustitution_status_sto_edit\": \"initiated\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asddas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"mastered\", \"sustitution_decription_sto\": \"adsdas\", \"sustitution_status_sto_edit\": \"mastered\"}]', '[{\"sustitution_lto\": \"saddsa\", \"sustitution_date_lto\": \"2024-02-06T04:00:00.000Z\", \"sustitution_status_lto\": \"initiated\", \"sustitution_decription_lto\": \"dsadas\"}]', '2024-02-15 06:07:10', '2024-02-15 06:07:10', NULL),
+(5, 'Negative Self talk', 'dasdas', NULL, 'cliente3243', 5, 1, '[{\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"ads\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"sustitution_decription_sto\": \"dsadsa\", \"sustitution_status_sto_edit\": \"initiated\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asddas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"mastered\", \"sustitution_decription_sto\": \"adsdas\", \"sustitution_status_sto_edit\": \"mastered\"}, {\"maladaptive\": \"Negative Self talk\", \"sustitution_sto\": \"asdasdas\", \"sustitution_date_sto\": \"2024-02-20T04:00:00.000Z\", \"sustitution_status_sto\": \"discontinued\", \"sustitution_decription_sto\": \"asddas\", \"sustitution_status_sto_edit\": \"discontinued\"}]', '[{\"sustitution_lto\": \"saddsa\", \"sustitution_date_lto\": \"2024-02-06T04:00:00.000Z\", \"sustitution_status_lto\": \"initiated\", \"sustitution_decription_lto\": \"dsadas\"}]', '2024-02-15 06:08:07', '2024-02-15 06:08:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -626,13 +844,19 @@ INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `g
 (2, 'Admin', 'manager@manager.com', 'Manager', '123456', '2024-01-25 16:00:00', 1, 'dasdsa', 'staffs/WdpkCmttLTmbxhXDM7FQhzWheWgr8eEbqYfMqNt4.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$X9YH3UjUALq07nGq7S5FLe6bAWZ0t6yPhNjHddtS1t9ju8FElC/UO', NULL, '2024-01-26 01:13:28', '2024-02-07 00:18:01', NULL),
 (3, 'Tecnico', 'lm@lm.com', 'Doctor', '123456', '2024-01-25 08:00:00', 1, 'password', 'staffs/Br3ln1TSmcLTuQrAGbQtsxiTkmpJk2kONcvDchFB.jpg', 'active', 'dsaads', 'adsdsa', 'dsaad', 'adsdas', NULL, 'dasdsad', 'asdas', 'dasdas, adsdsa', 'adsads', 'adsdsa', '2024-01-25 08:00:00', '2024-01-30 08:00:00', '2030-07-26 08:00:00', 'asddas', 'dasadsd', 'asdas', 'dasads', 'dsaads', '2026-01-22 04:00:00', 'dsadas', 'dasdas', 'dasads', 'dasdas', 'dsadas', 'yes', 'dasads', 'ads', 'yes', 'dsadas', 'yes', 'no', 'yes', 'no', 'asddas', 'dsadsa', '1099', 2000, 1, NULL, '$2y$10$L9GFjttLbOyyhynDcDaKBeObcfvVA7nZ3cLph0pZvozLqsdYiXgrC', NULL, '2024-01-26 01:17:03', '2024-02-07 17:29:28', NULL),
 (4, 'Doctor', 'bcba@bcba.com', 'Bcba', '123456', '2024-01-25 16:00:00', 2, 'dsadas', 'staffs/RbbNRabSWaxhSWcOX0J2GFRArBZAaWyf2cGEiCi1.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$nBs3RhKzpnMrN6NVJyc8FeIPjKtfQ6CNm63LM5KTsgt8XkbBsk4ma', NULL, '2024-01-26 01:17:55', '2024-02-07 00:17:51', NULL),
-(5, 'doctor', 'rbt@rbt.com', 'Rbt', '123456', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'inactive', 'prueba4', 'prueba4', 'prueba4', 'prueba4', NULL, 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', 'prueba4', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 04:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, 3, NULL, '$2y$10$5YsgbtRGSUHpczYoTBETke3S/IfYzsv4q.WP2LrKUO1sFjDoNt7..', NULL, '2024-01-26 01:18:43', '2024-02-07 17:12:14', NULL),
-(6, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 08:00:00', 2, 'mariae2004', 'staffs/cm0erQamszXAiBjp5QjKlXoBMXdkjLSwMbo0Hlwt.jpg', 'black list', NULL, NULL, NULL, NULL, 'http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/undefined', NULL, NULL, NULL, NULL, NULL, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', NULL, NULL, NULL, NULL, NULL, '1970-01-01 04:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 3, NULL, '$2y$10$q/ZdnNEwG3L30uQ9adJpLuwEd2PIZeXXS3ZTPxFLCL.JJQu.vn3T2', NULL, '2024-01-31 02:27:09', '2024-02-07 17:12:10', NULL),
-(7, 'Alain', 'alain@practice-mgmt.com', 'Hernandez', '2397101864', '2024-03-11 08:00:00', 1, 'practice', 'staffs/ZNIhSxgjALKEfZp2wFDbkrRg9ANnGK1Yvwec3EcB.jpg', 'incoming', 'das', 'das', 'ads', 'prueba', 'http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/undefined', NULL, 'asd', 'dasdsa', 'das', NULL, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'das', 'das', 'dsa', 'dasd', '1970-01-01 04:00:00', 'dasda', 'dasad', 'dad', 'dasd', 'das', 'yes', 'das', 'ads', 'yes', 'adsdas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$NnOEBxaztsMzzwCmVkNyr.MNhYhWCH.9d7TTywz35Rfi876.T6vzS', NULL, '2024-01-31 02:29:13', '2024-02-07 17:12:06', NULL);
+(5, 'doctor', 'rbt@rbt.com', 'Rbt', '123456', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'active', 'prueba4', 'prueba4', 'prueba4', 'prueba4', NULL, 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', 'prueba4', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 04:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, 3, NULL, '$2y$10$5YsgbtRGSUHpczYoTBETke3S/IfYzsv4q.WP2LrKUO1sFjDoNt7..', NULL, '2024-01-26 01:18:43', '2024-02-09 17:12:08', NULL),
+(6, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 08:00:00', 2, 'mariae2004', 'staffs/cm0erQamszXAiBjp5QjKlXoBMXdkjLSwMbo0Hlwt.jpg', 'active', NULL, NULL, NULL, NULL, 'http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/undefined', NULL, NULL, NULL, NULL, NULL, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', NULL, NULL, NULL, NULL, NULL, '1970-01-01 04:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 3, NULL, '$2y$10$q/ZdnNEwG3L30uQ9adJpLuwEd2PIZeXXS3ZTPxFLCL.JJQu.vn3T2', NULL, '2024-01-31 02:27:09', '2024-02-09 17:12:04', NULL),
+(7, 'Alain', 'alain@practice-mgmt.com', 'Hernandez', '2397101864', '2024-03-11 08:00:00', 1, 'practice', 'staffs/ZNIhSxgjALKEfZp2wFDbkrRg9ANnGK1Yvwec3EcB.jpg', 'active', 'das', 'das', 'ads', 'prueba', 'http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/http://127.0.0.1:8000/storage/undefined', NULL, 'asd', 'dasdsa', 'das', NULL, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'das', 'das', 'dsa', 'dasd', '1970-01-01 04:00:00', 'dasda', 'dasad', 'dad', 'dasd', 'das', 'yes', 'das', 'ads', 'yes', 'adsdas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$NnOEBxaztsMzzwCmVkNyr.MNhYhWCH.9d7TTywz35Rfi876.T6vzS', NULL, '2024-01-31 02:29:13', '2024-02-09 17:12:00', NULL);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `behavior_asistants`
+--
+ALTER TABLE `behavior_asistants`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `bips`
@@ -647,9 +871,27 @@ ALTER TABLE `bip_files`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `consent_to_treatments`
+--
+ALTER TABLE `consent_to_treatments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `contacts`
 --
 ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `crisis_plans`
+--
+ALTER TABLE `crisis_plans`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `de_escalation_techniques`
+--
+ALTER TABLE `de_escalation_techniques`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -658,6 +900,18 @@ ALTER TABLE `contacts`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indices de la tabla `family_envolments`
+--
+ALTER TABLE `family_envolments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `generalization_trainings`
+--
+ALTER TABLE `generalization_trainings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `insurances`
@@ -703,6 +957,12 @@ ALTER TABLE `model_has_permissions`
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indices de la tabla `monitoring_evaluatings`
+--
+ALTER TABLE `monitoring_evaluatings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `password_resets`
@@ -758,6 +1018,12 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indices de la tabla `sustitution_goals`
+--
+ALTER TABLE `sustitution_goals`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
@@ -767,6 +1033,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `behavior_asistants`
+--
+ALTER TABLE `behavior_asistants`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `bips`
@@ -781,16 +1053,46 @@ ALTER TABLE `bip_files`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `consent_to_treatments`
+--
+ALTER TABLE `consent_to_treatments`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT de la tabla `contacts`
 --
 ALTER TABLE `contacts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `crisis_plans`
+--
+ALTER TABLE `crisis_plans`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `de_escalation_techniques`
+--
+ALTER TABLE `de_escalation_techniques`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `family_envolments`
+--
+ALTER TABLE `family_envolments`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `generalization_trainings`
+--
+ALTER TABLE `generalization_trainings`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `insurances`
@@ -823,10 +1125,16 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `monitoring_evaluatings`
+--
+ALTER TABLE `monitoring_evaluatings`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
@@ -844,7 +1152,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `reduction_goals`
 --
 ALTER TABLE `reduction_goals`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_clinicos`
@@ -857,6 +1165,12 @@ ALTER TABLE `registro_clinicos`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `sustitution_goals`
+--
+ALTER TABLE `sustitution_goals`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

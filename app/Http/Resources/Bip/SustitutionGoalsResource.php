@@ -18,6 +18,7 @@ class SustitutionGoalsResource extends JsonResource
         return [
             "id"=>$this->resource->id,
             "maladaptive"=>$this->resource->maladaptive,
+            "client_id"=>$this->resource->client_id,
             "patient_id"=>$this->resource->patient_id,
             "current_sustitution"=>$this->resource->current_sustitution,
             "bip_id"=>$this->resource->bip_id,

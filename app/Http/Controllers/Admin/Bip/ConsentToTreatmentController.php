@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Bip;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Bip\ConsentToTreatment;
@@ -57,6 +59,7 @@ class ConsentToTreatmentController extends Controller
             $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->parent_guardian_signature_date );
             $request->request->add(["parent_guardian_signature_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
+
         
         $consentToTreatment = ConsentToTreatment::create($request->all());
         
