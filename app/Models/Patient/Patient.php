@@ -221,30 +221,30 @@ class Patient extends Model
     
 
 
-    public function rbt()
+    public function rbts()
         {
             return $this->hasMany(User::class);
         }
-    public function rbt2()
+    public function rbt2s()
         {
             return $this->hasMany(User::class);
         }
-    public function bcba()
+    public function bcbas()
         {
             return $this->hasMany(User::class);
         }
-    public function bcba2()
+    public function bcba2s()
         {
             return $this->hasMany(User::class);
         }
-    public function clin_director()
+    public function clin_directors()
         {
             return $this->hasMany(User::class);
         }
 
-    public function insurer()
+    public function insurances()
     {
-        return $this->hasMany(Insurance::class, 'insurer_id');
+        return $this->hasMany(Insurance::class);
     }
     public function bip()
     {
@@ -256,7 +256,7 @@ class Patient extends Model
         return $this->hasMany(ReductionGoal::class, 'patient_id');
     }
 
-    public function location()
+    public function locations()
     {
         return $this->hasMany(Location::class);
     }

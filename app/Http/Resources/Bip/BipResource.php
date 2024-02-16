@@ -21,7 +21,7 @@ class BipResource extends JsonResource
             "id"=>$this->resource->id,
             "type_of_assessment"=>$this->resource->type_of_assessment,
             
-            "patientID"=>$this->resource->patientID,
+            // "patientID"=>$this->resource->patientID,
             
             "doctor_id" =>$this->resource->doctor_id,
             "doctor" =>$this->resource->doctor ? 
@@ -37,18 +37,7 @@ class BipResource extends JsonResource
                     //             "price"=> $this->resource->doctor->speciality->price,
                     //         ]:NULL,
                 ]: NULL,
-            "client_id"=>$this->resource->client_id,
-            "client" =>$this->resource->client ?
-                [
-                    "id" =>$this->resource->client->id,
-                    "first_name" =>$this->resource->client->first_name,
-                    "last_name" =>$this->resource->client->last_name,
-                    "full_name" =>$this->resource->client->first_name.' '.$this->resource->client->last_name,
-                    "phone" =>$this->resource->client->phone,
-                    "patientID" =>$this->resource->client->patientID,
-                    "name_companion" =>$this->resource->client->person->name_companion,
-                    "surname_companion" =>$this->resource->client->person->surname_companion,
-                ]: NUll,
+            "patient_id"=>$this->resource->patient_id,
             "background_information"=>$this->resource->background_information,
             "previus_treatment_and_result"=>$this->resource->previus_treatment_and_result,
             "current_treatment_and_progress"=>$this->resource->current_treatment_and_progress,
@@ -67,70 +56,20 @@ class BipResource extends JsonResource
             
 
 
-            "reduction_goal"=>$this->resource->reduction_goals ? 
-                [
-                    "id"=> $this->resource->reduction_goal->id,
-                    "maladaptive"=>$this->resource->maladaptive,
-                    "current_status"=>$this->resource->current_status,
-                    "goal_stos"=>json_decode($this->resource->goal_stos),
-                    "goal_ltos"=>json_decode($this->resource->goal_ltos),
-                ]: NULL,
+            "reduction_goal"=>$this->resource->reduction_goals ,
+            "sustitution_goal"=>$this->resource->sustitution_goals , 
+                
+            "family_envolment"=>$this->resource->family_envolments ,
+            "monitoring_evalutating"=>$this->resource->monitoring_evalutatings ,
+            "behavior_asistant"=>$this->resource->behavior_asistants ,
+            "generalization_training"=>$this->resource->generalization_trainings ,
+            "crisis_plan"=>$this->resource->crisis_plans ,
+            "de_escalation_technique"=>$this->resource->de_escalation_techniques ,
+            "consent_to_treatment"=>$this->resource->consent_to_treatments,
             
             
             
-            //no borrar
-            // "behavior"=>$this->resource->behavior,
-            // "hypothesized_functions"=>$this->resource->hypothesized_functions,
-            // "pairing"=>$this->resource->pairing,
-            // "premack_principal"=>$this->resource->premack_principal,
-            // "response_block"=>$this->resource->response_block,
-            // "dro"=>$this->resource->dro,
-            // "dra"=>$this->resource->dra,
-            // "errorless_teaching"=>$this->resource->errorless_teaching,
-            // "redirection"=>$this->resource->redirection,
-            // "ncr"=>$this->resource->ncr,
-            // "shaping"=>$this->resource->shaping,
-            // "chaining"=>$this->resource->chaining,
-            // 'files'=>$this->resource-> files->map(function($file){
-            //     return [
-            //         'id'=> $file->id,
-            //         'bip_id'=> $file->bip_id,
-            //         'name_file'=> $file->name_file,
-            //         'size'=> $file->size,
-            //         'file'=> env("APP_URL")."storage/".$file->file,
-            //         'type'=> $file->type,
-            //     ];
-            // }),
-            // "reduction"=>$this->resource->reduction ? [
-            //     "id"=>$this->resource->reduction->id,
-            //     "bip_id"=>$this->resource->reduction->bip_id,
-            //     "goal"=>$this->resource->reduction->goal,
-            //     "description"=>$this->resource->reduction->description,
-            //     "status"=>$this->resource->reduction->status,
-            //     "date"=>$this->resource->reduction->date ? Carbon::parse($this->resource->reduction->date)->format("Y/m/d") : NULL,
-            // ]:NULL,
-            // "maladaptive"=>$this->resource->maladaptive ? [
-            //     "id"=>$this->resource->maladaptive->id,
-            //     "client_id"=>$this->resource->maladaptive->client_id,
-            //     "title"=>$this->resource->maladaptive->title,
-            //     "bl_week"=>$this->resource->maladaptive->bl_week,
-            //     "reduction_w"=>$this->resource->maladaptive->reduction_w,
-            //     "s_date"=>$this->resource->maladaptive->s_date,
-            //     "s_value"=>$this->resource->maladaptive->s_value,
-            //     "m_date"=>$this->resource->maladaptive->m_date,
-            //     "m_date"=>$this->resource->maladaptive->m_date,
-            //     "t_date"=>$this->resource->maladaptive->t_date,
-            //     "t_value"=>$this->resource->maladaptive->t_value,
-            //     "w_date"=>$this->resource->maladaptive->w_date,
-            //     "w_value"=>$this->resource->maladaptive->w_value,
-            //     "th_date"=>$this->resource->maladaptive->th_date,
-            //     "th_value"=>$this->resource->maladaptive->th_value,
-            //     "f_date"=>$this->resource->maladaptive->f_date,
-            //     "f_value"=>$this->resource->maladaptive->f_value,
-            //     "st_date"=>$this->resource->maladaptive->st_date,
-            //     "st_value"=>$this->resource->maladaptive->st_value,
-            //     "totals"=>$this->resource->maladaptive->totals,
-            // ]:NULL,
+            
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 

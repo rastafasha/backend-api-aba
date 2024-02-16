@@ -96,8 +96,8 @@ class DoctorController extends Controller
             $request->request->add(["avatar"=>$path]);
         }
 
-        if($request->hasFile('signature')){
-            $path = Storage::putFile("signatures", $request->file('electronic_signature'));
+        if($request->hasFile('imagenn')){
+            $path = Storage::putFile("signatures", $request->file('imagenn'));
             $request->request->add(["electronic_signature"=>$path]);
         }
 
@@ -188,11 +188,11 @@ class DoctorController extends Controller
             $path = Storage::putFile("staffs", $request->file('imagen'));
             $request->request->add(["avatar"=>$path]);
         }
-        if($request->hasFile('signature')){
+        if($request->hasFile('imagenn')){
             if($user->electronic_signature){
                 Storage::delete($user->electronic_signature);
             }
-            $path = Storage::putFile("signatures", $request->file('electronic_signature'));
+            $path = Storage::putFile("signatures", $request->file('imagenn'));
             $request->request->add(["electronic_signature"=>$path]);
         }
         

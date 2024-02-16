@@ -156,7 +156,6 @@ class ReductionGoalController extends Controller
         return response()->json([
             "message"=>200,
             "reduction_goal"=>$reduction_goal,
-            // "patient_id"=>$patient_id,
             "goalstos"=>json_decode($reduction_goal-> goalstos),
             "goalltos"=>json_decode($reduction_goal-> goalltos),
         ]);
@@ -214,6 +213,7 @@ class ReductionGoalController extends Controller
     // , $patient_id
     public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
     {
+        $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
         
         // $patient_is_valid = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();
         // $patient_id = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();

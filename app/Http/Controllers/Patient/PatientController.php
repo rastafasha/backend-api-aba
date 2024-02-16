@@ -147,10 +147,16 @@ class PatientController extends Controller
     {
         
         $patient = Patient::findOrFail($id);
+        $specialists = User::where("status",'active')->get();
+        $insurances = Insurance::get();
+        $locations = Location::get();
 
 
         return response()->json([
             "patient" => $patient,
+            "specialists" => $specialists,
+            "insurances" => $insurances,
+            "locations" => $locations,
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             
             // "patient" => PatientResource::make($patient),

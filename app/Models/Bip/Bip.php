@@ -1,10 +1,18 @@
 <?php
 
 namespace App\Models\Bip;
+use App\Models\User;
+use App\Models\Bip\CrisisPlan;
 use App\Models\Bip\Maladaptive;
 use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
+use App\Models\Bip\FamilyEnvolment;
+use App\Models\Bip\SustitutionGoal;
+use App\Models\Bip\BehaviorAsistant;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Bip\MonitoringEvaluating;
+use App\Models\Bip\DeEscalationTechnique;
+use App\Models\Bip\GeneralizationTraining;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -46,9 +54,9 @@ class Bip extends Model
     ];
 
 
-     public function client()
+     public function patient()
     {
-        return $this->hasOne(Patient::class, 'client_id');
+        return $this->hasOne(Patient::class, 'patient_id');
     }
 
     public function doctor() {
@@ -65,8 +73,54 @@ class Bip extends Model
     // }
      public function reduction_goals()
     {
-        return $this->hasMany(ReductionGoal::class,'reduction_id');
+        return $this->hasMany(ReductionGoal::class);
     }
+
+    public function sustitution_goals()
+    {
+        return $this->hasMany(SustitutionGoal::class);
+    }
+
+    public function family_envolments()
+    {
+        return $this->hasMany(FamilyEnvolment::class);
+    }
+
+    public function monitoring_evalutatings()
+    {
+        return $this->hasMany(MonitoringEvaluating::class);
+    }
+
+     public function behavior_asistants()
+    {
+        return $this->hasMany(BehaviorAsistant::class);
+    }
+
+    public function generalization_trainings()
+    {
+        return $this->hasMany(GeneralizationTraining::class);
+    }
+
+    public function crisis_plans()
+    {
+        return $this->hasMany(CrisisPlan::class);
+    }
+
+    public function de_escalation_techniques()
+    {
+        return $this->hasMany(DeEscalationTechnique::class);
+    }
+
+    public function consent_to_treatments()
+    {
+        return $this->hasMany(ConsentTotreatment::class);
+    }
+    
+    
+    
+    
+    
+    
 
     // public function bip_files(){
     //     return $this->hasMany(BipFile::class, "documents_reviewed");

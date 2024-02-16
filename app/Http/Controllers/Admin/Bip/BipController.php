@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Bip;
 
+
 use App\Models\User;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
@@ -154,13 +155,13 @@ class BipController extends Controller
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
         $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
-        // $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
+        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
         
     
         return response()->json([
             "id"=>$bip->id,
             "bip" => $bip,
-            // "reduction_goal" => $reduction_goal,
+            "reduction_goal" => $reduction_goal,
             "goalsmaladaptive" => $goalsmaladaptive,
             // "bip" => BipResource::make($bip),
             "type_of_assessment" =>$bip->type_of_assessment,
@@ -169,6 +170,31 @@ class BipController extends Controller
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+            
+            
+        ]);
+
+        
+    }
+
+    public function showBipPatientIdProfile($patient_id)
+    {
+        $bip = Bip::where("patient_id", $patient_id)->first();
+        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
+        // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
+    
+        return response()->json([
+            "bip" => BipResource::make($bip),
+            "patient" => $patient,
+            // "reduction_goal" => $reduction_goal,
+            // "goalsmaladaptive" => $goalsmaladaptive,
+            // "type_of_assessment" =>$bip->type_of_assessment,
+            // "documents_reviewed"=>json_decode($bip-> documents_reviewed),
+            // "maladaptives"=>json_decode($bip-> maladaptives),
+            // "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            // "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
+            // "interventions"=>json_decode($bip-> interventions),
             
             
         ]);

@@ -138,6 +138,14 @@ class SustitutionGoalController extends Controller
     
     public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
     {
+        $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
+
+        // if($patient_is_valid){
+        //     return response()->json([
+        //         "message"=>403,
+        //         "message_text"=> 'el usuario existe'
+        //     ]);
+        // }
         
         $sustitutiongoalmaladaptive = SustitutionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
         return response()->json([

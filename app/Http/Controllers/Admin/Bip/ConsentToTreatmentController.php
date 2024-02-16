@@ -50,8 +50,8 @@ class ConsentToTreatmentController extends Controller
             $request->request->add(["analyst_signature_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("signatures", $request->file('imagen'));
+        if($request->hasFile('imagenn')){
+            $path = Storage::putFile("signatures", $request->file('imagenn'));
             $request->request->add(["parent_guardian_signature"=>$path]);
         }
 
@@ -70,7 +70,47 @@ class ConsentToTreatmentController extends Controller
         ]);
     }
 
+   
+
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $consentToTreatment = ConsentToTreatment::findOrFail($id);
+
+        if($request->hasFile('imagen')){
+            if($bip->analyst_signature){
+                Storage::delete($bip->analyst_signature);
+            }
+            $path = Storage::putFile("signatures", $request->file('imagen'));
+            $request->request->add(["analyst_signature"=>$path]);
+        }
+        if($request->hasFile('imagenn')){
+            if($bip->parent_guardian_signature){
+                Storage::delete($bip->parent_guardian_signature);
+            }
+            $path = Storage::putFile("signatures", $request->file('imagenn'));
+            $request->request->add(["parent_guardian_signature"=>$path]);
+        }
+
+        if($request->parent_guardian_signature_date){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->parent_guardian_signature_date );
+            $request->request->add(["parent_guardian_signature_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+        $consentToTreatment->update($request->all());
+        
+        return response()->json([
+            "message"=>200,
+            "consentToTreatment"=>$consentToTreatment,
+        ]);
+    }
+
+     /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -109,44 +149,6 @@ class ConsentToTreatmentController extends Controller
         
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $consentToTreatment = ConsentToTreatment::findOrFail($id);
-
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("signatures", $request->file('imagen'));
-            $request->request->add(["analyst_signature"=>$path]);
-        }
-
-        if($request->analyst_signature_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->analyst_signature_date );
-            $request->request->add(["analyst_signature_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
-        }
-
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("signatures", $request->file('imagen'));
-            $request->request->add(["parent_guardian_signature"=>$path]);
-        }
-
-        if($request->parent_guardian_signature_date){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->parent_guardian_signature_date );
-            $request->request->add(["parent_guardian_signature_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
-        $consentToTreatment->update($request->all());
-        
-        return response()->json([
-            "message"=>200,
-            "consentToTreatment"=>$consentToTreatment,
-        ]);
-    }
 
     /**
      * Remove the specified resource from storage.
