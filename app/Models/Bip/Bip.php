@@ -9,6 +9,7 @@ use App\Models\Bip\ReductionGoal;
 use App\Models\Bip\FamilyEnvolment;
 use App\Models\Bip\SustitutionGoal;
 use App\Models\Bip\BehaviorAsistant;
+use App\Models\Bip\ConsentToTreatment;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bip\MonitoringEvaluating;
 use App\Models\Bip\DeEscalationTechnique;
@@ -113,7 +114,7 @@ class Bip extends Model
 
     public function consent_to_treatments()
     {
-        return $this->hasMany(ConsentTotreatment::class);
+        return $this->hasMany(ConsentToTreatment::class);
     }
     
     
