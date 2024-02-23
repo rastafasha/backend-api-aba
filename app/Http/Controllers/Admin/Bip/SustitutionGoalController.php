@@ -136,7 +136,7 @@ class SustitutionGoalController extends Controller
     }
 
     
-    public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
+    public function showGoalsbyGoal(Request $request, string $goal)
     {
         $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
 
@@ -147,7 +147,7 @@ class SustitutionGoalController extends Controller
         //     ]);
         // }
         
-        $sustitutiongoalmaladaptive = SustitutionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
+        $sustitutiongoal = SustitutionGoal::where("goal", $goal)->orderBy("id", "desc")->get();
         return response()->json([
             "sustitutiongoalmaladaptive" => SustitutionGoalsCollection::make($sustitutiongoalmaladaptive) ,
         ]);

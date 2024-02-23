@@ -17,7 +17,6 @@ class FamilyEnvolment extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'description',
         'caregivers_training_goals',//json
 
     ];

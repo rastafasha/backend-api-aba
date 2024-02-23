@@ -20,7 +20,6 @@ class MonitoringEvaluatingResource extends JsonResource
             "patient_id"=>$this->resource->patient_id,
             "client_id"=>$this->resource->client_id,
             "bip_id"=>$this->resource->bip_id,
-            "treatment_fidelity"=>$this->resource->treatment_fidelity,
             "rbt_training_goals"=>json_decode($this->resource->rbt_training_goals) ? : null,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 

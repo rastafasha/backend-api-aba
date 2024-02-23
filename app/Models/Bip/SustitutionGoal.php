@@ -18,7 +18,7 @@ class SustitutionGoal extends Model
         'patient_id',
         'client_id',
         'current_sustitution',
-        'maladaptive',
+        'goal',
         'description',
         'goalstos',//json
         'goalltos',//json

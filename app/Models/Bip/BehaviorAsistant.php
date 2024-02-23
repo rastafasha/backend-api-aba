@@ -17,7 +17,6 @@ class BehaviorAsistant extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'description',
         'behavior_assistant_work_schedule',//json
 
     ];
