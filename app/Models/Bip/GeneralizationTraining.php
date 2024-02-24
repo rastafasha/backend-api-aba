@@ -17,8 +17,6 @@ class GeneralizationTraining extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'generalization',
-        'risk_assestment',
         'discharge_plan',
         'transition_fading_plans',//json
 
