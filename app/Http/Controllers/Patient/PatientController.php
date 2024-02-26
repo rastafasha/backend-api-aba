@@ -65,8 +65,8 @@ class PatientController extends Controller
     public function config()
     {
         // $patient= Patient::where("patient_id")->first();
-        $specialists = User::where("status",'active')->get();
         // $roles = Role::where("name","like","%DOCTOR%")->get();
+        $specialists = User::where("status",'active')->get();
 
         $role_rbt= User::orderBy("id", "desc")
         ->whereHas("roles", function($q){

@@ -5,6 +5,8 @@ namespace App\Models\Notes;
 use App\Models\User;
 use App\Models\Bip\Bip;
 use App\Models\Patient\Patient;
+use App\Models\Notes\Maladaptive;
+use App\Models\Notes\Replacement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,8 +16,7 @@ class NoteRbt extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        'client_id',
-        'patientID',
+        'patient_id',
         'doctor_id',
         'bip_id',
 
@@ -30,6 +31,10 @@ class NoteRbt extends Model
         'session_length_total',
         'environmental_changes',
         
+        'maladaptive',
+        'replacement',
+        'interventions',//json
+
         'meet_with_client_at',
         'client_appeared',
         'as_evidenced_by',
@@ -56,5 +61,14 @@ class NoteRbt extends Model
     public function bips()
     {
         return $this->belongsTo(Bip::class, 'bip_id');
+    }
+
+    public function maladaptive()
+    {
+        return $this->hasMany(Maladaptive::class);
+    }
+    public function replacement()
+    {
+        return $this->hasMany(Replacement::class);
     }
 }

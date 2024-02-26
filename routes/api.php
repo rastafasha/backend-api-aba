@@ -81,8 +81,11 @@ Route::group(['middleware' => 'api'], function ($router) {
     // goal monitoring_evaluating
     require __DIR__ . '/api_routes/monitoring_evaluating.php';
 
-
+    
     // goals
+    
+    // note_rbt
+    require __DIR__ . '/api_routes/note_rbt.php';
 
     
     // location
