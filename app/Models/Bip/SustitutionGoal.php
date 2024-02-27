@@ -17,7 +17,7 @@ class SustitutionGoal extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'current_sustitution',
+        'current_status',
         'goal',
         'description',
         'goalstos',//json

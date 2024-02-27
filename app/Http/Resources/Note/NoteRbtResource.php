@@ -24,13 +24,14 @@ class NoteRbtResource extends JsonResource
             "replacement"=>json_decode($this->resource-> replacement),
             "maladaptive"=>json_decode($this->resource-> maladaptive),
             
+            "bip_id" => $this->resource->bip_id,
             "patient_id" => $this->resource->patient_id,
-            "patient"=>$this->resource->patient ? 
-                    [
-                        "id"=> $this->resource->patient->id,
-                        "email" =>$this->resource->patient->email,
-                        "full_name" =>$this->resource->patient->name.' '.$this->resource->patient->surname,
-                    ]: NULL,
+            // "patient"=>$this->resource->patient_id ? 
+            //         [
+            //             "id"=> $this->resource->patient->id,
+            //             "email" =>$this->resource->patient->email,
+            //             "full_name" =>$this->resource->patient->name.' '.$this->resource->patient->surname,
+            //         ]: NULL,
             
             
             "doctor_id" => $this->resource->doctor_id,

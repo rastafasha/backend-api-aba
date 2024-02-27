@@ -47,12 +47,26 @@ class NoteRbtController extends Controller
 
         
     }
+    public function showByClienttId($id)
+    {
+        $note_rbts = NoteRbt::where("id", $id)->get();
+        $patient = Patient::where("id", $id)->first();
+    
+        return response()->json([
+            // "note_rbts" => NoteRbtResource::make($note_rbts),
+            "note_rbts" => NoteRbtCollection::make($note_rbts),
+            // "note_rbts" => $note_rbts,
+            // "patient" => $patient,
+        ]);
+
+        
+    }
 
     public function config()
     {
         $hours =[
             [
-                "id"=>"08",
+                "id"=>"800",
                 "name"=>"8:00 AM"
             ],
             [
@@ -68,57 +82,210 @@ class NoteRbtController extends Controller
                 "name"=>"8:45 AM"
             ],
             [
-                "id"=>"09",
+                "id"=>"900",
                 "name"=>"09:00 AM"
             ],
             [
-                "id"=>"10",
+                "id"=>"900",
+                "name"=>"09:00 AM"
+            ],
+            [
+                "id"=>"915",
+                "name"=>"09:15 AM"
+            ],
+            [
+                "id"=>"930",
+                "name"=>"09:30 AM"
+            ],
+            [
+                "id"=>"945",
+                "name"=>"09:45 AM"
+            ],
+            [
+                "id"=>"1000",
                 "name"=>"10:00 AM"
             ],
             [
-                "id"=>"11",
+                "id"=>"1015",
+                "name"=>"10:15 AM"
+            ],
+            [
+                "id"=>"1030",
+                "name"=>"10:30 AM"
+            ],
+            [
+                "id"=>"1045",
+                "name"=>"10:45 AM"
+            ],
+            [
+                "id"=>"1100",
                 "name"=>"11:00 AM"
             ],
             [
-                "id"=>"12",
+                "id"=>"1115",
+                "name"=>"11:15 AM"
+            ],
+            [
+                "id"=>"1130",
+                "name"=>"11:30 AM"
+            ],
+            [
+                "id"=>"1145",
+                "name"=>"11:45 AM"
+            ],
+            [
+                "id"=>"1200",
                 "name"=>"12:00 PM"
             ],
             [
-                "id"=>"13",
+                "id"=>"1215",
+                "name"=>"12:15 PM"
+            ],
+            [
+                "id"=>"1230",
+                "name"=>"12:30 PM"
+            ],
+            [
+                "id"=>"1245",
+                "name"=>"12:45 PM"
+            ],
+            [
+                "id"=>"1300",
                 "name"=>"13:00 PM"
             ],
             [
-                "id"=>"14",
+                "id"=>"1300",
+                "name"=>"13:00 PM"
+            ],
+            [
+                "id"=>"1315",
+                "name"=>"13:15 PM"
+            ],
+            [
+                "id"=>"1330",
+                "name"=>"13:30 PM"
+            ],
+            [
+                "id"=>"1345",
+                "name"=>"13:45 PM"
+            ],
+            [
+                "id"=>"1400",
                 "name"=>"14:00 PM"
             ],
             [
-                "id"=>"15",
+                "id"=>"1415",
+                "name"=>"14:15 PM"
+            ],
+            [
+                "id"=>"1430",
+                "name"=>"14:30 PM"
+            ],
+            [
+                "id"=>"1445",
+                "name"=>"14:45 PM"
+            ],
+            [
+                "id"=>"1500",
                 "name"=>"15:00 PM"
             ],
             [
-                "id"=>"16",
+                "id"=>"1515",
+                "name"=>"15:15 PM"
+            ],
+            [
+                "id"=>"1530",
+                "name"=>"15:30 PM"
+            ],
+            [
+                "id"=>"1545",
+                "name"=>"15:45 PM"
+            ],
+            [
+                "id"=>"1600",
                 "name"=>"16:00 PM"
             ],
             [
-                "id"=>"17",
+                "id"=>"1615",
+                "name"=>"16:15 PM"
+            ],
+            [
+                "id"=>"1630",
+                "name"=>"16:30 PM"
+            ],
+            [
+                "id"=>"1645",
+                "name"=>"16:45 PM"
+            ],
+            [
+                "id"=>"1700",
                 "name"=>"17:00 PM"
             ],
             [
-                "id"=>"18",
+                "id"=>"1715",
+                "name"=>"17:15 PM"
+            ],
+            [
+                "id"=>"1730",
+                "name"=>"17:30 PM"
+            ],
+            [
+                "id"=>"1745",
+                "name"=>"17:45 PM"
+            ],
+            [
+                "id"=>"1800",
                 "name"=>"18:00 PM"
             ],
             [
-                "id"=>"19",
+                "id"=>"1815",
+                "name"=>"18:15 PM"
+            ],
+            [
+                "id"=>"1830",
+                "name"=>"18:30 PM"
+            ],
+            [
+                "id"=>"1845",
+                "name"=>"18:45 PM"
+            ],
+            [
+                "id"=>"1900",
                 "name"=>"19:00 PM"
             ],
             [
-                "id"=>"20",
+                "id"=>"1915",
+                "name"=>"19:15 PM"
+            ],
+            [
+                "id"=>"1930",
+                "name"=>"19:30 PM"
+            ],
+            [
+                "id"=>"1945",
+                "name"=>"19:45 PM"
+            ],
+            [
+                "id"=>"2000",
                 "name"=>"20:00 PM"
             ],
             [
-                "id"=>"21",
+                "id"=>"2015",
+                "name"=>"20:15 PM"
+            ],
+            [
+                "id"=>"2030",
+                "name"=>"20:30 PM"
+            ],
+            [
+                "id"=>"2045",
+                "name"=>"20:45 PM"
+            ],
+            [
+                "id"=>"2100",
                 "name"=>"21:00 PM"
             ],
+            
         ];
         $specialists = User::where("status",'active')->get();
         $maladaptives = ReductionGoal::get();
@@ -349,7 +516,7 @@ class NoteRbtController extends Controller
         $noteRbt = NoteRbt::findOrFail($id);
 
         return response()->json([
-            "noteRbt" => NoteRbtResource::make($noteRbt),
+            "noteRbt" => NoteRbtResource::make($noteRbt)
         ]);
     }
     public function showTimeworked($id)

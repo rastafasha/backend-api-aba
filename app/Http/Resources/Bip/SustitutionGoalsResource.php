@@ -20,7 +20,7 @@ class SustitutionGoalsResource extends JsonResource
             "goal"=>$this->resource->goal,
             "client_id"=>$this->resource->client_id,
             "patient_id"=>$this->resource->patient_id,
-            "current_sustitution"=>$this->resource->current_sustitution,
+            "current_status"=>$this->resource->current_status,
             "bip_id"=>$this->resource->bip_id,
             "description"=>$this->resource->description,
             "goalstos"=>json_decode($this->resource->goalstos) ? : null,
