@@ -12,3 +12,5 @@ Route::get('note_rbt/byprofile/{patient_id}', [NoteRbtController::class, 'showBy
 Route::post('note_rbt/store', [NoteRbtController::class, 'store'])->name('store');
 Route::post('note_rbt/update/{id}', [NoteRbtController::class, 'update'])->name('update');
 Route::delete('note_rbt/destroy/{id}', [NoteRbtController::class, 'destroy'])->name('destroy');
+
+Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplacemts'])->name('storeReplacemts');

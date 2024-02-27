@@ -14,6 +14,7 @@ use App\Models\Bip\SustitutionGoal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Note\NoteRbtResource;
+use App\Http\Resources\Note\NoteRbtCollection;
 
 class NoteRbtController extends Controller
 {
@@ -24,17 +25,24 @@ class NoteRbtController extends Controller
      */
     public function index()
     {
-        //
+        $note_rbts = NoteRbt::orderBy("id", "desc")
+                            ->paginate(10);
+        return response()->json([
+            // "total"=>$patients->total(),
+            "note_rbts"=> NoteRbtCollection::make($note_rbts)
+        ]);
     }
 
     public function showByPatientId($patient_id)
     {
-        $note_rbts = NoteRbt::where("patient_id", $patient_id)->first();
+        $note_rbts = NoteRbt::where("patient_id", $patient_id)->get();
         $patient = Patient::where("patient_id", $patient_id)->first();
     
         return response()->json([
-            "note_rbts" => NoteRbtResource::make($note_rbts),
-            "patient" => $patient,
+            // "note_rbts" => NoteRbtResource::make($note_rbts),
+            "note_rbts" => NoteRbtCollection::make($note_rbts),
+            // "note_rbts" => $note_rbts,
+            // "patient" => $patient,
         ]);
 
         
@@ -46,6 +54,18 @@ class NoteRbtController extends Controller
             [
                 "id"=>"08",
                 "name"=>"8:00 AM"
+            ],
+            [
+                "id"=>"815",
+                "name"=>"8:15 AM"
+            ],
+            [
+                "id"=>"830",
+                "name"=>"8:30 AM"
+            ],
+            [
+                "id"=>"845",
+                "name"=>"8:45 AM"
             ],
             [
                 "id"=>"09",
@@ -65,44 +85,46 @@ class NoteRbtController extends Controller
             ],
             [
                 "id"=>"13",
-                "name"=>"01:00 PM"
+                "name"=>"13:00 PM"
             ],
             [
                 "id"=>"14",
-                "name"=>"02:00 PM"
+                "name"=>"14:00 PM"
             ],
             [
                 "id"=>"15",
-                "name"=>"03:00 PM"
+                "name"=>"15:00 PM"
             ],
             [
                 "id"=>"16",
-                "name"=>"04:00 PM"
+                "name"=>"16:00 PM"
             ],
             [
                 "id"=>"17",
-                "name"=>"05:00 PM"
+                "name"=>"17:00 PM"
             ],
             [
                 "id"=>"18",
-                "name"=>"06:00 PM"
+                "name"=>"18:00 PM"
             ],
             [
                 "id"=>"19",
-                "name"=>"07:00 PM"
+                "name"=>"19:00 PM"
             ],
             [
                 "id"=>"20",
-                "name"=>"08:00 PM"
+                "name"=>"20:00 PM"
             ],
             [
                 "id"=>"21",
-                "name"=>"09:00 PM"
+                "name"=>"21:00 PM"
             ],
         ];
         $specialists = User::where("status",'active')->get();
         $maladaptives = ReductionGoal::get();
         $replacementGoals = SustitutionGoal::get();
+        $replacements = Replacement::get();
+        // $replacements = Replacement::get(["patient_id"]);
 
         $role_rbt= User::orderBy("id", "desc")
         ->whereHas("roles", function($q){
@@ -116,6 +138,7 @@ class NoteRbtController extends Controller
         return response()->json([
             "specialists" => $specialists,
             "replacementGoals" => $replacementGoals,
+            "replacements" => $replacements,
             "maladaptives" => $maladaptives,
             "hours" => $hours,
             "roles_rbt" => $role_rbt,
@@ -133,9 +156,11 @@ class NoteRbtController extends Controller
     {
         $patient = null;
         $patient = Patient::where("patient_id", $request->patient_id)->first();
-        // $doctor = User::where("doctor_id", $request->doctor_id)->first();
+        $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
+        $request->request->add(["maladaptive"=>json_encode($request->maladaptive)]);
+        $request->request->add(["replacement"=>json_encode($request->replacement)]);
 
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
@@ -155,50 +180,50 @@ class NoteRbtController extends Controller
             $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
 
-        if($patient){
+        // if($patient){
             
-            Maladaptive::create([
-                'patient_id' => $patient->id,
-                // 'doctor_id' => $doctor->id,
-                "note_rbt_id" => $request-> note_rbt_id,
-                "maladaptive" => $request-> maladaptive,
-                "number_of_occurrences" => $request-> number_of_occurrences,
-            ]);
-            Replacement::create([
-                'patient_id' => $patient->id,
-                // 'doctor_id' => $doctor->id,
-                "replacement" => $request-> replacement,
-                "total_trials" => $request-> total_trials,
-                "number_of_correct_response" => $request-> number_of_correct_response,
-            ]);
-        }else{
-            $patient->replacement->update([
-                "maladaptive" => $request-> maladaptive,
-                "number_of_occurrences" => $request-> number_of_occurrences,
-            ]);
-            $patient->replacement->update([
-                "replacement" => $request-> replacement,
-                "total_trials" => $request-> total_trials,
-                "number_of_correct_response" => $request-> number_of_correct_response,
-            ]);
-        }
+        //     Maladaptive::create([
+        //         'patient_id' => $patient->patient_id,
+        //         // 'doctor_id' => $doctor->id,
+        //         "note_rbt_id" => $request-> note_rbt_id,
+        //         "maladaptive" => $request-> maladaptive,
+        //         "number_of_occurrences" => $request-> number_of_occurrences,
+        //     ]);
+        //     Replacement::create([
+        //         'patient_id' => $patient->patient_id,
+        //         // 'doctor_id' => $doctor->id,
+        //         "note_rbt_id" => $request-> note_rbt_id,
+        //         "replacement" => $request-> replacement,
+        //         "total_trials" => $request-> total_trials,
+        //         "number_of_correct_response" => $request-> number_of_correct_response,
+        //     ]);
+        // }else{
+        //     $patient->replacement->update([
+        //         "maladaptive" => $request-> maladaptive,
+        //         "number_of_occurrences" => $request-> number_of_occurrences,
+        //     ]);
+        //     $patient->replacement->update([
+        //         "replacement" => $request-> replacement,
+        //         "total_trials" => $request-> total_trials,
+        //         "number_of_correct_response" => $request-> number_of_correct_response,
+        //     ]);
+        // }
 
         
-        // $user = auth('api')->user();//lo coloco para saber si viene o no
-        // error_log($doctor);
-
-        $noteRbt = NoteRbt::create([
-            // "doctor_id" =>$request->doctor_id,
-            "patient_id" =>$patient->patient_id,
-            "session_date" => Carbon::parse($request->session_date)->format("Y-m-d h:i:s"),
-            "next_session_is_scheduled_for" => Carbon::parse($request->next_session_is_scheduled_for)->format("Y-m-d h:i:s"),
-            "doctor_id" => $request->user_id,
+        
+        $noteRbt = NoteRbt::create($request->all());
+        // $noteRbt = NoteRbt::create([
+        //     // "doctor_id" =>$request->doctor_id,
+        //     "patient_id" =>$patient->patient_id,
+        //     "session_date" => Carbon::parse($request->session_date)->format("Y-m-d h:i:s"),
+        //     "next_session_is_scheduled_for" => Carbon::parse($request->next_session_is_scheduled_for)->format("Y-m-d h:i:s"),
+        //     "doctor_id" => $request->user_id,
            
-            // "user_id" => auth("api")->user()->id, aqui lo comente porque no reconoce el id.. 
-            // asi que lo envio desde el front y aqui lo recibo
-            // "amount" =>$request->amount,
-            // "status_pay" =>$request->amount != $request->amount_add ? 2 : 1,
-        ]);
+        //     // "user_id" => auth("api")->user()->id, aqui lo comente porque no reconoce el id.. 
+        //     // asi que lo envio desde el front y aqui lo recibo
+        //     // "amount" =>$request->amount,
+        //     // "status_pay" =>$request->amount != $request->amount_add ? 2 : 1,
+        // ]);
 
         
         
@@ -221,46 +246,55 @@ class NoteRbtController extends Controller
             "message" => 200,
             "noteRbt" => $noteRbt,
             // "maladaptive" =>$request->maladaptive,
-            "maladaptive"=>$noteRbt->maladaptive ? 
-                    [
-                        "id"=> $noteRbt->maladaptive->id,
-                        'patient_id' => $patient->id,
-                        'doctor_id' => $doctor->id,
-                        "note_rbt_id" => $request-> note_rbt_id,
-                        "maladaptive" => $request-> maladaptive,
-                        "number_of_occurrences" => $request-> number_of_occurrences,
-                    ]: NULL,
+            // "maladaptive"=>$noteRbt->maladaptive ? 
+            //         [
+            //             // "id"=> $noteRbt->maladaptive->id,
+            //             'patient_id' => $patient->id,
+            //             'doctor_id' => $doctor->id,
+            //             "note_rbt_id" => $request-> note_rbt_id,
+            //             "maladaptive" => $request-> maladaptive,
+            //             "number_of_occurrences" => $request-> number_of_occurrences,
+            //         ]: NULL,
             // "replacement" =>$request->replacement,
-            "replacement"=>$noteRbt->replacement ? 
-                    [
-                        "id"=> $noteRbt->replacement->id,
-                        'patient_id' => $patient->id,
-                        'doctor_id' => $doctor->id,
-                        "note_rbt_id" => $request-> note_rbt_id,
-                        "replacement" => $request-> replacement,
-                        "total_trials" => $request-> total_trials,
-                        "number_of_correct_response" => $request-> number_of_correct_response,
-                    ]: NULL,
+            // "replacement"=>$noteRbt->replacement ? 
+            //         [
+            //             // "id"=> $noteRbt->replacement->id,
+            //             'patient_id' => $patient->id,
+            //             'doctor_id' => $doctor->id,
+            //             "note_rbt_id" => $request-> note_rbt_id,
+            //             "replacement" => $request-> replacement,
+            //             "total_trials" => $request-> total_trials,
+            //             "number_of_correct_response" => $request-> number_of_correct_response,
+            //         ]: NULL,
             
             "session_date" => Carbon::parse($noteRbt->session_date)->format('d-m-Y'),
             "next_session_is_scheduled_for" => Carbon::parse($noteRbt->next_session_is_scheduled_for)->format('d-m-Y'),
             
             "interventions"=>json_decode($noteRbt-> interventions),
-            
-            "patient"=>$noteRbt->patient_id ? 
-                    [
-                        "id"=> $noteRbt->patient->id,
-                        "email" =>$noteRbt->patient->email,
-                        "full_name" =>$noteRbt->patient->name.' '.$noteRbt->patient->surname,
-                    ]: NULL,
+            "maladaptive"=>json_decode($noteRbt-> maladaptive),
+            "replacement"=>json_decode($noteRbt-> replacement),
+            "patient_id" => $noteRbt->patient_id,
+            // "patient"=>$noteRbt->patient_id ? 
+            //         [
+            //             "id"=> $noteRbt->patient->id,
+            //             "email" =>$noteRbt->patient->email,
+            //             "full_name" =>$noteRbt->patient->name.' '.$noteRbt->patient->surname,
+            //         ]: NULL,
             
             "doctor_id" => $noteRbt->doctor_id,
-            "doctor"=>$noteRbt->doctor_id ? 
-                        [
-                            "id"=> $doctor->id,
-                            "email"=> $doctor->email,
-                            "full_name" =>$doctor->name.' '.$doctor->surname,
-                        ]: NULL,
+            // "doctor"=>$noteRbt->doctor_id ? 
+            //             [
+            //                 "id"=> $doctor->id,
+            //                 "email"=> $doctor->email,
+            //                 "full_name" =>$doctor->name.' '.$doctor->surname,
+            //             ]: NULL,
+            
+                        "time_in" =>$noteRbt->time_in,
+                        "time_out" =>$noteRbt->time_out,
+                        "time_in2" =>$noteRbt->time_in2,
+                        "time_out2" =>$noteRbt->time_out2,
+                        "session_length_total" => $noteRbt->time_out - $noteRbt->time_in,
+                        "session_length_total2" =>$noteRbt->time_out2 - $noteRbt->time_in2,
 
             "meet_with_client_at" =>$request->meet_with_client_at,
             "client_appeared" =>$request->client_appeared,
@@ -276,6 +310,34 @@ class NoteRbtController extends Controller
         ]);
     }
 
+
+    public function storeReplacemts(Request $request)
+    {
+        $patient = null;
+        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $doctor = User::where("id", $request->doctor_id)->first();
+
+       
+
+        $replacement = Replacement::create($request->all());
+        
+        
+        return response()->json([
+            "message"=>200,
+            "replacement"=>$replacement,
+            "patient_id"=>$replacement->patient_id,
+            "doctor_id" => $replacement->doctor_id,
+            "doctor"=>$replacement->doctor_id ? 
+                        [
+                            "id"=> $doctor->id,
+                            "email"=> $doctor->email,
+                            "full_name" =>$doctor->name.' '.$doctor->surname,
+                        ]: NULL,
+        ]);
+
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -285,13 +347,22 @@ class NoteRbtController extends Controller
     public function show($id)
     {
         $noteRbt = NoteRbt::findOrFail($id);
-        // $sum_total_pays = AppointmentPay::where("appointment_id",$id)->sum("amount");
-        // $costo = $appointment->amount;
-        // $deuda = ($costo - $sum_total_pays); 
+
+        return response()->json([
+            "noteRbt" => NoteRbtResource::make($noteRbt),
+        ]);
+    }
+    public function showTimeworked($id)
+    {
+        $noteRbt = NoteRbt::findOrFail($id);
+        $time_in = NoteRbt::where("time_in",$time_in);
+        $time_out = NoteRbt::where("time_out",$time_out);
+
+        $session_length_total = ($time_out - $time_in); 
 
         return response()->json([
             // "costo" => $costo,
-            // "deuda" => $deuda,
+            "session_length_total" => $session_length_total,
             "noteRbt" => NoteRbtResource::make($noteRbt),
         ]);
     }

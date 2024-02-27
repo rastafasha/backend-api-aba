@@ -29,10 +29,11 @@ class NoteRbt extends Model
         'time_in2',
         'time_out2',
         'session_length_total',
+        'session_length_total2',
         'environmental_changes',
         
-        'maladaptive',
-        'replacement',
+        'maladaptive',//json
+        'replacement',//json
         'interventions',//json
 
         'meet_with_client_at',
@@ -63,12 +64,12 @@ class NoteRbt extends Model
         return $this->belongsTo(Bip::class, 'bip_id');
     }
 
-    public function maladaptive()
-    {
-        return $this->hasMany(Maladaptive::class);
-    }
-    public function replacement()
-    {
-        return $this->hasMany(Replacement::class);
-    }
+    // public function maladaptive()
+    // {
+    //     return $this->hasMany(Maladaptive::class);
+    // }
+    // public function replacement()
+    // {
+    //     return $this->hasMany(Replacement::class);
+    // }
 }

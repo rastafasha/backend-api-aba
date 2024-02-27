@@ -53,7 +53,7 @@ class BipController extends Controller
     public function store(Request $request)
     {
         $patient = null;
-        $patient = Patient::where("patientID", $request->patientID)->first();
+        $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
@@ -75,7 +75,7 @@ class BipController extends Controller
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
             "client_id"=>$bip->client_id,
-            "patientID"=>$bip->patientID,
+            "patient_id"=>$bip->patient_id,
             "doctor_id" => $bip->doctor_id,
             "doctor"=>$bip->doctor_id ? 
                         [
