@@ -92,10 +92,6 @@ class Bip extends Model
         return $this->hasMany(MonitoringEvaluating::class);
     }
 
-     public function behavior_asistants()
-    {
-        return $this->hasMany(BehaviorAsistant::class);
-    }
 
     public function generalization_trainings()
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Bip;
+namespace App\Http\Resources\Patient;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BipFileCollection extends ResourceCollection
+class PatientFileCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class BipFileCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> BipFileResource::collection($this->collection)
+            "data"=> PatientFileResource::collection($this->collection)
         ];
     }
 }

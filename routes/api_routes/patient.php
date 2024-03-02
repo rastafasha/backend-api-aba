@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Patient\PatientController;
+use App\Http\Controllers\Patient\PatientFileController;
 
 Route::get('patients', [PatientController::class, 'index'])->name('index');
 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('show');
@@ -16,3 +17,4 @@ Route::delete('patients/destroy/{id}', [PatientController::class, 'destroy'])->n
 
 Route::put('/patients/update/eligibility/{patient:id}', [PatientController::class, 'updateEligibility'])
     ->name('patients.updateEligibility');
+

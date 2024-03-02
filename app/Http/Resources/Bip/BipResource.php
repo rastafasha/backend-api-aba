@@ -61,7 +61,6 @@ class BipResource extends JsonResource
                 
             "family_envolment"=>$this->resource->family_envolments ,
             "monitoring_evalutating"=>$this->resource->monitoring_evalutatings ,
-            "behavior_asistant"=>$this->resource->behavior_asistants ,
             "generalization_training"=>$this->resource->generalization_trainings ,
             "crisis_plan"=>$this->resource->crisis_plans ,
             "de_escalation_technique"=>$this->resource->de_escalation_techniques ,

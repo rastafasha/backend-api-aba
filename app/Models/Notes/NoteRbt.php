@@ -32,8 +32,8 @@ class NoteRbt extends Model
         'session_length_total2',
         'environmental_changes',
         
-        'maladaptive',//json
-        'replacement',//json
+        'maladaptives',//json
+        'replacements',//json
         'interventions',//json
 
         'meet_with_client_at',
