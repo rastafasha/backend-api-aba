@@ -58,7 +58,7 @@ class PatientFileController extends Controller
             $size = $file->getSize();
             $name_file = $file->getClientOriginalName();
             $data = null;
-            if(in_array(strtolower($extension), ["jpeg", "bmp","jpg","png" ])){
+            if(in_array(strtolower($extension), ["jpeg", "bmp","jpg","png", "pdf" ])){
                 $data = getImageSize($file);
                 
             }
