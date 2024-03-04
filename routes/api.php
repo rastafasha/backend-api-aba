@@ -89,6 +89,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     
     // note_rbt
     require __DIR__ . '/api_routes/note_rbt.php';
+    
+    // note_bcba
+    require __DIR__ . '/api_routes/note_bcba.php';
 
     
     // location

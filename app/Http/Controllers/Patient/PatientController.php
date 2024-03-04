@@ -153,7 +153,8 @@ class PatientController extends Controller
 
 
         return response()->json([
-            "patient" => $patient,
+            // "patient" => $patient,
+            "patient"=> PatientResource::make($patient),
             "specialists" => $specialists,
             "insurances" => $insurances,
             "locations" => $locations,
