@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Notes;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteBcba;
@@ -10,6 +11,7 @@ use App\Models\Bip\FamilyEnvolment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Bip\MonitoringEvaluating;
+use App\Http\Resources\Note\NoteBcbaResource;
 use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Bip\FamilyEnvolmentGoalsCollection;
 use App\Http\Resources\Bip\MonitoringEvaluatingCollection;
@@ -34,9 +36,6 @@ class NoteBcbaController extends Controller
     public function config()
     {
         $specialists = User::where("status",'active')->get();
-        
-        
-        // $replacements = Replacement::get(["patient_id"]);
 
         $role_rbt= User::orderBy("id", "desc")
         ->whereHas("roles", function($q){
@@ -61,7 +60,7 @@ class NoteBcbaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storebcba(Request $request)
     {
         $patient = null;
         $patient = Patient::where("patient_id", $request->patient_id)->first();
@@ -71,40 +70,26 @@ class NoteBcbaController extends Controller
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
         if($request->hasFile('imagen')){
-            $path = Storage::putFile("noterbcbas", $request->file('imagen'));
+            $path = Storage::putFile("notebcbas", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
         }
         if($request->hasFile('imagenn')){
-            $path = Storage::putFile("noterbcbas", $request->file('imagenn'));
+            $path = Storage::putFile("notebcbas", $request->file('imagenn'));
             $request->request->add(["supervisor_signature"=>$path]);
         }
 
-        if($request->session_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
-            $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
-        }
-        if($request->next_session_is_scheduled_for){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
-            $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        if($request->birth_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+            $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-       
+        $noteBcba = NoteBcba::create($request->all());
         
-        
-        $noteRbt = NoteRbt::create($request->all());
-        
-            //envia un correo al doctor
-        // Mail::to($appointment->patient->email)->send(new RegisterAppointment($appointment));
-        // Mail::to($doctor->email)->send(new NewAppointmentRegisterMail($appointment));
 
         return response()->json([
             "message" => 200,
-            // "noteRbt" => $noteRbt,
         ]);
     }
-
-
-   
 
     /**
      * Display the specified resource.
@@ -179,23 +164,18 @@ class NoteBcbaController extends Controller
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
         if($request->hasFile('imagen')){
-            $path = Storage::putFile("noterbcbas", $request->file('imagen'));
+            $path = Storage::putFile("notebcbas", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
         }
         if($request->hasFile('imagenn')){
-            $path = Storage::putFile("noterbcbas", $request->file('imagenn'));
+            $path = Storage::putFile("notebcbas", $request->file('imagenn'));
             $request->request->add(["supervisor_signature"=>$path]);
         }
 
-        if($request->session_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
-            $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        if($request->birth_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+            $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
-        if($request->next_session_is_scheduled_for){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
-            $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
-
 
 
         $noteBcba->update($request->all());

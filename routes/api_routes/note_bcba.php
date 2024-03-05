@@ -15,8 +15,6 @@ Route::get('/note_bcba/showReplacementBypatient/{id}', [NoteBcbaController::clas
 Route::get('/note_bcba/showNoteBypatient/{id}', [NoteBcbaController::class, 'showNoteBcbaByPatient'] )->name('showNoteBcbaByPatient');
 
 
-Route::post('note_bcba/store', [NoteBcbaController::class, 'store'])->name('store');
+Route::post('note_bcba/store', [NoteBcbaController::class, 'storebcba'])->name('storebcba');
 Route::post('note_bcba/update/{id}', [NoteBcbaController::class, 'update'])->name('update');
 Route::delete('note_bcba/destroy/{id}', [NoteBcbaController::class, 'destroy'])->name('destroy');
-
-Route::post('note_bcba/storeReplacemts', [NoteBcbaController::class, 'storeReplacemts'])->name('storeReplacemts');

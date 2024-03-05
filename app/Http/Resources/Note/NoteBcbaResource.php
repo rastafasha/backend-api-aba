@@ -27,7 +27,8 @@ class NoteBcbaResource extends JsonResource
             "location" => $this->resource->location,
             
             "rendering_provider" => $this->resource->rendering_provider,
-            "birth_date" => $this->resource->birth_date,
+            // "birth_date" => $this->resource->birth_date,
+            "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("Y-m-d") : NULL,
             "aba_supervisor" => $this->resource->aba_supervisor,
             "cpt_code" =>$this->resource->cpt_code,
             "diagnosis_code" =>$this->resource->diagnosis_code,
