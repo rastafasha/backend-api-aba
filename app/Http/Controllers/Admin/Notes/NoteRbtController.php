@@ -306,6 +306,18 @@ class NoteRbtController extends Controller
             "hours" => $hours,
             "roles_rbt" => $role_rbt,
             "roles_bcba" => $role_bcba,
+            // "roles_bcba"=>$role_bcba->map(function($role_bcba){
+            //     return[
+            //         "id"=> $role_bcba->id,
+            //         "full_name"=> $role_bcba->name.' '.$role_bcba->surname,
+            //     ];
+            // }),
+            // "roles_rbt"=>$role_rbt->map(function($role_rbt){
+            //     return[
+            //         "id"=> $role_rbt->id,
+            //         "full_name"=> $role_rbt->name.' '.$role_rbt->surname,
+            //     ];
+            // })
         ]);
     }
 
@@ -324,6 +336,9 @@ class NoteRbtController extends Controller
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
+
+
+        
 
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
@@ -347,6 +362,20 @@ class NoteRbtController extends Controller
         
         
         $noteRbt = NoteRbt::create($request->all());
+
+        $maladaptives = Maladaptive::create([
+            "patient_id"=>$request->patient_id,
+            "note_rbt_id"=>$noteRbt->id,
+            "maladaptive_behavior"=>$request->maladaptive_behavior,
+            "number_of_occurrences"=>$request->number_of_occurrences,
+        ]);
+        $replacement =Replacement::create([
+            'patient_id' => $patient->patient_id,
+            "note_rbt_id"=>$noteRbt->id,
+            'goal' => $request->goal,
+            'total_trials' => $request->total_trials,
+            'number_of_correct_response' => $request->number_of_correct_response,
+        ]);
         
             //envia un correo al doctor
         // Mail::to($appointment->patient->email)->send(new RegisterAppointment($appointment));
@@ -370,12 +399,35 @@ class NoteRbtController extends Controller
     public function show($id)
     {
         $noteRbt = NoteRbt::findOrFail($id);
+        $doctor = User::where("status",'active')->get();
 
         return response()->json([
             "noteRbt" => NoteRbtResource::make($noteRbt),
             "interventions"=>json_decode($noteRbt-> interventions),
             "maladaptives"=>json_decode($noteRbt-> maladaptives),
             "replacements"=>json_decode($noteRbt-> replacements),
+            "provider_name"=>$noteRbt->provider_name,
+            "provider_name"=>$doctor->map(function($provider_name){
+                return[
+                    "id"=> $provider_name->id,
+                    "full_name"=> $provider_name->name.' '.$provider_name->surname,
+                ];
+            }),
+            "supervisor_name"=>$noteRbt->supervisor_name,
+            "supervisor_name"=>$doctor->map(function($supervisor_name){
+                return[
+                    "id"=> $supervisor_name->id,
+                    "full_name"=> $supervisor_name->name.' '.$supervisor_name->surname,
+                ];
+            }),
+            "provider_name_g"=>$noteRbt->provider_name_g,
+            "provider_name_g"=>$doctor->map(function($provider_name_g){
+                return[
+                    "id"=> $provider_name_g->id,
+                    "full_name"=> $provider_name_g->name.' '.$provider_name_g->surname,
+                ];
+            }),
+            
         ]);
     }
     public function showNoteRbtByPatient($patient_id)

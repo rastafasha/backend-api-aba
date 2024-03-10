@@ -24,13 +24,30 @@ class NoteRbtResource extends JsonResource
             
             "interventions"=>json_decode($this->resource-> interventions),
             "replacements"=>json_decode($this->resource-> replacements),
-            "maladaptives"=>json_decode($this->resource-> maladaptives),
+            'maladaptives'=> json_decode($this->resource-> maladaptives),
+
+            // 'maladaptives'=>$this->resource->maladaptives->map(function($maladaptive){
+            //     return [
+            //         "maladaptive_behavior" =>$maladaptive->maladaptive_behavior,
+            //         "number_of_occurrences" =>$maladaptive->number_of_occurrences,
+                    
+            //     ];
+            // }),
+
+            // "maladaptives" =>json_decode($this->resource-> maladaptives) ? 
+            // [
+            //         "maladaptive_behavior" =>$this->resource->maladaptive_behavior,
+            //         "number_of_occurrences" =>$this->resource->number_of_occurrences,
+                   
+                    
+                    
+            //     ]: NULL,
             
             "bip_id" => $this->resource->bip_id,
             "pos" => $this->resource->pos,
             "environmental_changes" => $this->resource->environmental_changes,
             "provider_credential" => $this->resource->provider_credential,
-            "provider_name_g" => $this->resource->provider_name_g,
+            
             "patient_id" => $this->resource->patient_id,
             "doctor_id" => $this->resource->doctor_id,
             "meet_with_client_at" =>$this->resource->meet_with_client_at,
@@ -56,6 +73,9 @@ class NoteRbtResource extends JsonResource
             "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
             "supervisor_name" =>$this->resource->supervisor_name,
+
+            "provider_name_g" => $this->resource->provider_name_g,
+            
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             "updated_at"=>$this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d h:i A") : NULL,

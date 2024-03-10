@@ -64,12 +64,12 @@ class NoteRbt extends Model
         return $this->belongsTo(Bip::class, 'bip_id');
     }
 
-    // public function maladaptive()
-    // {
-    //     return $this->hasMany(Maladaptive::class);
-    // }
-    // public function replacement()
-    // {
-    //     return $this->hasMany(Replacement::class);
-    // }
+    public function maladaptive()
+    {
+        return $this->hasMany(Maladaptive::class);
+    }
+    public function replacement()
+    {
+        return $this->hasMany(Replacement::class);
+    }
 }

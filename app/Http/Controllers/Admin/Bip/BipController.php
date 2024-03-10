@@ -43,6 +43,23 @@ class BipController extends Controller
         // ]); 
     }
 
+    public function config(){
+        $users= User::orderBy("id", "desc")
+        // ->whereHas("roles", function($q){
+        //     $q->where("name","like","%DOCTOR%");
+        // })
+        ->get();
+
+        return response()->json([
+            "doctors"=>$users->map(function($user){
+                return[
+                    "id"=> $user->id,
+                    "full_name"=> $user->name.' '.$user->surname,
+                ];
+            })
+        ]);
+    }
+
     
     /**
      * Store a newly created resource in storage.
@@ -137,8 +154,8 @@ class BipController extends Controller
     
         return response()->json([
             "client_id"=>$bip->client_id,
-            "bip" => $bip,
-            // "bip" => BipResource::make($bip),
+            // "bip" => $bip,
+            "bip" => BipResource::make($bip),
             "type_of_assessment" =>$bip->type_of_assessment,
             "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             "maladaptives"=>json_decode($bip-> maladaptives),

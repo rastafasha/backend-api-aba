@@ -214,16 +214,6 @@ class ReductionGoalController extends Controller
     public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
     {
         $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
-        
-        // $patient_is_valid = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();
-        // $patient_id = ReductionGoal::where("patient_id", "<>", $request->patient_id)->first();
-
-        // if($patient_is_valid){
-        //     return response()->json([
-        //         "message"=>403,
-        //         "message_text"=> 'el patient ya existe'
-        //     ]);
-        // }
         $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
         
         

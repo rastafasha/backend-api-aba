@@ -97,6 +97,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // location
     require __DIR__ . '/api_routes/location.php';
 
+    // graphic_reduction
+    require __DIR__ . '/api_routes/graphic_reduction.php';
+
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
     
