@@ -55,7 +55,7 @@ class UsertPolicy
     public function userUpdate(User $userAuth, User $user) {
 
         // return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN"]);
-        return in_array($user->role, [$user->role == "SUPERADMIN","ADMIN","DOCTOR"]);
+        return in_array($user->role, [$user->role == "SUPERADMIN","ADMIN","LM"]);
 
     }
 
@@ -68,7 +68,7 @@ class UsertPolicy
     public function userDestroy(User $userAuth, User $user) {
 
         // return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN"]);
-        return in_array($user->role, [$user->role == "SUPERADMIN","ADMIN", "DOCTOR"]);
+        return in_array($user->role, [$user->role == "SUPERADMIN","ADMIN", "LM"]);
 
     }
 
@@ -92,7 +92,7 @@ class UsertPolicy
      */
     public function userDeleteShow(User $userAuth, User $user) {
 
-        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "DOCTOR"]);
+        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "LM"]);
 
     }
 
@@ -104,7 +104,7 @@ class UsertPolicy
      */
     public function userDeleteRestore(User $userAuth, User $user) {
 
-        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "DOCTOR"]);
+        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "LM"]);
 
     }
 
@@ -116,7 +116,7 @@ class UsertPolicy
      */
     public function userDeleteForce(User $userAuth, User $user) {
 
-        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "DOCTOR"]);
+        return in_array($userAuth->role, [$userAuth->role == "SUPERADMIN","ADMIN", "LM"]);
 
     }
 }

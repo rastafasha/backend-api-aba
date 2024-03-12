@@ -65,12 +65,7 @@ class BipResource extends JsonResource
             "crisis_plan"=>$this->resource->crisis_plans ,
             "de_escalation_technique"=>$this->resource->de_escalation_techniques ,
             "consent_to_treatment"=>$this->resource->consent_to_treatments,
-            
-            
-            
-            
-            
-            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
+            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d") : NULL,            
 
         ];
     }

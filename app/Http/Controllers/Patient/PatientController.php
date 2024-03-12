@@ -62,6 +62,30 @@ class PatientController extends Controller
 
     }
 
+    public function patientsByDoctor(Request $request, $doctor_id)
+    {
+
+        $doctor_is_valid = User::where("id", $request->doctor_id)->first();
+        
+
+
+        // $patientRbts = Patient::where("rbt_id", $request->doctor_id)->orderBy("id", "desc")->paginate(10);
+        $patients = Patient::Where('rbt_id', $doctor_id)
+                ->orWhere('rbt2_id', $doctor_id)
+                ->orWhere('bcba_id', $doctor_id)
+                ->orWhere('bcba2_id', $doctor_id)
+                ->orWhere('clin_director_id', $doctor_id)
+                ->get();
+
+        return response()->json([
+            "patients"=> $patients,
+            // "total"=>$patients->total(),
+            // "patientRbts"=> PatientCollection::make($patientRbts)
+        ]);
+
+    }
+    
+
     public function config()
     {
         // $patient= Patient::where("patient_id")->first();

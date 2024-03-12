@@ -15,7 +15,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAnyDoctor(User $user)
+    public function viewAnyDoctor(User $user, User $model = null)
     {
         // error_log($user);
 
@@ -25,7 +25,7 @@ class DoctorPolicy
        }
        return false;
     }
-    public function profileDoctor(User $user)
+    public function profileDoctor(User $user, User $model = null)
     {
         error_log($user);
        if($user->can('profile_doctor')){
@@ -41,7 +41,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewDoctor(User $user, User $model)
+    public function viewDoctor(User $user, User $model = null)
     {
         if($user->can('edit_doctor')){
             return false;
@@ -55,7 +55,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function createDoctor(User $user)
+    public function createDoctor(User $user, User $model = null)
     {
         if($user->can('register_doctor')){
             return false;
@@ -70,7 +70,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function updateDoctor(User $user, User $model)
+    public function updateDoctor(User $user, User $model = null)
     {
         if($user->can('edit_doctor')){
             return false;
@@ -85,7 +85,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, User $model = null)
     {
         if($user->can('delet_doctor')){
             return false;
@@ -100,7 +100,7 @@ class DoctorPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user, User $model = null)
     {
         //
     }

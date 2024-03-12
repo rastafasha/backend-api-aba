@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin\Doctor;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Bip\Bip;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Models\Notes\NoteRbt;
+use App\Models\Notes\NoteBcba;
+use App\Models\Patient\Patient;
 use App\Models\Doctor\Specialitie;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -14,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DoctorController extends Controller
@@ -62,8 +67,24 @@ class DoctorController extends Controller
     {
            
         $doctor = User::findOrFail($id);
+        $patients = Patient::Where('rbt_id', $id)
+                ->orWhere('rbt2_id', $id)
+                ->orWhere('bcba_id', $id)
+                ->orWhere('bcba2_id', $id)
+                ->orWhere('clin_director_id', $id)
+                ->get();
+        $bips = Bip::Where('doctor_id', $id)->get();
+        $notes_rbts = NoteRbt::Where('doctor_id', $id)->get();
+        $notes_bcbas = NoteBcba::Where('doctor_id', $id)->get();
 
         return response()->json([
+            "patients" => PatientCollection::make($patients),
+            "notes_rbts" => $notes_rbts,
+            "notes_bcbas" => $notes_bcbas,
+            "bips" => $bips,
+            "total_notes_bcbas" => $notes_bcbas->count(),
+            "total_notes_rbts" => $notes_rbts->count(),
+            "total_notes_bips" => $bips->count(),
             "doctor" => UserResource::make($doctor),
         ]);
     }

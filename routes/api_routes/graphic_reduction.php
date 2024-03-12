@@ -10,4 +10,4 @@ Route::get('graphic_reduction/config', [GraphicReductionController::class, 'conf
 Route::get('graphic_reduction/showpatient/{patient_id}', [GraphicReductionController::class, 'showPatientId'])->name('showPatientId');
 Route::get('graphic_reduction/showbyPatient/{patient_id}', [GraphicReductionController::class, 'showbyPatientId'])->name('showbyPatientId');
 Route::get('graphic_reduction/showbyMaladaptive/{maladaptive}/{patient_id}', [GraphicReductionController::class, 'showGragphicbyMaladaptive'])->name('showGragphicbyMaladaptive');
-
+Route::post('graphic_reduction/patient-month', [GraphicReductionController::class, 'graphic_patient_month'])->name('graphic_patient_month');

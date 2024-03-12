@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
@@ -128,6 +129,27 @@ class GraphicReductionController extends Controller
 
 
         
+    }
+
+
+    public function graphic_patient_month(Request $request){
+
+        $month = $request->month;
+        $patient_id = $request->patient_id;
+
+        $query_patient_notes_by_month = DB::table("note_rbts")->where("note_rbts.deleted_at",NULL)
+                        ->whereMonth("note_rbts.session_date", $month)
+                        ->where("note_rbts.patient_id", $patient_id)
+                        ->join("patients","note_rbts.patient_id", "=", "patients.patient_id")
+                        ->select(
+                            DB::raw("MONTH(note_rbts.session_date) as month"),
+                        )->groupBy("month")
+                        ->orderBy("month")
+                        ->get();
+                        
+        return response()->json([
+            "query_patient_notes_by_month" => $query_patient_notes_by_month,
+        ]);               
     }
 
     

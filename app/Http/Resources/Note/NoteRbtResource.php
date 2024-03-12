@@ -17,7 +17,7 @@ class NoteRbtResource extends JsonResource
     {
         return[
             'id'=>$this->resource-> id,
-            "session_date" => $this->resource->session_date,
+            "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : NULL,
             // "session_date" => Carbon::parse($this->resource->session_date)->format('d-m-Y'),
             "next_session_is_scheduled_for" => $this->resource->next_session_is_scheduled_for,
             // "next_session_is_scheduled_for" => Carbon::parse($this->resource->next_session_is_scheduled_for)->format('d-m-Y'),

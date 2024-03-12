@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Speciality;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class SpecialityPolicy
+class BipPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +17,25 @@ class SpecialityPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if($user->can('list_bip')){
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Speciality  $speciality
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Speciality $speciality)
+    public function view(User $user, User $model)
     {
-        //
+        if($user->can('edit_bip')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -41,29 +46,35 @@ class SpecialityPolicy
      */
     public function create(User $user)
     {
-        //
+        if($user->can('register_bip')){
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Speciality  $speciality
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Speciality $speciality)
+    public function update(User $user, User $model)
     {
-        //
+        if($user->can('edit_bip')){
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Speciality  $speciality
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Speciality $speciality)
+    public function delete(User $user, User $model)
     {
         //
     }
@@ -72,10 +83,10 @@ class SpecialityPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Speciality  $speciality
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Speciality $speciality)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -84,10 +95,10 @@ class SpecialityPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Speciality  $speciality
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Speciality $speciality)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

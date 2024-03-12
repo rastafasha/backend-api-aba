@@ -16,9 +16,12 @@ class PatientPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Patient $model = null)
     {
-        //
+        if($user->can('list_patient')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -28,9 +31,12 @@ class PatientPolicy
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Patient $patient)
+    public function view(User $user, Patient $model = null)
     {
-        //
+        if($user->can('edit_patient')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -41,7 +47,10 @@ class PatientPolicy
      */
     public function create(User $user)
     {
-        //
+        if($user->can('register_patient')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -51,9 +60,12 @@ class PatientPolicy
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Patient $patient)
+    public function update(User $user, Patient $model = null)
     {
-        //
+        if($user->can('edit_patient')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -63,9 +75,12 @@ class PatientPolicy
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Patient $patient)
+    public function delete(User $user, Patient $model = null)
     {
-        //
+        if($user->can('delete_patient')){
+            return true;
+        }
+        return false;
     }
 
     /**
