@@ -131,6 +131,45 @@ class GraphicReductionController extends Controller
         
     }
 
+    public function showGragphicbyReplacement(Request $request, string $replacements ,$patient_id)
+    {
+        $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
+
+        // $noteRbt = NoteRbt::where("patient_id", $request->patient_id)->get();
+        // $noteRbt = NoteRbt::findOrFail($maladaptives);
+        //no me reconoce  el request como un json en 
+        $noteRbt = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
+        ->where("patient_id", $request->patient_id)->get();
+        //aqui trae la lista completa
+        // $noteRbt = NoteRbt::get();
+
+        // $noteRbt->replacements->for(function($replacements) {
+        //     echo $replacements;
+        // });
+
+        
+        
+        
+        return response()->json([
+            // "noteRbt" => $noteRbt,
+            "noteRbt" => NoteRbtCollection::make($noteRbt) ,
+            // "replacements" => $noteRbt[0]->replacements,
+            // "replacements"=>json_decode($noteRbt[0]->replacements),
+            // "replacements"=>[
+            //     "goal"=>$noteRbt[0]->replacements->goal,
+            //     "total_trials"=>$noteRbt[0]->replacements->total_trials,
+            //     "number_of_correct_response"=>$noteRbt[0]->replacements->number_of_correct_response,
+            // ]
+            
+            // "session_date" => $noteRbt->session_date,
+            //Property [maladaptive_behavior] does not exist on this collection instance. 
+        ],201);
+
+
+
+        
+    }
+
 
     public function graphic_patient_month(Request $request){
 
