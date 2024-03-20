@@ -364,14 +364,19 @@ class NoteRbtController extends Controller
         $noteRbt = NoteRbt::create($request->all());
 
         $maladaptives = Maladaptive::create([
-            "patient_id"=>$request->patient_id,
-            "note_rbt_id"=>$noteRbt->id,
-            "maladaptive_behavior"=>$request->maladaptive_behavior,
-            "number_of_occurrences"=>$request->number_of_occurrences,
+            "patient_id" => $request->patient_id,
+            "bip_id" => $noteRbt->bip_id,
+            "maladaptive_behavior" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
+                return $maladaptive->maladaptive_behavior;
+            }))),
+            "number_of_occurrences" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
+                return $maladaptive->number_of_occurrences;
+            })))
         ]);
+
         $replacement =Replacement::create([
             'patient_id' => $patient->patient_id,
-            "note_rbt_id"=>$noteRbt->id,
+            "bip_id"=>$noteRbt->bip_id,
             'goal' => $request->goal,
             'total_trials' => $request->total_trials,
             'number_of_correct_response' => $request->number_of_correct_response,
@@ -437,6 +442,7 @@ class NoteRbtController extends Controller
         return response()->json([
             // "noteRbt" => $noteRbt,
             "noteRbt" => NoteRbtCollection::make($noteRbt),
+            
         ]);
 
         
