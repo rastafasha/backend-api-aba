@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Graphics;
 
 use DateTime;
+use DateInterval;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -141,20 +142,12 @@ class GraphicReductionController extends Controller
 
             } 
             
-            //los trae null cuando hay informacion en la respuesta
-            // $noteRbt = NoteRbt::selectRaw('JSON_EXTRACT(maladaptives, "$.maladaptive_behavior") 
-            // as maladaptive_behavior, JSON_EXTRACT(maladaptives, "$.number_of_occurrences") as number_of_occurrences')
-            //         ->where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-            //         ->where("patient_id", $patient_id)
-            //         ->get();
-        
         // Initialize an empty collection to store the number of occurrences of the given maladaptive behavior type
-        // funcionan los 3
-        // $maladaptivesCollection = new Collection();
         $maladaptivesCollection = collect();
 
-        // Get the name of the maladaptive behavior type from the request
+        // Get the name of the maladaptive behavior type from the request 
         $maladaptive_behavior = $maladaptives;
+        // $number_of_occurrences = $maladaptivesCollection->countOccurrenciesInTimeInterval($noteRbt,$number_of_occurrences);
 
         
         // Initialize an empty array to store the JSON strings
@@ -167,7 +160,7 @@ class GraphicReductionController extends Controller
             Log::debug("maladaptivesCollection: " . $maladaptivesCollection);
             
             $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $maladaptives);
-            Log::debug("Cleaned JSON string: " . $json_string);
+            // Log::debug("Cleaned JSON string: " . $json_string);
 
             if (json_validate($json_string)) {
                 $maladaptives = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
@@ -178,7 +171,7 @@ class GraphicReductionController extends Controller
                     }
                     $maladaptivesCollection->push($number_of_occurrences);
                 } else {
-                    // Log::debug("Failed to decode JSON: " . json_last_error_msg());
+                    Log::debug("Failed to decode JSON: " . json_last_error_msg());
                 }
             } else {
                 // Log::debug("Invalid JSON string: " . $json_string);
@@ -188,22 +181,21 @@ class GraphicReductionController extends Controller
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
-        $result = '[' . implode(',', $json_strings) . ']';
-        // Log::debug("Result: " . $result);
+       
         
         
         // Convert maladaptives from string to JSON array
-        $maladaptives = json_decode($item->maladaptives, true);
+        $maladaptives = json_decode($item->maladaptives, false);
         Log::debug("maladaptives: " . $maladaptives);
         
-        // Define the value you want to filter by
-        $filter_value = $maladaptive_behavior;
-        Log::debug("filter_value: " . $filter_value);
+        
 
-        // Filter the maladaptives array
-        // $filtered_maladaptives = array_filter($maladaptives, function ($maladaptive) use ($filter_value) {
-        //     return $maladaptive['maladaptive_behavior'] == $filter_value;
-        // });
+        $mald = json_decode($maladaptives, true);
+        foreach ($mald as $m) {
+            foreach ($m as $k => $v) {
+                // echo "$k - $v\n";
+            }
+        }
 
 
         //calcular la semana
@@ -212,27 +204,54 @@ class GraphicReductionController extends Controller
             return $d->format("W");
         }
 
+        // Define the value you want to filter by
+        $filter_value = $maladaptive_behavior;
+        Log::debug("filter_value: " . $filter_value);
+
+        // Filter the maladaptives array
+        $filtered_maladaptives = array_filter($mald, function ($maladaptive) use ($filter_value) {
+            return $maladaptive['maladaptive_behavior'] == $filter_value;
+        });
+
+        $first_date = $sessions->first();
+
+        // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
+        
+        $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
+        // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
+
+
         return response()->json([
             
+        // 'decoded' => $mald, 
         'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
-        // 'notes_rbt_count'=> count($maladaptivesCollection),     //cuenta los elementos en maladapt   
-        // 'maladaptives' => $maladaptivesCollection.str_replace(['["\"\"\\\"', '\\\\\\"', '"]'], ['', '\"', ''], $item->maladaptives),// limpia el resultado ?
-        // 'maladaptives' => $maladaptivesCollection, 
-        'maladaptives' => $maladaptives, 
-        // 'filtered_maladaptives' => $filtered_maladaptives, 
-
+         
+        // 'maladaptives' => $maladaptives, 
         
         
         
-        // 'sessions_dates' => $sessions, 
-        // 'First date of the week' => $first_date_of_week->format('Y-m-d'), 
-        // 'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
-        // 'Week number' => getWeekNumber($request->fecha),
-        // 'total_number_of_occurrences' => $number_of_occurrences,
-        
-        // 'maladaptives' => $json_string,// los devuelve de nuevo con basura
+        'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo 
+        'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
+        'total_count_this_in_notes_rbt'=> count($maladaptivesCollection), //cuenta el total de este maladative en la nota    
+        'sessions_dates' => $sessions, 
+        'first_date' => $first_date , 
+        'last_date' => $last_date->format('Y-m-d') ,
+        'First date of the week' => $first_date_of_week->format('Y-m-d'), 
+        'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
+        'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
+        'Week number' => getWeekNumber($request->fecha),
+        // 'week_sessions' => $week_session, 
+        'maladaptivesCol' => $maladaptivesCollection, 
+        // 'total_number_of_occurrences' =>  count($filter_value->number_of_occurrences)// ?
         // 'noteRbt' => $noteRbt, // trae todas las notas
 
+        // extrae la ultima fecha de la semana de sessions_dates ?
+        
+        // al final se debe recibir :
+        // maladaptive_behavior, 
+        // la lista filtrada filtered_maladaptives
+        // last_date de esa semana con el total_number_of_occurrences de esa semana
+        // y traer todas las semanas  con sus totales para mostrar en el grafico 
         
          
     ], 201);
@@ -247,192 +266,6 @@ class GraphicReductionController extends Controller
     // return response()->json($response, 201);
 }
 
-//los trae separado pero vacio
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
-//     if (!$patient_is_valid) {
-//         // Return a 404 Not Found response if the patient is not valid
-//         return response()->json(['error' => 'Patient not found'], 404);
-//     }
-
-//     $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-
-//     $maladaptivesCollection = new Collection();
-
-//     $maladaptivesCollection = $noteRbt->map(function ($maladaptives) {
-//         $json = json_encode($maladaptives);
-//         if (json_last_error() === JSON_ERROR_NONE) {
-//             $decoded = json_decode($json, false, 512, JSON_UNESCAPED_SLASHES);
-//             if (is_object($decoded) && isset($decoded->$maladaptives)) {
-//                 return [
-//                     "dataInterna" => json_encode($decoded),
-//                     "dataInternaDetails" => [
-//                         [
-//                             'maladaptive_behavior' => $decoded->$maladaptives,
-//                             'number_of_occurrences' => $decoded->number_of_occurrences,
-//                         ]
-//                     ]
-//                 ];
-//             } else {
-//                 // Log an error message if $decoded is not an object or does not have the $maladaptives property
-//                 Log::error("Decoded object is not an object or does not have the $maladaptives property: " . json_encode($decoded));
-//                 return [];
-//             }
-//         } else {
-//             // Log an error message if $maladaptive is not a valid JSON string
-//             Log::error("$maladaptive is not a valid JSON string: " . json_last_error_msg());
-//             return [];
-//         }
-//     });
-
-//     $grouped = $maladaptivesCollection;
-
-//     return response()->json([
-//         'maladaptive_behavior' => $maladaptives,
-//         "maladaptives" => $grouped
-//     ], 200);
-// }
-
-//los trae separado pero vacio con data interna
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-//     $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-
-//         $maladaptivesCollection = new Collection();
-//         $maladaptive_behavior = $maladaptives;
-
-//         foreach ($noteRbt as $item) {
-//                     $maladaptivesCollection->push($item->maladaptives);
-                    
-//                 }
-
-//     return response()->json([
-//         "maladaptives" => $maladaptivesCollection->map(function ($maladaptives) {
-//             $decoded = json_decode($maladaptives);
-//             return [
-//                 "dataInterna" => is_object($decoded) ? $decoded : (object) [],
-//                 "dataInternaDetails" => is_object($decoded) ? [
-//                     [
-//                         'maladaptive_behavior' => $decoded->maladaptive_behavior,
-//                         'number_of_occurrences' => $decoded->number_of_occurrences,
-//                     ]
-//                 ] : [],
-//             ];
-//         })->groupBy("session_date")->toArray()
-//     ], 201);
-// }
-
-
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
-//     if (!$patient_is_valid) {
-//         return response()->json(['error' => 'Patient not found'], 404);
-//     }
-
-//     $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get(); //lo devuelve asi:
-//     //     // maladaptives": "[\"\\\"[
-//     //     // {
-//     //     //     \\\\\\\"maladaptive_behavior\\\\\\\": \\\\\\\"Negative Self talk\\\\\\\",
-//     //     //     \\\\\\\"number_of_occurrences\\\\\\\": 30
-//     //     //   },{
-//     //     //     \\\\\\\"maladaptive_behavior\\\\\\\": \\\\\\\"otro\\\\\\\",
-//     //     //     \\\\\\\"number_of_occurrences\\\\\\\": 23
-//     //     //   }
-    
-//     // requiero traer solo el number_of_occurrences por el  maladaptive_behavior de cada noteRbt  ?
-//     // requiero la suma de number_of_occurrences de el maladaptives maladaptive_behavior de cada noteRbt por semana  ?
-        
-
-
-//     $noteRbt = NoteRbt::selectRaw('JSON_EXTRACT(maladaptives, "$.maladaptive_behavior") as maladaptive_behavior, JSON_EXTRACT(maladaptives, "$.number_of_occurrences") as number_of_occurrences')
-//         ->where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-//         // los devuelve perfecto pero con valor null
-
-//         // requiero eliminar  los "[\"\\\"[ y los \\\\\\\ \ para que quede como un array de objetos JSON
-//         // ademas traer solo el number_of_occurrences por el  maladaptive_behavior que se llamen igual a $maladatives de cada noteRbt  
-        
-
-
-//     $maladaptivesCollection = new Collection();
-
-//     foreach ($noteRbt as $item) {
-//         $maladaptivesCollection->push($item->maladaptives);
-//     }
-
-//     $result = [];
-
-//     foreach ($maladaptivesCollection as $item) {
-//         $decoded = json_decode($item, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-//         if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-//             $result[] = [
-//                 'maladaptive_behavior' => $decoded['maladaptive_behavior'],
-//                 'number_of_occurrences' => $decoded['number_of_occurrences'],
-//             ];
-//         }
-//     }
-
-//     $json_encoded = json_encode($maladaptivesCollection, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
-//     return response()->json([
-//         'maladaptive_behavior' => $maladaptives,
-//         "maladaptives" => $json_encoded,
-//         "result" => $result
-//     ], 201);
-// }
-
-//trae el $json_string = str_replace(['[\"\\"', '\\\\\\"', '"]'],
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
-//     if (!$patient_is_valid) {
-//         return response()->json(['error' => 'Patient not found'], 404);
-//     }
-
-//     $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-
-//     $maladaptivesCollection = new Collection();
-
-//     foreach ($noteRbt as $item) {
-//         $json_string = str_replace(['[\"\\"', '\\\\\\"', '"]'], ['', '\"', ''], $item->maladaptives);
-//         $decoded = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-//         if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-//             $maladaptivesCollection->push($decoded);
-//         }
-//     }
-
-//     $result = [];
-
-//     foreach ($maladaptivesCollection as $item) {
-//         if ($item->maladaptive_behavior == $maladaptives) {
-//             $result[] = [
-//                 'maladaptive_behavior' => $item->maladaptive_behavior,
-//                 'number_of_occurrences' => $item->number_of_occurrences,
-//             ];
-//         }
-//     }
-
-//     $json_encoded = json_encode($result, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
-//     return response()->json([
-//         'maladaptives' => $json_encoded,
-//     ], 201);
-// }
 
 //calcular la semana
 function getWeekNumber($session_date) {
@@ -440,78 +273,6 @@ function getWeekNumber($session_date) {
     return $d->format("W");
 }
 
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $patient_id)->first();
-
-//     if (!$patient_is_valid) {
-//         return response()->json(['error' => 'Patient not found'], 404);
-//     }
-
-//     $noteRbt = NoteRbt::selectRaw('JSON_EXTRACT(maladaptives, "$.maladaptive_behavior") as maladaptive_behavior, JSON_EXTRACT(maladaptives, "$.number_of_occurrences") as number_of_occurrences')
-//         ->where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-
-//     $result = [];
-
-//     foreach ($noteRbt as $item) {
-//         $decoded = json_decode($item->maladaptive_behavior, true);
-//         if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-//             $result[] = [
-//                 'maladaptive_behavior' => $decoded['maladaptive_behavior'],
-//                 'number_of_occurrences' => $item->number_of_occurrences,
-//             ];
-//         }
-//     }
-
-//     $json_encoded = json_encode($result, JSON_UNESCAPED_SLASHES);
-
-//     return response()->json([
-//         'maladaptive_behavior' => $maladaptives,
-//         "maladaptives" => $json_encoded,
-//         "result" => $result
-//     ], 201);
-// }
-
-
-// public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
-// {
-//     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
-//     if (!$patient_is_valid) {
-//         return response()->json(['error' => 'Patient not found'], 404);
-//     }
-
-//     $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-//         ->where("patient_id", $patient_id)
-//         ->get();
-
-//     $result = [];
-
-//     foreach ($noteRbt as $item) {
-//         $decoded = json_decode($item->maladaptives, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-//         if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-//             foreach ($decoded as $behavior) {
-//                 $maladaptive_behavior = $behavior->maladaptive_behavior;
-//                 $number_of_occurrences = $behavior->number_of_occurrences;
-
-//                 if (!isset($result[$maladaptive_behavior])) {
-//                     $result[$maladaptive_behavior] = 0;
-//                 }
-
-//                 $result[$maladaptive_behavior] += $number_of_occurrences;
-//             }
-//         }
-//     }
-
-    
-
-//     return response()->json([
-//         'maladaptive_behavior' => $maladaptives,
-//         "result" => $result
-//     ], 201);
-// }
 
 
 

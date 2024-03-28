@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Notes;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Billing;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
@@ -12,6 +13,7 @@ use App\Models\Bip\ReductionGoal;
 use App\Models\Notes\Maladaptive;
 use App\Models\Notes\Replacement;
 use App\Models\Bip\SustitutionGoal;
+use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Note\NoteRbtResource;
@@ -332,6 +334,7 @@ class NoteRbtController extends Controller
         $patient = null;
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
+        $insurance = Insurance::get();
 
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
@@ -363,23 +366,25 @@ class NoteRbtController extends Controller
         
         $noteRbt = NoteRbt::create($request->all());
 
-        $maladaptives = Maladaptive::create([
-            "patient_id" => $request->patient_id,
-            "bip_id" => $noteRbt->bip_id,
-            "maladaptive_behavior" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
-                return $maladaptive->maladaptive_behavior;
-            }))),
-            "number_of_occurrences" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
-                return $maladaptive->number_of_occurrences;
-            })))
-        ]);
+        // $maladaptives = Maladaptive::create([
+        //     "patient_id" => $request->patient_id,
+        //     "bip_id" => $noteRbt->bip_id,
+        //     "maladaptive_behavior" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
+        //         return $maladaptive->maladaptive_behavior;
+        //     }))),
+        //     "number_of_occurrences" => json_decode(json_encode(collect($noteRbt->maladaptives)->map(function ($maladaptive) {
+        //         return $maladaptive->number_of_occurrences;
+        //     })))
+        // ]);
 
-        $replacement =Replacement::create([
-            'patient_id' => $patient->patient_id,
-            "bip_id"=>$noteRbt->bip_id,
-            'goal' => $request->goal,
-            'total_trials' => $request->total_trials,
-            'number_of_correct_response' => $request->number_of_correct_response,
+        $billing = Billing::create([
+            "sponsor_id" => $request->doctor_id,
+            "patient_id" => $request->patient_id,
+            "date" => $request->session_date,
+            
+            "total_hours" => ($request->time_out + $request->time_in + $request->time_out2 + $request->time_in2)/100,
+            "total_units" => ($request->time_out + $request->time_in + $request->time_out2 + $request->time_in2)/100*4,
+
         ]);
         
             //envia un correo al doctor
@@ -435,6 +440,7 @@ class NoteRbtController extends Controller
             
         ]);
     }
+    
     public function showNoteRbtByPatient($patient_id)
     {
         $noteRbt = NoteRbt::where("patient_id", $patient_id)->get();

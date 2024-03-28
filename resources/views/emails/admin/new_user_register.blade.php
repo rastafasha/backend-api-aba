@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hola
 <br>
-Se has registrado un nuevo usuario
+Se ha registrado un nuevo usuario
 <br><br>
 
 * Nombre del usuario ***{{ $user->username}}***

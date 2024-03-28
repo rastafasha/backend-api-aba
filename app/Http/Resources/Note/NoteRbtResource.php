@@ -58,6 +58,8 @@ class NoteRbtResource extends JsonResource
             "time_out2" =>$this->resource->time_out2,
             "session_length_total" =>($this->resource->time_out - $this->resource->time_in)/ 100,
             "session_length_total2" =>($this->resource->time_out2 - $this->resource->time_in2) /100,
+            // "total_hours" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100,
+            // // // // "total_units" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100*4,
 
             "client_appeared" =>$this->resource->client_appeared,
             "as_evidenced_by" =>$this->resource->as_evidenced_by,

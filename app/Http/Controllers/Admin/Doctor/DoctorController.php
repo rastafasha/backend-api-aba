@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
 use App\Models\Notes\NoteBcba;
 use App\Models\Patient\Patient;
+use App\Mail\NewUserRegisterMail;
 use App\Models\Doctor\Specialitie;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
@@ -153,7 +155,7 @@ class DoctorController extends Controller
         $user->assignRole($role);
 
 
-        // Mail::to($user->email)->send(new NewUserRegisterMail($user));
+        Mail::to($user->email)->send(new NewUserRegisterMail($user));
 
         return response()->json([
             "message" => 200,

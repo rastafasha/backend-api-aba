@@ -100,6 +100,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     // graphic_reduction
     require __DIR__ . '/api_routes/graphic_reduction.php';
 
+    // billing
+    require __DIR__ . '/api_routes/billing.php';
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
     

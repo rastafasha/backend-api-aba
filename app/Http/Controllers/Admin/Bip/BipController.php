@@ -22,16 +22,16 @@ class BipController extends Controller
     public function index()
     {
 
-        $patientID = $request->patientID;
-        $name_doctor = $request->search;
-        $date = $request->date;
+        // $patientID = $request->patientID;
+        // $name_doctor = $request->search;
+        // $date = $request->date;
 
-        $appointments = Appointment::filterAdvanceBip($patientID, $name_doctor, $date)->orderBy("id", "desc")
-                            ->paginate(10);
-        return response()->json([
-            "total"=>$appointments->total(),
-            "appointments"=> AppointmentCollection::make($appointments)
-        ]);
+        // $appointments = Appointment::filterAdvanceBip($patientID, $name_doctor, $date)->orderBy("id", "desc")
+        //                     ->paginate(10);
+        // return response()->json([
+        //     "total"=>$appointments->total(),
+        //     "appointments"=> AppointmentCollection::make($appointments)
+        // ]);
 
         // $bips = Bip::orderBy("id", "desc")
         //                     ->paginate(10);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Billing;
 use App\Models\Location;
 use App\Models\Bip\BipFile;
 use Illuminate\Http\Request;
@@ -243,6 +244,14 @@ class PatientController extends Controller
         }
         
         $patient = Patient::create($request->all());
+
+
+        $billing = Billing::create([
+            "patient_id" => $request->patient_id,
+            "sponsor_id" => $request->doctor_id,
+            "insurer_id" => $request->insurer_id,
+            
+        ]);
         
         
         // $request->request->add([
@@ -269,6 +278,15 @@ class PatientController extends Controller
             // "pa_assessments"=>json_decode($patient-> pa_assessments),
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             // "patient" => PatientResource::make($patient),
+            
+        ]);
+    }
+    public function showPatientId($patient_id)
+    {
+        $patient = Patient::where('patient_id',$patient_id)->first();
+
+        return response()->json([
+            "patient" => $patient,
             
         ]);
     }
