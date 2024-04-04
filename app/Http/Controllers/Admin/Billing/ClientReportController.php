@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Admin\Billing;
 
 use App\Models\User;
-use App\Models\Billing\Billing;
 use Illuminate\Http\Request;
-use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
+use App\Models\Billing\ClientReport;
+use App\Http\Resources\Bip\BipResource;
+use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Billing\BillingResource;
 use App\Http\Resources\Billing\BillingCollection;
+use App\Http\Resources\Billing\ClientReport\ClientReportCollection;
 
-class BillingController extends Controller
+class ClientReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,12 +23,12 @@ class BillingController extends Controller
      */
     public function index()
     {
-        $billings = Billing::orderBy("id", "desc")
+        $clientReports = ClientReport::orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
             // "billings"=> $billings
-            "billings"=> BillingCollection::make($billings)
+            "clientReports"=> ClientReportCollection::make($clientReports)
         ]);
     }
 
@@ -55,7 +57,7 @@ class BillingController extends Controller
     // mostrar data por el paciente
     public function showByPatientId($patient_id)
     {
-        $billings = Billing::where("patient_id", $patient_id)
+        $clientReports = ClientReport::where("patient_id", $patient_id)
         ->orderby('date', 'desc')
         // ->groupby('date')
         // ->selectRaw('sum(total_hours) as total, date')
@@ -63,7 +65,7 @@ class BillingController extends Controller
         // $patient = Patient::where("patient_id", $patient_id)->first();
     
         return response()->json([
-            "billings" => $billings,
+            "clientReports" => $clientReports,
             // "billings" => BillingCollection::make($billings),
         ]);
 
@@ -72,7 +74,7 @@ class BillingController extends Controller
     //mostrar al paciente
     public function showPatientId($patient_id)
     {
-        $patient_is_valid = Billing::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = ClientReport::where("patient_id", $request->patient_id)->first();
         $patient = Patient::where("patient_id", $patient_id)->orderby('date', 'desc')
         // ->groupby('date')
         // ->selectRaw('sum(total_hours) as total, date')
@@ -81,7 +83,7 @@ class BillingController extends Controller
     
         return response()->json([
             // "note_rbts" => NoteRbtResource::make($note_rbts),
-            "billings" => BillingCollection::make($billings),
+            "clientReports" => ClientReportCollection::make($clientReports),
             // "note_rbts" => $note_rbts,
             // "patient" => $patient,
         ]);
@@ -100,36 +102,11 @@ class BillingController extends Controller
      */
     public function show($id)
     {
-        $billing = Billing::findOrFail($id);
+        $clientReport = ClientReport::findOrFail($id);
         // $patient = Patient::where("patient_id", $patient_id)->first();
 
         return response()->json([
-            "billing" => BillingResource::make($billing),
-            // "interventions"=>json_decode($noteRbt-> interventions),
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            // "replacements"=>json_decode($noteRbt-> replacements),
-            // "patient"=>$billing->patient,
-            // "patient"=>$patient->map(function($patient){
-            //     return[
-            //         "id"=> $patient->id,
-            //         "full_name"=> $patient->first_name.' '.$patient->last_name,
-            //         "insurance_id"=> $patient->insurance_id,
-            //     ];
-            // }),
-            // "supervisor_name"=>$noteRbt->supervisor_name,
-            // "supervisor_name"=>$doctor->map(function($supervisor_name){
-            //     return[
-            //         "id"=> $supervisor_name->id,
-            //         "full_name"=> $supervisor_name->name.' '.$supervisor_name->surname,
-            //     ];
-            // }),
-            // "provider_name_g"=>$noteRbt->provider_name_g,
-            // "provider_name_g"=>$doctor->map(function($provider_name_g){
-            //     return[
-            //         "id"=> $provider_name_g->id,
-            //         "full_name"=> $provider_name_g->name.' '.$provider_name_g->surname,
-            //     ];
-            // }),
+            "clientReport" => BillingResource::make($clientReport),
             
         ]);
     }
@@ -161,15 +138,15 @@ class BillingController extends Controller
 
     public function updateTotals(Request $request, $id)
     {
-        $billing = Billing::findOrfail($id);
-        $billing->billing_total = $request->billing_total;
-        $billing->week_total_hours = $request->week_total_hours;
-        $billing->week_total_units = $request->week_total_units;
-        $billing->cpt_code = $request->cpt_code;
-        $billing->insurer_id = $request->insurer_id;
-        $billing->insurer_rate = $request->insurer_rate;
-        $billing->update();
-        return $billing;
+        $clientReport = ClientReport::findOrfail($id);
+        $clientReport->billing_total = $request->billing_total;
+        $clientReport->week_total_hours = $request->week_total_hours;
+        $clientReport->week_total_units = $request->week_total_units;
+        $clientReport->cpt_code = $request->cpt_code;
+        $clientReport->insurer_id = $request->insurer_id;
+        $clientReport->insurer_rate = $request->insurer_rate;
+        $clientReport->update();
+        return $clientReport;
         
     }
 
@@ -183,4 +160,5 @@ class BillingController extends Controller
     {
         //
     }
+
 }

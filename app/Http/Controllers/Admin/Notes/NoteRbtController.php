@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Notes;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Billing;
+use App\Models\Billing\Billing;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
@@ -381,9 +381,8 @@ class NoteRbtController extends Controller
             "sponsor_id" => $request->doctor_id,
             "patient_id" => $request->patient_id,
             "date" => $request->session_date,
-            
-            "total_hours" => ($request->time_out + $request->time_in + $request->time_out2 + $request->time_in2)/100,
-            "total_units" => ($request->time_out + $request->time_in + $request->time_out2 + $request->time_in2)/100*4,
+            "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100,
+            "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,
 
         ]);
         
