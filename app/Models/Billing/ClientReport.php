@@ -2,6 +2,7 @@
 
 namespace App\Models\Billing;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
@@ -18,7 +19,7 @@ class ClientReport extends Model
         'cpt_code',
         'insurer_id',
         'insurer_rate',
-        'date',
+        'session_date',
         'total_hours',
         'total_units',
         'billing_total',
@@ -43,5 +44,22 @@ class ClientReport extends Model
     public function note_rbt()
     {
         return $this->hasMany(NoteRbt::class);
+    }
+
+     // filtro buscador
+
+     public function scopefilterAdvance($query, $name_doctor, $session_date){
+        
+        if($name_doctor){
+            $query->whereHas("doctor", function($q)use($name_doctor){
+                $q->where("name", "like","%".$name_doctor."%")
+                    ->orWhere("surname", "like","%".$name_doctor."%");
+            });
+        }
+
+        if($session_date){
+            $query->whereDate("session_date", Carbon::parse($session_date)->format("Y-m-d"));
+        }
+        return $query;
     }
 }

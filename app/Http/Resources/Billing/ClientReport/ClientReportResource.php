@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Billing\ClientReport;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClientReportResource extends JsonResource
@@ -22,7 +23,7 @@ class ClientReportResource extends JsonResource
               // traemos al especialista 
             'sponsor_id'=>$this->resource->sponsor_id,
             //viene de la session_date de la notarbt
-            'date'=>$this->resource->date,
+            'session_date'=>$this->resource->session_date,
             
              //sacamos el total de las horas trabajadas de la nota rbt por nota  
             'total_hours'=>$this->resource->total_hours,

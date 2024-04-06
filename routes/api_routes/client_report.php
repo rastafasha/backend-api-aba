@@ -8,7 +8,6 @@ Route::get('client_report', [ClientReportController::class, 'index'])->name('ind
 Route::get('client_report/config', [ClientReportController::class, 'config'])->name('config');
 Route::get('client_report/show/{id}', [ClientReportController::class, 'show'])->name('show');
 Route::get('client_report/byprofile/{patient_id}', [ClientReportController::class, 'showByPatientId'])->name('showByPatientId');
-Route::get('client_report/profile/{id}', [ClientReportController::class, 'showProfile'])->name('showProfile');
 
 Route::post('client_report/store', [ClientReportController::class, 'store'])->name('store');
 Route::post('client_report/update/{id}', [ClientReportController::class, 'update'])->name('update');

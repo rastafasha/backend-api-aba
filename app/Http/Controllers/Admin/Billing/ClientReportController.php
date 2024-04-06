@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Billing;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use App\Models\Billing\ClientReport;
 use App\Http\Resources\Bip\BipResource;
+use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
+use App\Http\Resources\Note\NoteRbtCollection;
 use App\Http\Resources\Billing\BillingResource;
 use App\Http\Resources\Billing\BillingCollection;
+use App\Http\Resources\Insurance\InsuranceCollection;
 use App\Http\Resources\Billing\ClientReport\ClientReportCollection;
 
 class ClientReportController extends Controller
@@ -40,52 +45,67 @@ class ClientReportController extends Controller
         return response()->json([
             "doctors"=>$users,
             "insurances"=>$insurances,
-            // "doctors"=>$users->map(function($user){
-            //     return[
-            //         "id"=> $user->id,
-            //         "full_name"=> $user->name.' '.$user->surname,
-            //     ];
-            // }),
-            // "patients"=>$patients->map(function($patient){
-            //     return[
-            //         "id"=> $user->id,
-            //         "full_name"=> $patient->name.' '.$patient->surname,
-            //     ];
-            // })
         ]);
     }
     // mostrar data por el paciente
-    public function showByPatientId($patient_id)
+    public function showByPatientId(Request $request)
     {
-        $clientReports = ClientReport::where("patient_id", $patient_id)
-        ->orderby('date', 'desc')
-        // ->groupby('date')
-        // ->selectRaw('sum(total_hours) as total, date')
-        ->get();
-        // $patient = Patient::where("patient_id", $patient_id)->first();
-    
-        return response()->json([
-            "clientReports" => $clientReports,
-            // "billings" => BillingCollection::make($billings),
-        ]);
+        $name_doctor = $request->search;
+        $session_date = $request->session_date;
+        $patient_id = $request->patient_id;
+        $provider_name_g = $request->provider_name_g;
 
-        
-    }
-    //mostrar al paciente
-    public function showPatientId($patient_id)
-    {
-        $patient_is_valid = ClientReport::where("patient_id", $request->patient_id)->first();
-        $patient = Patient::where("patient_id", $patient_id)->orderby('date', 'desc')
-        // ->groupby('date')
-        // ->selectRaw('sum(total_hours) as total, date')
+        $noteRbt = NoteRbt::where("patient_id", $patient_id) 
+        ->orderby('session_date', 'desc')
         ->get();
-        // $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
+        $doctor = NoteRbt::where("provider_name_g", $provider_name_g)->get();
+        $clientReports = ClientReport::filterAdvance($name_doctor, $session_date)->where("patient_id", $patient_id)
+        ->orderby('session_date', 'desc')
+        ->get();
     
         return response()->json([
-            // "note_rbts" => NoteRbtResource::make($note_rbts),
-            "clientReports" => ClientReportCollection::make($clientReports),
-            // "note_rbts" => $note_rbts,
-            // "patient" => $patient,
+            // "clientReports" => ClientReportCollection::make($clientReports),
+            "full_name"=> $patient->first_name.' '.$patient->last_name,
+            // "doctor"=> $doctor,
+            // "doctor" => UserCollection::make($doctor),
+            // "doctor"=>$noteRbt->map(function($provider_name_g){
+            //     // return[
+            //     //     "id"=> $noteRbt->id,
+            //     //     "pos" => $noteRbt->pos,
+            //     //     "time_in" => ($noteRbt->time_in)/100,
+            //     //     "time_out" => ($noteRbt->time_out)/100,
+            //     //     "time_in2" => ($noteRbt->time_in2)/100,
+            //     //     "time_out2" => ($noteRbt->time_out2)/100,
+            //     //     "session_1" => ($noteRbt->time_out - $noteRbt->time_in)/100,
+            //     //     "session_2" => ($noteRbt->time_out2 - $noteRbt->time_in2)/100,
+            //     //     "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
+            //     // ];
+            // }),
+            "patient_id"=> $patient->patient_id,
+            "insurer_id"=> $patient->insurer_id,
+            "noteRbt" => NoteRbtCollection::make($noteRbt),
+            "noteRbt"=>$noteRbt->map(function($noteRbt){
+                return[
+                    "id"=> $noteRbt->id,
+                    "pos" => $noteRbt->pos,
+                    "provider_name_g" => $noteRbt->provider_name_g,
+
+                    "time_in" => ($noteRbt->time_in)/100,
+                    "time_out" => ($noteRbt->time_out)/100,
+                    "time_in2" => ($noteRbt->time_in2)/100,
+                    "time_out2" => ($noteRbt->time_out2)/100,
+                    "session_1" => ($noteRbt->time_out - $noteRbt->time_in)/100,
+                    "session_2" => ($noteRbt->time_out2 - $noteRbt->time_in2)/100,
+                    "total_hours" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100,
+                    "total_units" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100*4,
+
+                    "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
+                ];
+            }),
+
+            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
+            
         ]);
 
         
@@ -114,8 +134,27 @@ class ClientReportController extends Controller
     public function showProfile($patient_id)
     {
         $patient = Patient::where("patient_id", $patient_id)->first();
+        $noteRbt = NoteRbt::where("patient_id", $patient_id)->get();
+
+
         return response()->json([
-            "patient" => $patient,
+            // "patient" => $patient,
+            // "noteRbt" => $noteRbt,
+            "full_name"=> $patient->first_name.' '.$patient->last_name,
+            "patient_id"=> $patient->patient_id,
+            "insurer_id"=> $patient->insurer_id,
+            "noteRbt" => NoteRbtCollection::make($noteRbt),
+            "noteRbt"=>$noteRbt->map(function($noteRbt){
+                return[
+                    "id"=> $noteRbt->id,
+                    "pos" => $noteRbt->pos,
+                    "time_in" => $noteRbt->time_in,
+                    "time_out" => $noteRbt->time_out,
+                    "time_in2" => $noteRbt->time_in2,
+                    "time_out2" => $noteRbt->time_out2,
+                ];
+            }),
+
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
             
             // "bip" => BipResource::make($bip),

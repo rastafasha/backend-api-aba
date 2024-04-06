@@ -274,40 +274,194 @@ function getWeekNumber($session_date) {
 }
 
 
-
-
-    public function showGragphicbyReplacement(Request $request, string $replacements ,$patient_id)
-    {
+public function showGragphicbyReplacement(Request $request, string $replacements, $patient_id)
+{
+    // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
 
+        // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
-        ->where("patient_id", $request->patient_id)->get();
+            ->where("patient_id", $request->patient_id)
+            ->get();
+        
+        
+        // Retrieve all unique session dates from the NoteRbt records
+        $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
 
-        $replacementsCollection = new Collection();
+        //trae la primera y ultima fecha de la semana
+        $week_session = NoteRbt::whereNotNull('session_date')->get();
+
+            if ($week_session->isNotEmpty()) {
+                $first_date = $week_session->first()->week_session;
+                $last_date = $week_session->last()->week_session;
+
+                // Convert the first and last date to Carbon instances
+                $first_date = Carbon::parse($first_date);
+                $last_date = Carbon::parse($last_date);
+
+                // Get the first and last date of the week
+                $first_date_of_week = $first_date->startOfWeek();
+                $last_date_of_week = $last_date->endOfWeek();
+
+            } 
+            
+        // Initialize an empty collection to store the number of occurrences of the given maladaptive behavior type
+        $replacementsCollection = collect();
+
+        // Get the name of the maladaptive behavior type from the request 
+        $goal = $replacements;
+        // $number_of_occurrences = $maladaptivesCollection->countOccurrenciesInTimeInterval($noteRbt,$number_of_occurrences);
+
+        
+        // Initialize an empty array to store the JSON strings
+        $json_strings = [];
 
         foreach ($noteRbt as $item) {
-            $replacementsCollection->push($item->replacements);
-        }
-        
-        return response()->json([
-            // "noteRbt" => $noteRbt,
+            // Log::debug("Processing item: " . $item);
             
-            "noteRbt" => NoteRbtCollection::make($noteRbt) ,
-            // "session_date" =>$noteRbt->session_date,
-            "replacements" => $replacementsCollection->map(function ($replacem) {
-                // return $maladaptive;
-                return json_decode($replacem);
-                foreach ($replacem as $replac){
-                    DB::table('note_rbts')->where('replacements','=', $request->replac->goal)->get();
+            $replacementsCollection->push($item->replacements); 
+            Log::debug("replacementsCollection: " . $replacementsCollection);
+            
+            $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $replacements);
+            // Log::debug("Cleaned JSON string: " . $json_string);
+
+            if (json_validate($json_string)) {
+                $replacements = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($replacements)) {
+                    $total_trials = 0;
+                    foreach ($replacements as $replacement) {
+                        $total_trials += $replacement->total_trials;
+                    }
+                    $replacementsCollection->push($total_trials);
+                } else {
+                    Log::debug("Failed to decode JSON: " . json_last_error_msg());
                 }
-            })->groupBy("session_date")->toArray()
+            } else {
+                // Log::debug("Invalid JSON string: " . $json_string);
+            }
+
+        }
+
+        // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
+       
+        
+        
+        // Convert replacements from string to JSON array
+        $replacements = json_decode($item->replacements, false);
+        Log::debug("replacements: " . $replacements);
+        
+        
+
+        $goa = json_decode($replacements, true);
+        foreach ($goa as $g) {
+            foreach ($g as $k => $v) {
+                // echo "$k - $v\n";
+            }
+        }
+
+
+        //calcular la semana
+        function getWeekNumber($session_date) {
+            $d = new DateTime($session_date);
+            return $d->format("W");
+        }
+
+        // Define the value you want to filter by
+        $filter_value = $goal;
+        Log::debug("filter_value: " . $filter_value);
+
+        // Filter the maladaptives array
+        $filtered_goals = array_filter($goa, function ($goal) use ($filter_value) {
+            return $goal['goal'] == $filter_value;
+        });
+
+        $first_date = $sessions->first();
+
+        // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
+        
+        $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
+        // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
+
+
+        return response()->json([
             
-        ],201);
+        // 'decoded' => $mald, 
+        'goal' => $goal, // trae el nombre  del comportamiento que se busco
+         
+        // 'goals' => $goals, 
+        
+        
+        
+        'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo 
+        'total_total_trials' => array_sum(array_column($filtered_goals, 'total_trials')),
+        'total_count_this_in_notes_rbt'=> count($replacementsCollection), //cuenta el total de este maladative en la nota    
+        'sessions_dates' => $sessions, 
+        'first_date' => $first_date , 
+        'last_date' => $last_date->format('Y-m-d') ,
+        'First date of the week' => $first_date_of_week->format('Y-m-d'), 
+        'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
+        'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
+        'Week number' => getWeekNumber($request->fecha),
+        // 'week_sessions' => $week_session, 
+        'replacementsCol' => $replacementsCollection, 
+        // 'total_number_of_occurrences' =>  count($filter_value->number_of_occurrences)// ?
+        // 'noteRbt' => $noteRbt, // trae todas las notas
+
+        // extrae la ultima fecha de la semana de sessions_dates ?
+        
+        // al final se debe recibir :
+        // goal, 
+        // la lista filtrada filtered_maladaptives
+        // last_date de esa semana con el total_number_of_occurrences de esa semana
+        // y traer todas las semanas  con sus totales para mostrar en el grafico 
+        
+         
+    ], 201);
+
+    
+
+    if ($maladaptivesCollection->isEmpty()) {
+        // Return a 404 Not Found response if the $maladaptivesCollection is empty
+        return response()->json(['error' => 'No data found for maladaptive behavior: '.$maladaptives], 404);
+    }
+
+    // return response()->json($response, 201);
+}
+
+
+    // public function showGragphicbyReplacement(Request $request, string $replacements ,$patient_id)
+    // {
+    //     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
+
+    //     $noteRbt = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
+    //     ->where("patient_id", $request->patient_id)->get();
+
+    //     $replacementsCollection = new Collection();
+
+    //     foreach ($noteRbt as $item) {
+    //         $replacementsCollection->push($item->replacements);
+    //     }
+        
+    //     return response()->json([
+    //         // "noteRbt" => $noteRbt,
+            
+    //         "noteRbt" => NoteRbtCollection::make($noteRbt) ,
+    //         // "session_date" =>$noteRbt->session_date,
+    //         "replacements" => $replacementsCollection->map(function ($replacem) {
+    //             // return $maladaptive;
+    //             return json_decode($replacem);
+    //             foreach ($replacem as $replac){
+    //                 DB::table('note_rbts')->where('replacements','=', $request->replac->goal)->get();
+    //             }
+    //         })->groupBy("session_date")->toArray()
+            
+    //     ],201);
 
 
 
         
-    }
+    // }
 
 
     public function graphic_patient_month(Request $request){
