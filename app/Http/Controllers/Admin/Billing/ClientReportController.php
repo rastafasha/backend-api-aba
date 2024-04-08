@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
+use App\Models\Notes\NoteBcba;
 use App\Models\Patient\Patient;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,7 @@ use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
 use App\Http\Resources\Billing\BillingResource;
+use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Billing\BillingCollection;
 use App\Http\Resources\Insurance\InsuranceCollection;
 use App\Http\Resources\Billing\ClientReport\ClientReportCollection;
@@ -58,32 +60,24 @@ class ClientReportController extends Controller
         $noteRbt = NoteRbt::where("patient_id", $patient_id) 
         ->orderby('session_date', 'desc')
         ->get();
+        $noteBcba = NoteBcba::where("patient_id", $patient_id) 
+        ->get();
         $patient = Patient::where("patient_id", $patient_id)->first();
         $doctor = NoteRbt::where("provider_name_g", $provider_name_g)->get();
         $clientReports = ClientReport::filterAdvance($name_doctor, $session_date)->where("patient_id", $patient_id)
-        ->orderby('session_date', 'desc')
+        ->orderby('session_date', 'asc')
         ->get();
     
         return response()->json([
-            // "clientReports" => ClientReportCollection::make($clientReports),
             "full_name"=> $patient->first_name.' '.$patient->last_name,
-            // "doctor"=> $doctor,
-            // "doctor" => UserCollection::make($doctor),
-            // "doctor"=>$noteRbt->map(function($provider_name_g){
-            //     // return[
-            //     //     "id"=> $noteRbt->id,
-            //     //     "pos" => $noteRbt->pos,
-            //     //     "time_in" => ($noteRbt->time_in)/100,
-            //     //     "time_out" => ($noteRbt->time_out)/100,
-            //     //     "time_in2" => ($noteRbt->time_in2)/100,
-            //     //     "time_out2" => ($noteRbt->time_out2)/100,
-            //     //     "session_1" => ($noteRbt->time_out - $noteRbt->time_in)/100,
-            //     //     "session_2" => ($noteRbt->time_out2 - $noteRbt->time_in2)/100,
-            //     //     "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
-            //     // ];
-            // }),
             "patient_id"=> $patient->patient_id,
             "insurer_id"=> $patient->insurer_id,
+            "noteBcba" => NoteBcbaCollection::make($noteBcba),
+            "noteBcba"=>$noteBcba->map(function($noteBcba){
+                return[
+                    "cpt_code"=> $noteBcba->cpt_code,
+                ];
+            }),
             "noteRbt" => NoteRbtCollection::make($noteRbt),
             "noteRbt"=>$noteRbt->map(function($noteRbt){
                 return[
@@ -97,6 +91,7 @@ class ClientReportController extends Controller
                     "time_out2" => ($noteRbt->time_out2)/100,
                     "session_1" => ($noteRbt->time_out - $noteRbt->time_in)/100,
                     "session_2" => ($noteRbt->time_out2 - $noteRbt->time_in2)/100,
+                    
                     "total_hours" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100,
                     "total_units" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100*4,
 
