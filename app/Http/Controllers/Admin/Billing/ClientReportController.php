@@ -49,6 +49,8 @@ class ClientReportController extends Controller
             "insurances"=>$insurances,
         ]);
     }
+
+
     // mostrar data por el paciente
     public function showByPatientId(Request $request)
     {
@@ -85,15 +87,27 @@ class ClientReportController extends Controller
                     "pos" => $noteRbt->pos,
                     "provider_name_g" => $noteRbt->provider_name_g,
 
-                    "time_in" => ($noteRbt->time_in)/100,
-                    "time_out" => ($noteRbt->time_out)/100,
-                    "time_in2" => ($noteRbt->time_in2)/100,
-                    "time_out2" => ($noteRbt->time_out2)/100,
-                    "session_1" => ($noteRbt->time_out - $noteRbt->time_in)/100,
-                    "session_2" => ($noteRbt->time_out2 - $noteRbt->time_in2)/100,
+                    "time_in" => ($noteRbt->time_in),
+                    "time_out" => ($noteRbt->time_out),
+                    "time_in2" => ($noteRbt->time_in2),
+                    "time_out2" => ($noteRbt->time_out2),
+
+                    "session_1" => date("H:i", strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
+                    "session_2" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) ),
+                    // "session_f2" => ($noteRbt->time_out2 - $noteRbt->time_in2/100)*1.66666666666667,
+
+                    "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
+                    //1
+                    "hour_to_minute" => strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24,
+                    //
+                    "total_hoursFactor" => strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *1.66666666666667,
+                    "total_units" => (strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24)*1.66666666666667 /100 *4,
                     
-                    "total_hours" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100,
-                    "total_units" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100*4,
+                    // "total_hours" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100,
+                    
+                    // "total_units" => date("H:i", strtotime($noteRbt->time_out)-strtotime($noteRbt->time_in) + strtotime($noteRbt->time_out2)-strtotime($noteRbt->time_out2) )*4,
+                    // "total_units" => date("H:i", strtotime($noteRbt->time_out)-strtotime($noteRbt->time_in) + strtotime($noteRbt->time_out2)-strtotime($noteRbt->time_out2) )*4,
+                    // "total_units" => ($noteRbt->time_out - $noteRbt->time_in + $noteRbt->time_out2 - $noteRbt->time_in2)/100*4,
 
                     "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
                 ];

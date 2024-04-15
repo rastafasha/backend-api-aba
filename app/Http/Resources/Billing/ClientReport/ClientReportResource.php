@@ -32,6 +32,7 @@ class ClientReportResource extends JsonResource
             'total_units'=>$this->resource->total_units, 
             
             'billing_total'=>$this->resource->billing_total,
+            
             'week_total_hours'=>$this->resource->week_total_hours,
             'week_total_units'=>$this->resource->week_total_units ,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            

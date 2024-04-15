@@ -52,12 +52,18 @@ class NoteRbtResource extends JsonResource
             "doctor_id" => $this->resource->doctor_id,
             "meet_with_client_at" =>$this->resource->meet_with_client_at,
 
-            "time_in" =>$this->resource->time_in,
-            "time_out" =>$this->resource->time_out,
-            "time_in2" =>$this->resource->time_in2,
-            "time_out2" =>$this->resource->time_out2,
-            "session_length_total" =>($this->resource->time_out - $this->resource->time_in)/ 100,
-            "session_length_total2" =>($this->resource->time_out2 - $this->resource->time_in2) /100,
+            "time_in" =>$this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : NULL,
+            "time_out" =>$this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : NULL,
+            "time_in2" =>$this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : NULL,
+            "time_out2" =>$this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format(" H:i:s") : NULL,
+            // al obtener las horas trabajadas se suman 
+            //convertimos las horas para poder sumarlas
+            //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            "session_length_total2" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
+            "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            // "session_length_total" =>$this->resource->time_out - $this->resource->time_in,
+            // "session_length_total2" =>($this->resource->time_out2 - $this->resource->time_in2) /100,
             // "total_hours" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100,
             // // // // "total_units" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100*4,
 

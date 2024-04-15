@@ -50,6 +50,7 @@ class NoteRbtController extends Controller
 
         
     }
+
     public function showByClienttId($id)
     {
         $note_rbts = NoteRbt::where("id", $id)->get();
@@ -222,7 +223,7 @@ class NoteRbtController extends Controller
             ],
             [
                 "id"=>"1700",
-                "name"=>"17:00 PM"
+                "name"=>"17:00 PM" // 5:00
             ],
             [
                 "id"=>"1715",
@@ -340,9 +341,6 @@ class NoteRbtController extends Controller
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
 
-
-        
-
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
@@ -359,6 +357,23 @@ class NoteRbtController extends Controller
         if($request->next_session_is_scheduled_for){
             $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
             $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->time_in){
+            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
+            $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]);
+        }
+        if($request->time_out){
+            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out );
+            $request->request->add(["time_out" => Carbon::parse($time_clean1)->format('h:i:s')]);
+        }
+        if($request->time_in2){
+            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in2 );
+            $request->request->add(["time_in2" => Carbon::parse($time_clean3)->format('h:i:s')]);
+        }
+        if($request->time_out2){
+            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out2 );
+            $request->request->add(["time_out2" => Carbon::parse($time_clean4)->format('h:i:s')]);
         }
 
        
@@ -381,8 +396,11 @@ class NoteRbtController extends Controller
             "sponsor_id" => $request->doctor_id,
             "patient_id" => $request->patient_id,
             "date" => $request->session_date,
-            "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100,
-            "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,
+            "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            
+            // "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_out2)/100,
+            // "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,
+            // "total_units" => date("H:i", strtotime($request->time_out)-strtotime($request->time_in) + strtotime($request->time_out2)-strtotime($request->time_out2) )*4,
 
         ]);
         
