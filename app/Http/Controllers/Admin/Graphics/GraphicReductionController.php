@@ -235,23 +235,12 @@ class GraphicReductionController extends Controller
         'total_count_this_in_notes_rbt'=> count($maladaptivesCollection), //cuenta el total de este maladative en la nota    
         'sessions_dates' => $sessions, 
         'first_date' => $first_date , 
-        'last_date' => $last_date->format('Y-m-d') ,
+        'last_date' => $last_date,
         'First date of the week' => $first_date_of_week->format('Y-m-d'), 
         'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
         'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
         'Week number' => getWeekNumber($request->fecha),
-        // 'week_sessions' => $week_session, 
         'maladaptivesCol' => $maladaptivesCollection, 
-        // 'total_number_of_occurrences' =>  count($filter_value->number_of_occurrences)// ?
-        // 'noteRbt' => $noteRbt, // trae todas las notas
-
-        // extrae la ultima fecha de la semana de sessions_dates ?
-        
-        // al final se debe recibir :
-        // maladaptive_behavior, 
-        // la lista filtrada filtered_maladaptives
-        // last_date de esa semana con el total_number_of_occurrences de esa semana
-        // y traer todas las semanas  con sus totales para mostrar en el grafico 
         
          
     ], 201);

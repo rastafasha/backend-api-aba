@@ -396,7 +396,7 @@ class NoteRbtController extends Controller
             "sponsor_id" => $request->doctor_id,
             "patient_id" => $request->patient_id,
             "date" => $request->session_date,
-            "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            "total_hours" => date("H:i", strtotime($request->time_out2) - strtotime($request->time_in2) + strtotime($request->time_out) - strtotime($request->time_in) ),
             
             // "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_out2)/100,
             // "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,

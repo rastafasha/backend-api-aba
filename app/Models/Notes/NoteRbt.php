@@ -47,6 +47,8 @@ class NoteRbt extends Model
         'provider_name',
         'supervisor_signature',
         'supervisor_name',
+        'billed',
+        'pay',
 
     ];
 

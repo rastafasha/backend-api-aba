@@ -16,15 +16,19 @@ class ClientReport extends Model
     protected $fillable=[
         'patient_id',
         'sponsor_id',
+        'charges',
+        'billed',
         'cpt_code',
         'insurer_id',
-        'insurer_rate',
+        'md',
+        'md2',
+        'n_units',
+        'pa_number',
+        'pay',
+        'pos',
         'session_date',
         'total_hours',
-        'total_units',
-        'billing_total',
-        'week_total_hours',
-        'week_total_units',
+        'xe',
     ];
 
 

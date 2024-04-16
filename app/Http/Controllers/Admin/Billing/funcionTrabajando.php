@@ -28,28 +28,7 @@ class ClientReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $clientReports = ClientReport::orderBy("id", "desc")
-                            ->paginate(10);
-        return response()->json([
-            // "total"=>$patients->total(),
-            // "billings"=> $billings
-            "clientReports"=> ClientReportCollection::make($clientReports)
-        ]);
-    }
-
-    public function config(){
-
-        $insurances = Insurance::get();
-        $users= User::orderBy("id", "desc")->get();
-
-        return response()->json([
-            "doctors"=>$users,
-            "insurances"=>$insurances,
-        ]);
-    }
-
+   
 
     // mostrar data por el paciente
     public function showByPatientId(Request $request)
@@ -85,61 +64,62 @@ class ClientReportController extends Controller
         ->orderby('session_date', 'asc')
         ->get();
 
-        $sponsor = $sponsor->first();
+       
 
         // funcion de angel
-        // $timeIn = Carbon::parse($noteRbt->time_in);
-        // $timeOut = Carbon::parse($noteRbt->time_out);
+        $timeIn = Carbon::parse($noteRbt->time_in);
+        $timeOut = Carbon::parse($noteRbt->time_out);
 
-        // $diferencia = $timeOut->diff($timeIn);
+        $diferencia = $timeOut->diff($timeIn);
 
 
-        // $timeIn2 = Carbon::parse($noteRbt->time_in2);
-        // $timeOut2 = Carbon::parse($noteRbt->time_out2);
+        $timeIn2 = Carbon::parse($noteRbt->time_in2);
+        $timeOut2 = Carbon::parse($noteRbt->time_out2);
 
-        // $diferencia2 = $timeOut2->diff($timeIn2);
+        $diferencia2 = $timeOut2->diff($timeIn2);
         
-        // $horas = $diferencia->h;
-        // $minutos = $diferencia->i;
+        $horas = $diferencia->h;
+        $minutos = $diferencia->i;
         
-        // $horas2 = $diferencia2->h;
-        // $minutos2 = $diferencia2->i;
+        $horas2 = $diferencia2->h;
+        $minutos2 = $diferencia2->i;
 
 
-        // /**sfdsd */
-        // $minutosTotales1 = $diferencia->h * 60 + $diferencia->i;
+        /**sfdsd */
+        $minutosTotales1 = $diferencia->h * 60 + $diferencia->i;
 
-        // $minutosTotales2 = $diferencia2->h * 60 + $diferencia2->i;
+        $minutosTotales2 = $diferencia2->h * 60 + $diferencia2->i;
     
-        // $unidades1 = round($minutosTotales1 / 15);
-        // $unidades2 = round($minutosTotales2 / 15);
+        $unidades1 = round($minutosTotales1 / 15);
+        $unidades2 = round($minutosTotales2 / 15);
 
 
-        // $duracionTotalMinutos = $diferencia->h * 60 + $diferencia->i + $diferencia2->h * 60 + $diferencia2->i;
+        $duracionTotalMinutos = $diferencia->h * 60 + $diferencia->i + $diferencia2->h * 60 + $diferencia2->i;
 
-        // $horas = floor($duracionTotalMinutos / 60);
-        // $minutos = $duracionTotalMinutos % 60;
+        $horas = floor($duracionTotalMinutos / 60);
+        $minutos = $duracionTotalMinutos % 60;
 
 
-        // $diferenciaTotal = "$horas horas, $minutos minutos";
+        $diferenciaTotal = "$horas horas, $minutos minutos";
 
-        // $totalUnidades = $unidades1 + $unidades2;
+        $totalUnidades = $unidades1 + $unidades2;
 
-        // $costoUnidad = 12.51;
+        $costoUnidad = 12.51;
 
-        // $pagar = $totalUnidades * $costoUnidad;
+        $pagar = $totalUnidades * $costoUnidad;
         // fin funcion de angel
         
         return response()->json([
             // funcion de angel
-            // 'Session 1' => "Diferencia: $horas horas, $minutos minutos",
-            // 'Unidad sesion 1' => "Unidades: $unidades1",
-            // 'Session 2' => "Diferencia: $horas2 horas, $minutos2 minutos",
-            // 'Unidad sesion 2' => "Unidades: $unidades2",
-            // 'Total de minutos' => "Total de minutos $diferenciaTotal",
-            // 'Total de Unidades' => "Total de unidades $totalUnidades",
-            // 'Pagar' => $pagar,
+            'Session 1' => "Diferencia: $horas horas, $minutos minutos",
+            'Unidad sesion 1' => "Unidades: $unidades1",
+            'Session 2' => "Diferencia: $horas2 horas, $minutos2 minutos",
+            'Unidad sesion 2' => "Unidades: $unidades2",
+            'Total de minutos' => "Total de minutos $diferenciaTotal",
+            'Total de Unidades' => "Total de unidades $totalUnidades",
+            'Pagar' => $pagar,
             // fin funcion de angel
+
             "full_name"=> $patient->first_name.' '.$patient->last_name,
             "patient_id"=> $patient->patient_id,
             "insurer_id"=> $patient->insurer_id,
@@ -149,9 +129,8 @@ class ClientReportController extends Controller
                 return[
                     "id"=> $noteRbt->id,
                     "pos" => $noteRbt->pos,
-                    "billed" => $noteRbt->billed,
-                    "pay" => $noteRbt->pay,
                     "provider_name_g" => $noteRbt->provider_name_g,
+                    // traer el nombre del doctor desde la relacion sponsor
                     "sponsor"=>$noteRbt->provider_name_g? [
                         "id"=> $noteRbt->provider_name_g,
                         // "doctorId" => $sponsor->id,
@@ -191,130 +170,6 @@ class ClientReportController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        $patient = null;
-        $noteRbt = NoteRbt::where("session_date", $request->session_date)->first();;
-        $appointment_attention = $request->session_date;
-
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
-        $doctor = User::where("id", $request->doctor_id)->first();
-        
-
-        if($noteRbt){
-            // $noteRbt->update($request->all());
-            $noteRbt->update(["billed"=>$request->billed]);
-            $noteRbt->update(["pay"=>$request->pay]);
-
-            // if(!$noteRbt->session_date){
-                
-            // }
-            // $noteRbt->update(["laboratory" =>$request->laboratory,]);
-            
-            
-        }
-
-        $clientReport = ClientReport::create($request->all());
-
-        
-        
-        return response()->json([
-            "message"=>200,
-            "clientReport"=>$clientReport,
-            "noteRbt"=>$noteRbt,
-        ]);
-
-
-    }
-
-
-   
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $clientReport = ClientReport::findOrFail($id);
-        // $patient = Patient::where("patient_id", $patient_id)->first();
-
-        return response()->json([
-            "clientReport" => BillingResource::make($clientReport),
-            
-        ]);
-    }
-    //traer el perfil con los datos del insurer aplicados en el registro
-    public function showProfile($patient_id)
-    {
-        $patient = Patient::where("patient_id", $patient_id)->first();
-        $noteRbt = NoteRbt::where("patient_id", $patient_id)->get();
-
-
-        return response()->json([
-            // "patient" => $patient,
-            // "noteRbt" => $noteRbt,
-            "full_name"=> $patient->first_name.' '.$patient->last_name,
-            "patient_id"=> $patient->patient_id,
-            "insurer_id"=> $patient->insurer_id,
-            "noteRbt" => NoteRbtCollection::make($noteRbt),
-            "noteRbt"=>$noteRbt->map(function($noteRbt){
-                return[
-                    "id"=> $noteRbt->id,
-                    "pos" => $noteRbt->pos,
-                    "time_in" => $noteRbt->time_in,
-                    "time_out" => $noteRbt->time_out,
-                    "time_in2" => $noteRbt->time_in2,
-                    "time_out2" => $noteRbt->time_out2,
-                ];
-            }),
-
-            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
-            
-            // "bip" => BipResource::make($bip),
-        ]);
-
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function updateTotals(Request $request, $id)
-    {
-        $clientReport = ClientReport::findOrfail($id);
-        $clientReport->billing_total = $request->billing_total;
-        $clientReport->week_total_hours = $request->week_total_hours;
-        $clientReport->week_total_units = $request->week_total_units;
-        $clientReport->cpt_code = $request->cpt_code;
-        $clientReport->insurer_id = $request->insurer_id;
-        $clientReport->insurer_rate = $request->insurer_rate;
-        $clientReport->update();
-        return $clientReport;
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
 
 

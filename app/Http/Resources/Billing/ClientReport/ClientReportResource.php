@@ -22,19 +22,22 @@ class ClientReportResource extends JsonResource
             
               // traemos al especialista 
             'sponsor_id'=>$this->resource->sponsor_id,
+            'md'=>$this->resource->md,
+            'md2'=>$this->resource->md2,
+            'billed'=>$this->resource->billed,
+            'pay'=>$this->resource->pay,
+            'pos'=>$this->resource->pos,
+            'pa_number'=>$this->resource->pa_number,
+            'insurer_id'=>$this->resource->insurer_id,
+            'cpt_code'=>$this->resource->cpt_code,
+            'charges'=>$this->resource->charges,
             //viene de la session_date de la notarbt
             'session_date'=>$this->resource->session_date,
             
-             //sacamos el total de las horas trabajadas de la nota rbt por nota  
-            'total_hours'=>$this->resource->total_hours,
-
+            "total_hours" =>$this->resource->total_hours ? Carbon::parse($this->resource->total_hours)->format(" H:i:s") : NULL,
             //totales de unidades
             'total_units'=>$this->resource->total_units, 
-            
-            'billing_total'=>$this->resource->billing_total,
-            
-            'week_total_hours'=>$this->resource->week_total_hours,
-            'week_total_units'=>$this->resource->week_total_units ,
+           
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 
         ];
