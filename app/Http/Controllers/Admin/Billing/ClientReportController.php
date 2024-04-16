@@ -194,22 +194,21 @@ class ClientReportController extends Controller
     public function store(Request $request)
     {
         $patient = null;
-        $noteRbt = NoteRbt::where("session_date", $request->session_date)->first();;
-        $appointment_attention = $request->session_date;
+        $id = $request->noterbt_id;
+        $noteRbt = NoteRbt::findOrFail($id);
+        // $noteRbt = NoteRbt::where("id", $request->noterbt_id)->first();
+        // $billed = NoteRbt::where('billed', 0)->update(['billed' => $request->billed]);
+        // $pay = NoteRbt::where('pay', 0)->update(['pay' => $request->pay]);
+        // $appointment_attention = $request->session_date;
 
+        $patient = Patient::where("patient_id", $request->patient_id)->first();
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
         
 
-        if($noteRbt){
-            // $noteRbt->update($request->all());
+        if(!$noteRbt){
             $noteRbt->update(["billed"=>$request->billed]);
             $noteRbt->update(["pay"=>$request->pay]);
-
-            // if(!$noteRbt->session_date){
-                
-            // }
-            // $noteRbt->update(["laboratory" =>$request->laboratory,]);
             
             
         }
@@ -221,7 +220,6 @@ class ClientReportController extends Controller
         return response()->json([
             "message"=>200,
             "clientReport"=>$clientReport,
-            "noteRbt"=>$noteRbt,
         ]);
 
 
