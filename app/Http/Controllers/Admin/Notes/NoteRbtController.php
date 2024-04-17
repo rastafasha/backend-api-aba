@@ -430,6 +430,16 @@ class NoteRbtController extends Controller
 
         return response()->json([
             "noteRbt" => NoteRbtResource::make($noteRbt),
+            
+            // "id"=>$noteRbt->id,
+            // "bip_id"=>$noteRbt->bip_id,
+            // "patient_id"=>$noteRbt->patient_id,
+            // "provider_credential"=>$noteRbt->provider_credential,
+            // "as_evidenced_by"=>$noteRbt->as_evidenced_by,
+            // "client_appeared"=>$noteRbt->client_appeared,
+            // "client_response_to_treatment_this_session"=>$noteRbt->client_response_to_treatment_this_session,
+            // "pos"=>$noteRbt->pos,
+
             "interventions"=>json_decode($noteRbt-> interventions),
             "maladaptives"=>json_decode($noteRbt-> maladaptives),
             "replacements"=>json_decode($noteRbt-> replacements),

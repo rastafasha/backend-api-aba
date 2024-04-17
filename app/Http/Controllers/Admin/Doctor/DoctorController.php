@@ -18,8 +18,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\Bip\BipCollection;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\Note\NoteRbtCollection;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
 
@@ -80,14 +82,51 @@ class DoctorController extends Controller
         $notes_bcbas = NoteBcba::Where('doctor_id', $id)->get();
 
         return response()->json([
-            "patients" => PatientCollection::make($patients),
-            "notes_rbts" => $notes_rbts,
-            "notes_bcbas" => $notes_bcbas,
-            "bips" => $bips,
             "total_notes_bcbas" => $notes_bcbas->count(),
             "total_notes_rbts" => $notes_rbts->count(),
             "total_notes_bips" => $bips->count(),
             "doctor" => UserResource::make($doctor),
+            // "full_name" =>$doctor->full_name,
+            "bips" => BipCollection::make($bips),
+            "bips"=>$bips->map(function($bip){
+                return[
+                        "id"=> $bip->id,
+                    "patient_id"=> $bip->patient_id,
+                    "doctor_id"=> $bip->doctor_id,
+                    "created_at"=> $bip->created_at,
+                ];
+            }),
+            "notes_bcbas" => NoteRbtCollection::make($notes_bcbas),
+            "notes_bcbas"=>$notes_bcbas->map(function($notes_bcba){
+                return[
+                    "patient_id"=> $notes_bcba->patient_id,
+                    "bip_id"=> $notes_bcba->bip_id,
+                    "session_date"=> $notes_bcba->session_date,
+                ];
+            }),
+            "notes_rbts" => NoteRbtCollection::make($notes_rbts),
+            "notes_rbts"=>$notes_rbts->map(function($notes_rbt){
+                return[
+                    "patient_id"=> $notes_rbt->patient_id,
+                    "bip_id"=> $notes_rbt->bip_id,
+                    "provider_credential"=> $notes_rbt->provider_credential,
+                    "session_date"=> $notes_rbt->session_date,
+                    "time_in"=> $notes_rbt->time_in,
+                    "time_out"=> $notes_rbt->time_out,
+                    "time_in2"=> $notes_rbt->time_in2,
+                    "time_out2"=> $notes_rbt->time_out2,
+                    "billed"=> $notes_rbt->billed,
+                    "pay"=> $notes_rbt->pay,
+                ];
+            }),
+            "patients" => PatientCollection::make($patients),
+            "patients"=>$patients->map(function($patient){
+                return[
+                    "first_name"=> $patient->first_name,
+                    "patient_id"=> $patient->patient_id,
+                    "status"=> $patient->status,
+                ];
+            }),
         ]);
     }
 

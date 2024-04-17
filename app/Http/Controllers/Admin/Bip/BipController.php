@@ -11,6 +11,7 @@ use App\Models\Bip\ReductionGoal;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\BipResource;
 use App\Http\Resources\Bip\BipCollection;
+use App\Http\Resources\Patient\PatientCollection;
 
 class BipController extends Controller
 {
@@ -137,9 +138,23 @@ class BipController extends Controller
     {
         $patient = Patient::where("id", $id)->first();
         return response()->json([
-            "patient" => $patient,
+            // "patient" => $patient,
+            "patient"=>$patient->id ? [
+                "id"=> $patient->id,
+                "patient_id"=>$patient->patient_id,
+                "first_name"=>$patient->first_name,
+                "last_name"=>$patient->last_name,
+                "phone"=>$patient->phone,
+                "parent_guardian_name"=>$patient->parent_guardian_name,
+                "relationship"=>$patient->relationship,
+                "address"=>$patient->address,
+                "age"=>$patient->age,
+                "birth_date"=>$patient->birth_date,
+                "pos_covered"=>$patient->pos_covered,
+                "diagnosis_code"=>$patient->diagnosis_code,
+                "insurer_id"=>$patient->insurer_id,
+            ]:NULL,
             
-            // "bip" => BipResource::make($bip),
         ]);
 
         
@@ -202,16 +217,27 @@ class BipController extends Controller
         $patient = Patient::where("patient_id", $patient_id)->first();
     
         return response()->json([
-            "bip" => BipResource::make($bip),
+            // "bip" => BipResource::make($bip),
+            // "bip" => $bip,
+            "id" => $bip->id,
+            // "sustitution_goal"=>json_decode($bip-> sustitution_goal),
+            "maladaptives"=>json_decode($bip-> maladaptives),
+            "interventions"=>json_decode($bip-> interventions),
+            "reduction_goal"=> json_decode($bip-> reduction_goal),
+            "sustitution_goal"=> $bip->sustitution_goal,
+
+            "doctor_id" => $bip->doctor_id,
             "patient" => $patient,
-            // "reduction_goal" => $reduction_goal,
-            // "goalsmaladaptive" => $goalsmaladaptive,
-            // "type_of_assessment" =>$bip->type_of_assessment,
-            // "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            // "maladaptives"=>json_decode($bip-> maladaptives),
-            // "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            // "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            // "interventions"=>json_decode($bip-> interventions),
+            "patient"=>$patient->id ? [
+                "id"=> $patient->id,
+                "patient_id"=>$patient->patient_id,
+                "first_name"=>$patient->first_name,
+                "last_name"=>$patient->last_name,
+                "diagnosis_code"=>$patient->diagnosis_code,
+                "pos_covered"=>$patient->pos_covered,
+                "insurer_id"=>$patient->insurer_id,
+            ]:NULL,
+            
             
             
         ]);

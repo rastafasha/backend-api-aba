@@ -139,6 +139,15 @@ class BillingController extends Controller
         $patient = Patient::where("patient_id", $patient_id)->first();
         return response()->json([
             "patient" => $patient,
+            "patient"=>$patient->id ? [
+                "id"=> $patient->id,
+                "patient_id"=>$patient->patient_id,
+                "first_name"=>$patient->first_name,
+                "last_name"=>$patient->last_name,
+                "diagnosis_code"=>$patient->diagnosis_code,
+                "pos_covered"=>$patient->pos_covered,
+                "insurer_id"=>$patient->insurer_id,
+            ]:NULL,
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
             
             // "bip" => BipResource::make($bip),
