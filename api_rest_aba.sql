@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 16-04-2024 a las 20:02:23
+-- Tiempo de generación: 18-04-2024 a las 12:37:32
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -50,9 +50,16 @@ CREATE TABLE `billings` (
 --
 
 INSERT INTO `billings` (`id`, `patient_id`, `sponsor_id`, `cpt_code`, `insurer_id`, `insurer_rate`, `date`, `total_hours`, `total_units`, `billing_total`, `week_total_hours`, `week_total_units`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-15 16:00:00', '01:00:00', NULL, NULL, NULL, NULL, '2024-04-16 00:17:52', '2024-04-16 00:17:52', NULL),
-(2, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-16 16:00:00', '02:15:00', NULL, NULL, NULL, NULL, '2024-04-16 00:21:09', '2024-04-16 00:21:09', NULL),
-(3, 'cliente3243', 6, NULL, NULL, NULL, '2024-04-18 16:00:00', '05:45:00', NULL, NULL, NULL, NULL, '2024-04-16 17:43:07', '2024-04-16 17:43:07', NULL);
+(1, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-17 16:00:00', '06:00:00', NULL, NULL, NULL, NULL, '2024-04-17 21:52:57', '2024-04-17 21:52:57', NULL),
+(2, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-18 16:00:00', '03:15:00', NULL, NULL, NULL, NULL, '2024-04-17 21:55:03', '2024-04-17 21:55:03', NULL),
+(3, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-19 16:00:00', '02:15:00', NULL, NULL, NULL, NULL, '2024-04-17 21:58:16', '2024-04-17 21:58:16', NULL),
+(4, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-20 16:00:00', '06:00:00', NULL, NULL, NULL, NULL, '2024-04-17 22:03:49', '2024-04-17 22:03:49', NULL),
+(5, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-21 16:00:00', '02:15:00', NULL, NULL, NULL, NULL, '2024-04-17 22:09:48', '2024-04-17 22:09:48', NULL),
+(6, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-22 16:00:00', '05:30:00', NULL, NULL, NULL, NULL, '2024-04-17 22:16:26', '2024-04-17 22:16:26', NULL),
+(7, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-24 16:00:00', '05:00:00', NULL, NULL, NULL, NULL, '2024-04-17 22:21:30', '2024-04-17 22:21:30', NULL),
+(8, 'cliente3243', 5, NULL, NULL, NULL, '2024-04-24 16:00:00', '03:15:00', NULL, NULL, NULL, NULL, '2024-04-17 22:30:57', '2024-04-17 22:30:57', NULL),
+(9, 'cliente3243', 6, NULL, NULL, NULL, '2024-04-25 16:00:00', '02:15:00', NULL, NULL, NULL, NULL, '2024-04-17 22:52:14', '2024-04-17 22:52:14', NULL),
+(10, 'cliente3243', 6, NULL, NULL, NULL, '2024-04-26 16:00:00', '04:45:00', NULL, NULL, NULL, NULL, '2024-04-17 22:55:40', '2024-04-17 22:55:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -112,8 +119,8 @@ CREATE TABLE `client_reports` (
   `charges` double DEFAULT NULL,
   `xe` varchar(100) DEFAULT NULL,
   `pa_number` varchar(100) DEFAULT NULL,
-  `billed` enum('true','false') DEFAULT 'false',
-  `pay` enum('true','false') DEFAULT 'false',
+  `billed` tinyint(1) DEFAULT '0' COMMENT '0: false, 1:true',
+  `pay` tinyint(1) DEFAULT '0' COMMENT '0: false, 1:true',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -124,7 +131,17 @@ CREATE TABLE `client_reports` (
 --
 
 INSERT INTO `client_reports` (`id`, `patient_id`, `sponsor_id`, `cpt_code`, `md`, `md2`, `pos`, `insurer_id`, `session_date`, `total_hours`, `total_units`, `charges`, `xe`, `pa_number`, `billed`, `pay`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-18 04:00:00', '05:45:00', NULL, 3711564250361.3, '0', 'adsdas', 'true', 'true', '2024-04-16 23:50:48', '2024-04-16 23:50:48', NULL);
+(1, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:00:44', '2024-04-17 23:00:44', NULL),
+(2, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-25 04:00:00', '02:15:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:02:29', '2024-04-17 23:02:29', NULL),
+(3, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-25 04:00:00', '02:15:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:36:40', '2024-04-17 23:36:40', NULL),
+(4, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:44:56', '2024-04-17 23:44:56', NULL),
+(5, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:52:48', '2024-04-17 23:52:48', NULL),
+(6, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 2480592351890.9, '0', 'adsdas', 0, 0, '2024-04-17 23:54:06', '2024-04-17 23:54:06', NULL),
+(7, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 148835541113450, '0', 'adsdas', 1, 1, '2024-04-18 00:00:51', '2024-04-18 00:00:51', NULL),
+(8, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-25 04:00:00', '02:15:00', NULL, 148835541113450, '0', 'adsdas', 1, 1, '2024-04-18 00:16:58', '2024-04-18 00:16:58', NULL),
+(9, 'cliente3243', 5, '97151', 'HM', 'HO', '03', 6, '2024-04-23 04:00:00', '05:00:00', NULL, 295799717716590, '0', 'adsdas', 1, 0, '2024-04-18 00:18:20', '2024-04-18 00:18:20', NULL),
+(10, 'cliente3243', 6, '97151', NULL, NULL, '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 148835541113450, '0', 'adsdas', 1, 0, '2024-04-18 00:20:49', '2024-04-18 00:20:49', NULL),
+(11, 'cliente3243', 6, '97151', 'HM', 'HO', '03', 6, '2024-04-26 04:00:00', '04:45:00', NULL, 0, '0', 'adsdas', 0, 0, '2024-04-18 04:43:19', '2024-04-18 04:43:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -579,14 +596,6 @@ CREATE TABLE `note_bcbas` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `note_bcbas`
---
-
-INSERT INTO `note_bcbas` (`id`, `doctor_id`, `patient_id`, `bip_id`, `birth_date`, `diagnosis_code`, `cpt_code`, `location`, `note_description`, `rendering_provider`, `aba_supervisor`, `caregiver_goals`, `rbt_training_goals`, `provider_signature`, `provider_name`, `supervisor_signature`, `supervisor_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'cliente3243', 1, '2024-01-23 16:00:00', 'dadsda', '97151', '03', 'dasds', 7, 3, '\"[{\\\"caregiver_goal\\\":\\\"daads\\\",\\\"porcent_of_correct_response\\\":32},{\\\"caregiver_goal\\\":\\\"dsaasd\\\",\\\"porcent_of_correct_response\\\":34},{\\\"caregiver_goal\\\":\\\"dsaasd\\\",\\\"porcent_of_correct_response\\\":34}]\"', '\"[{\\\"lto\\\":\\\"RBT will independently demonstrate DRA procedure, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":43},{\\\"lto\\\":\\\"RBT will independently demonstrate Redirection procedure, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":34},{\\\"lto\\\":\\\"RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":34}]\"', NULL, 7, NULL, 3, '2024-03-05 04:51:14', '2024-03-05 04:51:14', NULL),
-(2, 4, 'cliente3243', 1, '2024-01-23 16:00:00', 'dadsda', '97151', '03', 'esto es una prueba', 4, 3, '\"[{\\\"caregiver_goal\\\":\\\"daads\\\",\\\"porcent_of_correct_response\\\":23},{\\\"caregiver_goal\\\":\\\"addasads\\\",\\\"porcent_of_correct_response\\\":43},{\\\"caregiver_goal\\\":\\\"dsaasd\\\",\\\"porcent_of_correct_response\\\":54}]\"', '\"[{\\\"lto\\\":\\\"RBT will independently demonstrate DRA procedure, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":12},{\\\"lto\\\":\\\"RBT will independently demonstrate Redirection procedure, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":21},{\\\"lto\\\":\\\"RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.\\\",\\\"porcent_of_correct_response\\\":23}]\"', 'notebcbas/FLMiMUXGWqxYw2qn1R8n3JJCY9ruEms94YqQrcy6.png', 4, 'notebcbas/XtntECsn6laKPMNVmCzgqSwqb4Yv687bdQ7l4V9b.png', 3, '2024-03-12 04:45:44', '2024-03-12 04:45:44', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -622,8 +631,8 @@ CREATE TABLE `note_rbts` (
   `provider_name` bigint(20) UNSIGNED DEFAULT NULL,
   `supervisor_signature` varchar(255) DEFAULT NULL,
   `supervisor_name` bigint(20) UNSIGNED DEFAULT NULL,
-  `billed` enum('true','false') NOT NULL DEFAULT 'false',
-  `pay` enum('true','false') NOT NULL DEFAULT 'false',
+  `billed` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: false, 1:true',
+  `pay` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: false, 1:true',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -634,9 +643,16 @@ CREATE TABLE `note_rbts` (
 --
 
 INSERT INTO `note_rbts` (`id`, `doctor_id`, `patient_id`, `bip_id`, `provider_name_g`, `provider_credential`, `pos`, `session_date`, `time_in`, `time_out`, `time_in2`, `time_out2`, `session_length_total`, `environmental_changes`, `maladaptives`, `replacements`, `interventions`, `meet_with_client_at`, `client_appeared`, `as_evidenced_by`, `rbt_modeled_and_demonstrated_to_caregiver`, `client_response_to_treatment_this_session`, `progress_noted_this_session_compared_to_previous_session`, `next_session_is_scheduled_for`, `provider_signature`, `provider_name`, `supervisor_signature`, `supervisor_name`, `billed`, `pay`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-15 16:00:00', '08:00:00', '09:00:00', '03:00:00', '06:45:00', NULL, 'das', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":2},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":3}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":2,\\\"number_of_correct_response\\\":1},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":1},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":4}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"natural_teaching\\\":true}]\"', '12', 'excited', 'adssad', 'dsasda', 'dasdas', 'excelent', '2024-04-16 16:00:00', NULL, 5, NULL, 4, 'true', '', '2024-04-16 00:17:52', '2024-04-16 00:17:52', NULL),
-(2, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-16 16:00:00', '09:00:00', '11:15:00', '03:00:00', '05:15:00', NULL, 'esvv', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":3},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":4}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":1},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"natural_teaching\\\":true}]\"', '12', 'happy', 'dasdasd', 'asdsa', 'dsadsa', 'excelent', '2024-04-17 16:00:00', NULL, 5, NULL, 4, '', '', '2024-04-16 00:21:09', '2024-04-16 00:21:09', NULL),
-(3, 6, 'cliente3243', 1, 6, 'dsadasd', '03', '2024-04-18 16:00:00', '08:00:00', '11:15:00', '04:00:00', '06:30:00', NULL, 'enviromental', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":4},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":6}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":5}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"extinction\\\":false,\\\"natural_teaching\\\":true}]\"', '03', 'tired', 'das', 'dasdas', 'dasdas', 'good', '2024-04-19 16:00:00', NULL, 6, NULL, 7, '', '', '2024-04-16 17:41:58', '2024-04-16 17:41:58', NULL);
+(1, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-17 16:00:00', '08:00:00', '10:15:00', '03:00:00', '06:45:00', NULL, 'environmental hapy', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":3},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":9}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":6,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"NCR\\\":true,\\\"natural_teaching\\\":true}]\"', '03', 'excited', 'adsdsa', 'dasdsa', 'adsdas', 'moderate', '2024-04-18 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 21:52:57', '2024-04-17 21:52:57', NULL),
+(2, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-18 16:00:00', '09:00:00', '10:45:00', '03:00:00', '04:30:00', NULL, 'adads', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":2},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":8}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":6,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"natural_teaching\\\":true}]\"', '03', 'excited', 'dasdas', 'dasdas', 'dasdas', 'moderate', '2024-04-19 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 21:55:03', '2024-04-17 21:55:03', NULL),
+(3, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-19 16:00:00', '08:45:00', '09:15:00', '03:00:00', '04:45:00', NULL, 'fdsa', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":2},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":7}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":6,\\\"number_of_correct_response\\\":5},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"extinction\\\":true}]\"', '12', 'excited', 'fdsfds', 'fsdfsd', 'fsdfsd', 'moderate', '2024-04-20 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 21:58:16', '2024-04-17 21:58:16', NULL),
+(4, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-20 16:00:00', '09:00:00', '10:00:00', '03:30:00', '08:30:00', NULL, 'dasdsa', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":3},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":5}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"extinction\\\":true}]\"', '03', 'distracted', 'asdas', 'das', 'dsadsa', 'excelent', '2024-04-21 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 22:03:49', '2024-04-17 22:03:49', NULL),
+(5, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-21 16:00:00', '10:00:00', '10:45:00', '02:00:00', '03:30:00', NULL, 'adsdas', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":2},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":6}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"extinction\\\":true}]\"', '03', 'tired', 'dasdsa', 'dasdas', 'dsadsa', 'excelent', '2024-04-22 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 22:09:48', '2024-04-17 22:09:48', NULL),
+(6, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-22 16:00:00', '09:00:00', '10:45:00', '02:30:00', '06:15:00', NULL, 'dasdas', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":3},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":5}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":4},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":3}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"natural_teaching\\\":true}]\"', '03', 'happy', 'addsaf', 'fsd', 'fsdfds', 'excelent', '2024-04-23 16:00:00', NULL, 5, NULL, 4, 0, 0, '2024-04-17 22:16:26', '2024-04-17 22:16:26', NULL),
+(7, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-23 16:00:00', '10:00:00', '11:00:00', '03:00:00', '07:00:00', NULL, 'dasdas', 'null', 'null', 'null', '03', 'tired', 'ads', 'ads', 'das', 'moderate', '2024-04-24 16:00:00', NULL, 5, NULL, 4, 1, 0, '2024-04-17 22:21:30', '2024-04-18 00:18:20', NULL),
+(8, 5, 'cliente3243', 1, 5, 'dasdas', '03', '2024-04-24 16:00:00', '08:30:00', '09:00:00', '03:00:00', '05:45:00', NULL, 'dadas', '\"[{\\\"maladaptive_behavior\\\":\\\"raya las paredes\\\",\\\"number_of_occurrences\\\":2},{\\\"maladaptive_behavior\\\":\\\"Negative Self talk\\\",\\\"number_of_occurrences\\\":7}]\"', '\"[{\\\"goal\\\":\\\"probando Update\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"new\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"nuevo\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"dasads\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"prueba nueva\\\",\\\"total_trials\\\":4,\\\"number_of_correct_response\\\":3},{\\\"goal\\\":\\\"31\\\",\\\"total_trials\\\":3,\\\"number_of_correct_response\\\":2},{\\\"goal\\\":\\\"nuevo test\\\",\\\"total_trials\\\":5,\\\"number_of_correct_response\\\":2}]\"', '\"[{\\\"pairing\\\":true,\\\"errorless_teaching\\\":true,\\\"extinction\\\":true}]\"', '12', 'sad', 'dasdasd', 'asds', 'dsadsa', 'good', '2024-04-25 16:00:00', 'noterbts/bq06b6OvdyFG4viXqo9Ikg0zfBwVHV0IH5vWhtI0.png', 5, 'noterbts/rhCX0xJ4ZzOq91Hof1hYURrIfwNsfmuExwZQTOgW.png', 4, 0, 0, '2024-04-17 22:30:57', '2024-04-17 22:30:57', NULL),
+(9, 6, 'cliente3243', 1, 6, 'dsadasd', '03', '2024-04-25 16:00:00', '09:00:00', '10:30:00', '04:30:00', '05:15:00', NULL, 'dasdas', 'null', 'null', 'null', '03', 'sad', '32', '23da', 'dsadas', 'moderate', '2024-04-26 16:00:00', NULL, 6, NULL, 4, 1, 1, '2024-04-17 22:52:14', '2024-04-18 00:16:58', NULL),
+(10, 6, 'cliente3243', 1, 6, 'dsadasd', '03', '2024-04-26 16:00:00', '09:00:00', '10:45:00', '03:30:00', '06:30:00', NULL, 'sdsa', 'null', 'null', 'null', '12', 'excited', 'dasda', 'dasdas', 'dasdsa', 'excelent', '2024-04-27 16:00:00', NULL, 6, NULL, 4, 0, 0, '2024-04-17 22:55:40', '2024-04-18 04:43:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1135,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `g
 (3, 'Tecnico', 'lm@lm.com', 'Doctor', '123456', '2024-01-25 08:00:00', 1, 'password', 'staffs/Br3ln1TSmcLTuQrAGbQtsxiTkmpJk2kONcvDchFB.jpg', 'active', 'dsaads', 'adsdsa', 'dsaad', 'adsdas', NULL, 'dasdsad', 'asdas', 'dasdas, adsdsa', 'adsdsa', '2024-01-25 08:00:00', '2024-01-30 08:00:00', '2030-07-26 08:00:00', 'asddas', 'dasadsd', 'asdas', 'dasads', 'dsaads', '2026-01-22 04:00:00', 'dsadas', 'dasdas', 'dasads', 'dasdas', 'dsadas', 'yes', 'dasads', 'ads', 'yes', 'dsadas', 'yes', 'no', 'yes', 'no', 'asddas', 'dsadsa', '1099', 2000, 1, NULL, '$2y$10$CLuZCM807yAuPP6feXVShuZ9LKJsAIvAwPxJWkVvVM3cszYjbxuJm', NULL, '2024-01-26 01:17:03', '2024-03-11 14:48:08', NULL),
 (4, 'Doctor', 'bcba@bcba.com', 'Bcba', '123456', '2024-01-25 08:00:00', 2, 'dsadas', 'staffs/RbbNRabSWaxhSWcOX0J2GFRArBZAaWyf2cGEiCi1.jpg', 'active', 'dasda', '34das', 'das', 'ads', 'signatures/cQPbBJVUwN0mPKL63DKhVPwk79c403Uft2zQmCMG.png', 'dasdsa', 'Caracas', 'Spanish', 'as3ds23', '2030-11-20 16:00:00', '1981-11-18 16:00:00', '1970-01-01 16:00:00', 'das', 'das', 'das', 'dsa', 'dsadas', '1970-01-01 12:00:00', 'das', 'das', 'dsa', 'dads', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, '$2y$10$nBs3RhKzpnMrN6NVJyc8FeIPjKtfQ6CNm63LM5KTsgt8XkbBsk4ma', NULL, '2024-01-26 01:17:55', '2024-03-12 23:59:40', NULL),
 (5, 'doctor', 'rbt@rbt.com', 'Rbt', '123456', '2024-01-25 08:00:00', 2, 'dsaads', 'staffs/f7YXFPACowKcCsIse6mvhenpNHgMXw4ZeBvmip8z.jpg', 'active', 'prueba4', 'prueba4', 'prueba4', 'prueba4', 'signatures/IH4OSBcc08OllVTmJoe03H2ZvISa0PQU0x9HRvRn.png', 'prueba4', 'prueba4', 'prueba4, prueba4', 'prueba4', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'dadd', 'dasdsa', 'dasdas', 'dasdas', '1970-01-01 04:00:00', 'dasdas', 'dasdasd', 'asdas', 'dasdas', 'dasdas', 'yes', 'dasdas', 'dasdas', 'yes', 'pruebadoc', 'yes', 'yes', 'yes', 'yes', 'pruebadoc', 'ads', 'w2', 3232, 3, NULL, '$2y$10$AqWsXXBRL7G7BhWRq003FOKssAZDC/1IiUpWBNtLRIMn2kZv2aqq6', NULL, '2024-01-26 01:18:43', '2024-04-04 02:32:31', NULL),
-(6, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 08:00:00', 2, 'mariae2004', 'staffs/cm0erQamszXAiBjp5QjKlXoBMXdkjLSwMbo0Hlwt.jpg', 'active', 'dasadsda', 'sdas', 'dsadasd', 'asdas', 'signatures/V2yhKQKcmOO0G6rl53UkgmG3nFiwuQo1cf0YXyeF.png', 'dasdas', 'dsadsa', 'dasdasd', 'dasdas', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'asddsad', 'asasdd', 'saasd', 'dasads', 'dsadasd', '1970-01-01 04:00:00', 'saads', 'dsaads', 'dasdas', 'adsasd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 3, NULL, '$2y$10$q/ZdnNEwG3L30uQ9adJpLuwEd2PIZeXXS3ZTPxFLCL.JJQu.vn3T2', NULL, '2024-01-31 02:27:09', '2024-03-12 23:52:35', NULL),
+(6, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 08:00:00', 2, 'password', 'staffs/cm0erQamszXAiBjp5QjKlXoBMXdkjLSwMbo0Hlwt.jpg', 'active', 'dasadsda', 'sdas', 'dsadasd', 'asdas', 'signatures/V2yhKQKcmOO0G6rl53UkgmG3nFiwuQo1cf0YXyeF.png', 'dasdas', 'dsadsa', 'dasdasd', 'dasdas', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'asddsad', 'asasdd', 'saasd', 'dasads', 'dsadasd', '1970-01-01 04:00:00', 'saads', 'dsaads', 'dasdas', 'adsasd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 3, NULL, '$2y$10$ploIq4T3tsmhPjoSUJGshOdmynZHGmcrk6VfTCCITqCCu8m7cZ9v.', NULL, '2024-01-31 02:27:09', '2024-04-17 18:48:12', NULL),
 (7, 'Alain', 'alain@practice-mgmt.com', 'Hernandez', '2397101864', '2024-03-11 08:00:00', 1, 'practice', 'staffs/ZNIhSxgjALKEfZp2wFDbkrRg9ANnGK1Yvwec3EcB.jpg', 'active', 'das', 'das', 'ads', 'prueba', 'signatures/L01TFo3jAVTG9OThbFdIr7FFYRTDYnTmKF7zNe14.png', NULL, 'asd', 'dasdsa', NULL, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', 'das', 'das', 'das', 'dsa', 'dasd', '1970-01-01 04:00:00', 'dasda', 'dasad', 'dad', 'dasd', 'das', 'yes', 'das', 'ads', 'yes', 'adsdas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2, NULL, '$2y$10$NnOEBxaztsMzzwCmVkNyr.MNhYhWCH.9d7TTywz35Rfi876.T6vzS', NULL, '2024-01-31 02:29:13', '2024-03-26 21:54:51', NULL),
 (15, 'malcom 2', 'mercadocreativo@gmail.com', 'prueba', '1234', '2024-03-23 16:00:00', 1, 'adsdas', NULL, 'inactive', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2, NULL, '$2y$10$VE/iMIvXk9ieRinVCtrVG.Gz1wMGkLpTqXYp6VTJYJTBPuHiQ8.NC', NULL, '2024-03-23 19:14:31', '2024-03-23 19:14:31', NULL);
 
@@ -1337,7 +1353,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `billings`
 --
 ALTER TABLE `billings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `bips`
@@ -1349,7 +1365,7 @@ ALTER TABLE `bips`
 -- AUTO_INCREMENT de la tabla `client_reports`
 --
 ALTER TABLE `client_reports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `consent_to_treatments`
@@ -1439,13 +1455,13 @@ ALTER TABLE `monitoring_evaluatings`
 -- AUTO_INCREMENT de la tabla `note_bcbas`
 --
 ALTER TABLE `note_bcbas`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `note_rbts`
 --
 ALTER TABLE `note_rbts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `patients`

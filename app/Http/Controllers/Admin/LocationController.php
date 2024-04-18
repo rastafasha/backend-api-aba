@@ -75,8 +75,6 @@ class LocationController extends Controller
             $request->request->add(["avatar"=>$path]);
         }
 
-        
-        
         $location = Location::create($request->all());
         
         
