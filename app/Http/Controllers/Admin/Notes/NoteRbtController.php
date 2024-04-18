@@ -38,7 +38,7 @@ class NoteRbtController extends Controller
 
     public function showByPatientId($patient_id)
     {
-        $note_rbts = NoteRbt::where("patient_id", $patient_id)->get();
+        $note_rbts = NoteRbt::where("patient_id", $patient_id)->orderby('created_at', 'DESC')->get();
         $patient = Patient::where("patient_id", $patient_id)->first();
     
         return response()->json([
@@ -333,6 +333,8 @@ class NoteRbtController extends Controller
     public function store(Request $request)
     {
         $patient = null;
+        $imagen = null;
+        $imagenn = null;
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
         $insurance = Insurance::get();
@@ -341,9 +343,16 @@ class NoteRbtController extends Controller
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
 
+        
+        if($request->{'imagen'}){
+            $request->request->add(["provider_signature"=>$imagen]);
+        }
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
+        }
+        if($request->{'imagenn'}){
+            $request->request->add(["provider_signature"=>$imagenn]);
         }
         if($request->hasFile('imagenn')){
             $path = Storage::putFile("noterbts", $request->file('imagenn'));

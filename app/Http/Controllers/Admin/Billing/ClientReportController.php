@@ -12,6 +12,7 @@ use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use App\Models\Billing\ClientReport;
 use App\Http\Resources\Bip\BipResource;
+use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
@@ -45,8 +46,28 @@ class ClientReportController extends Controller
         $users= User::orderBy("id", "desc")->get();
 
         return response()->json([
-            "doctors"=>$users,
+            // "insurances"=>$users,
+            "doctors" =>UserCollection::make($users),
+            "doctors"=>$users->map(function($user){
+                return[
+                    "id"=> $user->id,
+                    "name"=>$user->name,
+                    "surname"=>$user->surname,
+                    "full_name"=>$user->name.' '.$user->surname,
+                    "certificate_number"=>$user->certificate_number,
+                ];
+            }),
             "insurances"=>$insurances,
+            "insurances" =>InsuranceCollection::make($insurances),
+            "insurances"=>$insurances->map(function($insurance){
+                return[
+                    "id"=> $insurance->id,
+                    "insurer_name"=>$insurance->insurer_name,
+                    "services"=>json_decode($insurance->services),
+                    "notes"=>json_decode($insurance->notes),
+                ];
+            }),
+            
         ]);
     }
 
@@ -109,6 +130,12 @@ class ClientReportController extends Controller
                     "billed" => $noteRbt->billed,
                     "pay" => $noteRbt->pay,
                     "provider_name_g" => $noteRbt->provider_name_g,
+                    // "doctor" => UserResource::make($noteRbt),
+                    // // "doctor"=>$noteRbt->map(function($noteRbt){
+                    // //     return[
+                    // //         "id"=> $noteRbt->id,
+                    // //     ];
+                    // // }),
 
                     "time_in" => ($noteRbt->time_in),
                     "time_out" => ($noteRbt->time_out),
@@ -146,8 +173,6 @@ class ClientReportController extends Controller
     public function store(Request $request)
     {
         $patient = null;
-        $id = $request->noterbt_id;
-        $noteRbt = NoteRbt::findOrFail($id);
         // $noteRbt = NoteRbt::where("id", $request->noterbt_id)->first();
         // $billed = NoteRbt::where('billed', 0)->update(['billed' => $request->billed]);
         // $pay = NoteRbt::where('pay', 0)->update(['pay' => $request->pay]);
@@ -158,16 +183,7 @@ class ClientReportController extends Controller
         $doctor = User::where("id", $request->doctor_id)->first();
         
 
-        if(!$noteRbt){
-            $noteRbt->update(["billed"=>$request->billed]);
-            $noteRbt->update(["pay"=>$request->pay]);
-            
-            
-        }
-
         $clientReport = ClientReport::create($request->all());
-
-        
         
         return response()->json([
             "message"=>200,

@@ -122,6 +122,7 @@ class DoctorController extends Controller
             "patients" => PatientCollection::make($patients),
             "patients"=>$patients->map(function($patient){
                 return[
+                    "id"=> $patient->id,
                     "first_name"=> $patient->first_name,
                     "patient_id"=> $patient->patient_id,
                     "status"=> $patient->status,

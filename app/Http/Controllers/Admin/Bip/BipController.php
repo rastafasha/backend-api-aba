@@ -245,6 +245,31 @@ class BipController extends Controller
         
     }
 
+    public function showBipPatientIdProfilePdf($patient_id)
+    {
+        $bip = Bip::where("patient_id", $patient_id)->first();
+        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
+        // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
+    
+        return response()->json([
+            "bip" => BipResource::make($bip),
+            "patient" => $patient,
+            "patient"=>$patient->id ? [
+                "id"=> $patient->id,
+                "patient_id"=>$patient->patient_id,
+                "first_name"=>$patient->first_name,
+                "last_name"=>$patient->last_name,
+                "age"=>$patient->age,
+                "birth_date"=>$patient->birth_date,
+                "phone"=>$patient->phone,
+                "address"=>$patient->address,
+            ]:NULL,
+        ]);
+
+        
+    }
+
     //filtro por  patientID o n_doc para busquedas y asiganciones al paciente
     public function query_patient(Request $request)
     {
