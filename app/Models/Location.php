@@ -31,7 +31,7 @@ class Location extends Model
     }
 
     public function doctor() {
-        return $this->hasMany(User::class,"doctor_id");
+        return $this->belongsTo(User::class, 'location_id', 'id');
     }
 
     //filtro buscador

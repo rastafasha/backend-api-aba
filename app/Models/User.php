@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Traits\HavePermission;
 use App\Models\Patient\Patient;
 use App\Jobs\NewUserRegisterJob;

@@ -93,16 +93,17 @@ class LocationController extends Controller
     public function show($id)
     {
         
-        $specialists = User::where("location_id",$id)->get();
         $patients = Patient::where("location_id",$id)->get();
-
+        $specialists = User::where("location_id", $id)->get();
         $location = Location::findOrFail($id);
+        // $location1 = $location->doctor;
 
 
 
         return response()->json([
             "location" => LocationResource::make($location),
             "specialists" => $specialists,
+            // "specialists" => $specialists,
             "patients" => $patients,
             // "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);

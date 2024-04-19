@@ -36,7 +36,7 @@ class ClientReport extends Model
     {
         return $this->hasMany(Patient::class);
     }
-    public function sponsor()
+    public function doctor()
     {
         return $this->hasMany(User::class);
     }
