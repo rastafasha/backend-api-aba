@@ -94,6 +94,8 @@ class ClientReportController extends Controller
             $doctor = $this->filterDate($doctor,$session_date);
         }
 
+        $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
+
         $noteRbt = NoteRbt::where("patient_id", $patient_id) 
             ->orderby('session_date', 'desc')
             ->get();
@@ -121,6 +123,9 @@ class ClientReportController extends Controller
             /*Tontal de minutos*/
             $totalMinutosTotales2 = $diferenciaMinutos + $diferenciaMinutos2;
 
+            /*Tontal de horas*/
+            // $total_hours = round($timeOut - $timeIn +  $timeOut2 - $timeIn2);
+            
             /*Tontal de unidades*/
             $unidadesTotal = round($totalMinutosTotales2 / 15); 
             
@@ -132,19 +137,20 @@ class ClientReportController extends Controller
 
             $notes[] =[
                 // 'Nombre del doctor' => $doctor,                
+                'id' => $note->id,
                 'Doctor id' => $note->doctor_id,
                 'Paciente' => $note->patient_id,
-                "patient" => $patient,
-                "patient"=>$patient->id ? [
-                    "id"=> $patient->id,
-                    "full_name"=> $patient->first_name.' '.$patient->last_name,
-                    "patient_id"=>$patient->patient_id,
-                    "first_name"=>$patient->first_name,
-                    "last_name"=>$patient->last_name,
-                    "diagnosis_code"=>$patient->diagnosis_code,
-                    "pos_covered"=>$patient->pos_covered,
-                    "insurer_id"=>$patient->insurer_id,
-                ]:NULL,
+                // "patient" => $patient,
+                // "patient"=>$patient->id ? [
+                //     "id"=> $patient->id,
+                //     "full_name"=> $patient->first_name.' '.$patient->last_name,
+                //     "patient_id"=>$patient->patient_id,
+                //     "first_name"=>$patient->first_name,
+                //     "last_name"=>$patient->last_name,
+                //     "diagnosis_code"=>$patient->diagnosis_code,
+                //     "pos_covered"=>$patient->pos_covered,
+                //     "insurer_id"=>$patient->insurer_id,
+                // ]:NULL,
                 
                 'bip_id' => $note->bip_id,
                 'provider_name_g' => $note->provider_name_g,
@@ -156,20 +162,12 @@ class ClientReportController extends Controller
                 'Unidades sesion 1' => $unidades1,
                 'time_in2' => $note->time_in2,
                 'time_out2' => $note->time_out2,
+                // 'total_hours' => $note->total_hours,
+                "total_hours" => date("H:i",strtotime($note->time_out) - strtotime($note->time_in) + strtotime($note->time_out2) - strtotime($note->time_in2)  ),
+                
                 'Unidades sesion 2' => $unidades2,
-                'session_length_total' => $unidadesTotal,
-                'environmental_changes' => $note->environmental_changes,
-                'maladaptives' => $note->maladaptives,
-                'replacements' => $note->replacements,
-                'interventions' => $note->interventions,
-                'meet_with_client_at' => $note->meet_with_client_at,
-                'client_appeared' => $note->client_appeared,
-                'as_evidenced_by' => $note->as_evidenced_by,
-                'rbt_modeled_and_demonstrated_to_caregiver' => $note->rbt_modeled_and_demonstrated_to_caregiver,
-                'client_response_to_treatment_this_session' => $note->client_response_to_treatment_this_session,
-                'progress_noted_this_session_compared_to_previous_session' => $note->progress_noted_this_session_compared_to_previous_session,
-                'next_session_is_scheduled_for' => $note->next_session_is_scheduled_for,
-                'provider_signature' => $note->provider_signature,
+                'session_units_total' => $unidadesTotal,
+                
                 'provider_name' => $note->provider_name,
                 'supervisor_signature' => $note->supervisor_signature,
                 'supervisor_name' => $note->supervisor_name,
@@ -184,8 +182,7 @@ class ClientReportController extends Controller
             ];
         }
         
-        $noteBcba = NoteBcba::where("patient_id", $patient_id) 
-        ->get();
+        
         
 
         $clientReports = ClientReport::filterAdvance($name_doctor, $session_date)->where("patient_id", $patient_id)
@@ -193,58 +190,26 @@ class ClientReportController extends Controller
         ->get();
 
         return response()->json([
-            // "pa_assessments"=> $patient->pa_assessments,
-            "noteRbts" => $notes,
-            // "noteRbts" => NoteRbtCollection::make($notes),
-            // use ($sponsor)
-            // "noteRbt"=>$notes->map(function($noteRbt){
-            //     return[
-            //         "id"=> $noteRbt->id,
-            //         "pos" => $noteRbt->pos,
-            //         "billed" => $noteRbt->billed,
-            //         "pay" => $noteRbt->pay,
-            //         "provider_name_g" => $noteRbt->provider_name_g,
-            //         // "doctor" => UserResource::make($noteRbt),
-            //         // // "doctor"=>$noteRbt->map(function($noteRbt){
-            //         // //     return[
-            //         // //         "id"=> $noteRbt->id,
-            //         // //     ];
-            //         // // }),
-
-            //         "time_in" => ($noteRbt->time_in),
-            //         "time_out" => ($noteRbt->time_out),
-            //         "time_in2" => ($noteRbt->time_in2),
-            //         "time_out2" => ($noteRbt->time_out2),
-
-            //         "session_1" => date("H:i", strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
-            //         "session_2" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) ),
-            //         // "session_f2" => ($noteRbt->time_out2 - $noteRbt->time_in2/100)*1.66666666666667,
-
-            //         "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
-            //         //1
-            //         "hour_to_minute" => strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24,
-            //         //
-            //         "total_hoursFactor" => strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *1.66666666666667,
-            //         "total_units" => (strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24)*1.66666666666667 /100 *4,
-                    
-            //         "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
-            //     ];
-            // }),
-            // "patient"=>$patient->id ? [
-            //     "id"=> $patient->id,
-            //     "full_name"=> $patient->first_name.' '.$patient->last_name,
-            //     "patient_id"=>$patient->patient_id,
-            //     "first_name"=>$patient->first_name,
-            //     "last_name"=>$patient->last_name,
-            //     "diagnosis_code"=>$patient->diagnosis_code,
-            //     "pos_covered"=>$patient->pos_covered,
-            //     "insurer_id"=>$patient->insurer_id,
-            // ]:NULL,
             "noteBcba"=>$noteBcba->map(function($noteBcba){
                 return[
                     "cpt_code"=> $noteBcba->cpt_code,
                 ];
             }),
+            "noteRbts" => $notes,
+            "patient" => $patient,
+                "patient"=>$patient->id ? [
+                    "id"=> $patient->id,
+                    "full_name"=> $patient->first_name.' '.$patient->last_name,
+                    "patient_id"=>$patient->patient_id,
+                    "first_name"=>$patient->first_name,
+                    "last_name"=>$patient->last_name,
+                    "diagnosis_code"=>$patient->diagnosis_code,
+                    "pos_covered"=>$patient->pos_covered,
+                    "insurer_id"=>$patient->insurer_id,
+                ]:NULL,
+           
+            
+            
 
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
         ]);
