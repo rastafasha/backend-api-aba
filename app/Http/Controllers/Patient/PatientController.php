@@ -274,7 +274,8 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
 
         return response()->json([
-            "patient" => $patient,
+            // "patient" => $patient,
+            "patient" => PatientResource::make($patient),
             // "pa_assessments"=>json_decode($patient-> pa_assessments),
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             // "patient" => PatientResource::make($patient),

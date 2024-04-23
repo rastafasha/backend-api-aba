@@ -25,13 +25,13 @@ class Location extends Model
     ];
 
     //relations
-    public function client()
+    public function patients()
     {
-        return $this->hasMany(Patient::class, 'client_id');
+        return $this->hasMany(Patient::class);
     }
 
-    public function doctor() {
-        return $this->belongsTo(User::class, 'location_id', 'id');
+    public function specialists() {
+        return $this->belongsTo(User::class, 'id');
     }
 
     //filtro buscador

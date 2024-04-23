@@ -7,6 +7,7 @@ use App\Models\Bip\Bip;
 use App\Models\Patient\Patient;
 use App\Models\Notes\Maladaptive;
 use App\Models\Notes\Replacement;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class NoteRbt extends Model
         'doctor_id',
         'bip_id',
 
-        'provider_name_g',
+        
         'provider_credential',
         'pos',
         'session_date',
@@ -43,10 +44,12 @@ class NoteRbt extends Model
         'client_response_to_treatment_this_session',
         'progress_noted_this_session_compared_to_previous_session',
         'next_session_is_scheduled_for',
+        'provider_name_g',
         'provider_signature',
         'provider_name',
         'supervisor_signature',
         'supervisor_name',
+
         'billed',
         'pay',
 
@@ -58,7 +61,13 @@ class NoteRbt extends Model
     }
 
     public function doctor() {
-        return $this->hasMany(User::class,"doctor_id");
+        return $this->hasMany(User::class,);
+    }
+    public function supervisor() {
+        return $this->belongsTo(User::class,'supervisor_name');
+    }
+    public function tecnicoRbt() {
+        return $this->hasMany(User::class, 'provider_name_g');
     }
 
     public function bips()
@@ -73,5 +82,32 @@ class NoteRbt extends Model
     public function replacement()
     {
         return $this->hasMany(Replacement::class);
+    }
+
+
+    public function scopefilterAdvanceClient($query,$search_doctor, $search_patient,
+    $date_start,$date_end){
+        
+
+        if($search_doctor){
+            $query->whereHas("doctor", function($q)use($search_doctor){
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
+                   
+            });
+        }
+        if($search_patient){
+            $query->whereHas("patient", function($q)use($search_patient){
+                $q->where(DB::raw("CONCAT(patients.name,' ',IFNULL(patients.surname,''),' ',IFNULL(patients.email,''))"),"like","%".$search_patient."%");
+                
+            });
+        }
+
+        if($date_start && $date_end){
+            $query->whereBetween("date_appointment", [
+                Carbon::parse($date_start)->format("Y-m-d"),
+                Carbon::parse($date_end)->format("Y-m-d"),
+            ]);
+        }
+        return $query;
     }
 }

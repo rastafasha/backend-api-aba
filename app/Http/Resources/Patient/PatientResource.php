@@ -103,13 +103,10 @@ class PatientResource extends JsonResource
             // ]:null,
 
             "rbt_id" =>$this->resource->rbt_id,
-            // "rbt" =>$this->resource->rbts ? 
-            //     [
-            //         "id" =>$this->resource->rbt->id,
-            //         "full_name" =>$this->resource->rbt->name.' '.$this->resource->rbt->surname,
-            //         "avatar"=> $this->resource->doctor->avatar ? env("APP_URL").$this->resource->doctor->avatar : null,
-                    
-            //     ]: NULL,
+            "rbt_id" => $this->resource->rbt_id? [
+                "id" => $this->resource->rbt_id,
+                'short_name' => $this->resource->rbts? $this->resource->rbts->name : null,
+            ] : null,
             "rbt2_id"=>$this->resource->rbt2_id,
             // "rbt2" =>$this->resource->rbt2s ? 
             //     [

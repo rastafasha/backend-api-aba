@@ -33,6 +33,7 @@ class ClientReportResource extends JsonResource
             'charges'=>$this->resource->charges,
             //viene de la session_date de la notarbt
             'session_date'=>$this->resource->session_date,
+            'npi'=>$this->resource->npi,
             
             "total_hours" =>$this->resource->total_hours ? Carbon::parse($this->resource->total_hours)->format(" H:i:s") : NULL,
             //totales de unidades

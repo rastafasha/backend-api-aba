@@ -221,7 +221,7 @@ class Patient extends Model
     
 
 
-    public function rbts()
+    public function rbt_id()
         {
             return $this->hasMany(User::class);
         }

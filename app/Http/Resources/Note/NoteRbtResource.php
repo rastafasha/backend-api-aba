@@ -77,12 +77,29 @@ class NoteRbtResource extends JsonResource
             "provider_signature"=> $this->resource->provider_signature ? env("APP_URL")."storage/".$this->resource->provider_signature : null,
             // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
             "provider_name" =>$this->resource->provider_name,
+
+            
             
             "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
-            "supervisor_name" =>$this->resource->supervisor_name,
+            
+            // "supervisor_name" =>$this->resource->supervisor_name,
+            'supervisor_name'=>$this->resource-> supervisor_name,
+                'supervisor'=>[
+                    'id'=> $this->resource->supervisor->id,
+                    'name'=> $this->resource->supervisor->name,
+                    'surname'=> $this->resource->supervisor->surname,
+                    'npi'=> $this->resource->supervisor->npi,
+                ],
 
-            "provider_name_g" => $this->resource->provider_name_g,
+                
+            // "provider_name_g" => $this->resource->provider_name_g,
+            'provider_name_g'=>$this->resource-> provider_name_g,
+                'tecnicoRbt'=>[
+                    'id'=> $this->resource->tecnicoRbt->id,
+                    'name'=> $this->resource->tecnicoRbt->name,
+                    'surname'=> $this->resource->tecnicoRbt->surname,
+                ],
             "billed" => $this->resource->billed,
             "pay" => $this->resource->pay,
             

@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
+use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Location\LocationCollection;
 
 class LocationController extends Controller
@@ -95,17 +98,24 @@ class LocationController extends Controller
         
         $patients = Patient::where("location_id",$id)->get();
         $specialists = User::where("location_id", $id)->get();
+        // $location = Location::with('specialists', 'patients')->findOrFail($id);
         $location = Location::findOrFail($id);
         // $location1 = $location->doctor;
+
+        // $location = Location::join('users', 'locations.id', '=', 'users.location_id')
+        // ->select(
+        //     'locations.id as id',
+        //     'users.name'
+        //     )
+        // ->where('locations.id','=', $id)
+        // ->get();
 
 
 
         return response()->json([
-            "location" => LocationResource::make($location),
-            "specialists" => $specialists,
-            // "specialists" => $specialists,
+            "location" => $location,
+            "specialists" =>$specialists,
             "patients" => $patients,
-            // "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
 
