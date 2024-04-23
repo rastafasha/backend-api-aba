@@ -85,21 +85,21 @@ class NoteRbtResource extends JsonResource
             
             // "supervisor_name" =>$this->resource->supervisor_name,
             'supervisor_name'=>$this->resource-> supervisor_name,
-                'supervisor'=>[
-                    'id'=> $this->resource->supervisor->id,
-                    'name'=> $this->resource->supervisor->name,
-                    'surname'=> $this->resource->supervisor->surname,
-                    'npi'=> $this->resource->supervisor->npi,
-                ],
+                // 'supervisor'=>[
+                //     'id'=> $this->resource->supervisor->id,
+                //     'name'=> $this->resource->supervisor->name,
+                //     'surname'=> $this->resource->supervisor->surname,
+                //     'npi'=> $this->resource->supervisor->npi,
+                // ],
 
                 
             // "provider_name_g" => $this->resource->provider_name_g,
             'provider_name_g'=>$this->resource-> provider_name_g,
-                'tecnicoRbt'=>[
-                    'id'=> $this->resource->tecnicoRbt->id,
-                    'name'=> $this->resource->tecnicoRbt->name,
-                    'surname'=> $this->resource->tecnicoRbt->surname,
-                ],
+                // 'tecnicoRbt'=>[
+                //     'id'=> $this->resource->tecnicoRbt->id,
+                //     'name'=> $this->resource->tecnicoRbt->name,
+                //     'surname'=> $this->resource->tecnicoRbt->surname,
+                // ],
             "billed" => $this->resource->billed,
             "pay" => $this->resource->pay,
             

@@ -4,6 +4,7 @@ namespace App\Models\Patient;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Bip\Bip;
 use App\Models\Location;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Insurance\Insurance;
@@ -16,6 +17,12 @@ class Patient extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
+        'rbt_id',
+        'rbt2_id',
+        'bcba_id',
+        'bcba2_id',
+        'clin_director_id',
+        'location_id',
         'first_name',
         'last_name',
         'email',
@@ -76,16 +83,6 @@ class Patient extends Model
         
         //pas
         'pa_assessments',
-        
-        
-        //specialits
-        'rbt_id',
-        'rbt2_id',
-        'bcba_id',
-        'bcba2_id',
-        'clin_director_id',
-        
-        'location_id',
         'status',
 
         //??
@@ -221,25 +218,29 @@ class Patient extends Model
     
 
 
-    public function rbt_id()
+    public function rbt_ids()
         {
-            return $this->hasMany(User::class);
+            return $this->belongsTo(User::class, 'id');
         }
     public function rbt2s()
         {
-            return $this->hasMany(User::class);
+            return $this->belongsTo(User::class, 'id');
         }
     public function bcbas()
         {
-            return $this->hasMany(User::class);
+            return $this->belongsTo(User::class, 'id');
         }
     public function bcba2s()
         {
-            return $this->hasMany(User::class);
+            return $this->belongsTo(User::class, 'id');
         }
     public function clin_directors()
         {
-            return $this->hasMany(User::class);
+            return $this->belongsTo(User::class, 'id');
+        }
+    public function doctors()
+        {
+            return $this->hasMany(User::class, 'id');
         }
 
     public function insurances()
@@ -248,7 +249,7 @@ class Patient extends Model
     }
     public function bip()
     {
-        return $this->hasOne(Bip::class, 'patient_id');
+        return $this->belongsTo(Bip::class, 'patient_id');
         // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
     }
     public function reductiongoal()
@@ -264,7 +265,7 @@ class Patient extends Model
 
     //filtro buscador
     public function scopefilterAdvancePatient($query,
-    $patient_id, $name_patient, $email_patient,
+    $patient_id, $name_patient, $email_patient,$status
     ){
         
         if($patient_id){
@@ -276,6 +277,9 @@ class Patient extends Model
                 $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
                    
             });
+        }
+        if($status){
+            $query->where('status', $status);
         }
         
 

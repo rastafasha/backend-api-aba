@@ -22,16 +22,18 @@ class Location extends Model
         'zip',
         'email',
         'avatar',
+        'user_id',
+        'client_id',
     ];
 
     //relations
     public function patients()
     {
-        return $this->hasMany(Patient::class);
+        return $this->hasMany(Patient::class, 'client_id');
     }
 
     public function specialists() {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsToMany(User::class, 'user_id');
     }
 
     //filtro buscador

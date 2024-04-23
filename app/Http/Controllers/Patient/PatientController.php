@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Patient\PatientPerson;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
@@ -34,6 +35,8 @@ class PatientController extends Controller
     // public function index(Request $request)
     // {
     //     $search = $request->search;
+    //     $email_patient = $request->search;
+    //     $state = $request->state;
 
     //     $patients = Patient::where(DB::raw("CONCAT(patients.first_name,' ', IFNULL(patients.last_name,''),' ',patients.email)"),
     //     "like","%".$search."%"
@@ -52,9 +55,10 @@ class PatientController extends Controller
         $patient_id = $request->patient_id;
         $name_patient = $request->search;
         $email_patient = $request->search;
+        $status = $request->status;
         // $date = $request->date;
 
-        $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient)->orderBy("id", "desc")
+        $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient, $status)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
@@ -123,29 +127,6 @@ class PatientController extends Controller
         $insurances = Insurance::get();
         $locations = Location::get();
         
-        // $documents = collect([]);
-
-        // $patient_documents = BipFile::all();
-        // foreach($patient_documents->groupBy("name") as $key => $patient_document){
-        //     // dd($schedule_hour);
-        //     $documents->push([
-        //         "client_id" => $key,
-        //         "name"=> $file->name,
-        //         "size"=> $file->size,
-        //         "file"=> $file->file,
-        //         'file'=>$this->resource-> file->map(function($file){
-        //             return [
-        //                 'id'=> $file->id,
-        //                 'client_id'=> $file->client_id,
-        //                 'name_file'=> $file->name_file,
-        //                 'size'=> $file->size,
-        //                 'file'=> env("APP_URL")."storage/".$file->file,
-        //                 'type'=> $file->type,
-        //             ];
-        //         })
-        //     ]);
-
-        // }
         
         return response()->json([
             "specialists" => $specialists,
@@ -274,20 +255,44 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
 
         return response()->json([
-            // "patient" => $patient,
             "patient" => PatientResource::make($patient),
-            // "pa_assessments"=>json_decode($patient-> pa_assessments),
-            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
-            // "patient" => PatientResource::make($patient),
-            
+            "pa_assessments"=>json_decode($patient->pa_assessments) ? : null,
         ]);
     }
     public function showPatientId($patient_id)
     {
+
+        $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
+        ->select(
+            
+            'patients.id as id',
+            'users.name',
+            )
+        ->get();
+        
+        
         $patient = Patient::where('patient_id',$patient_id)->first();
 
         return response()->json([
+            
             "patient" => $patient,
+            "patient"=> $patient ?[
+                "id" =>$patient->id,
+                "title"=>$patient->patient_id,
+                "full_name"=> $patient->first_name.' '.$patient->last_name,
+                "email"=>$patient->email,
+                "insurer_id"=>$patient->insurer_id,
+                "rbt_id" =>$patient->rbt_id,
+                "rbt2"=>$patient->rbt2_id,
+                "bcba"=>$patient->bcba_id,
+                "bcba2"=>$patient->bcba2_id,
+                "clin_director_id"=>$patient->clin_director_id,
+                "status"=>$patient->status,
+                "gender"=>$patient->gender,
+                "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
+            // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
+            ]:null,
+            "doctors" => $doctors,
             
         ]);
     }

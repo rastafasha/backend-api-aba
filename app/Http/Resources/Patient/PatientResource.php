@@ -26,7 +26,7 @@ class PatientResource extends JsonResource
             "phone"=>$this->resource->phone,
             "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
             // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
-            "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("d/m/Y") : NULL,
+            "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("Y/m/d") : NULL,
             "gender"=>$this->resource->gender,
             "address"=>$this->resource->address,
             "language"=>$this->resource->language,
@@ -68,8 +68,8 @@ class PatientResource extends JsonResource
             "coinsurance"=>$this->resource->coinsurance,
             "copayments"=>$this->resource->copayments,
             "oop"=>$this->resource->oop,
-            "insurer_file"=> $this->resource->insurer_file ? env("APP_URL")."storage/".$this->resource->insurer_file : null,
-            "intake_file"=> $this->resource->intake_file ? env("APP_URL")."storage/".$this->resource->intake_file : null,
+            // "insurer_file"=> $this->resource->insurer_file ? env("APP_URL")."storage/".$this->resource->insurer_file : null,
+            // "intake_file"=> $this->resource->intake_file ? env("APP_URL")."storage/".$this->resource->intake_file : null,
 
             //intake
             "welcome"=>$this->resource->welcome,
@@ -85,7 +85,7 @@ class PatientResource extends JsonResource
             "submitted"=>$this->resource->submitted,
             
             //pas
-            "pa_assessments"=>json_decode($this->resource-> pa_assessments) ? : null,
+            "pa_assessments"=>json_decode($this->resource->pa_assessments) ? : null,
 
             "location_id" =>$this->resource->location_id,
             // "location_id" =>implode($this->resource->location_id),
@@ -103,11 +103,15 @@ class PatientResource extends JsonResource
             // ]:null,
 
             "rbt_id" =>$this->resource->rbt_id,
-            "rbt_id" => $this->resource->rbt_id? [
-                "id" => $this->resource->rbt_id,
-                'short_name' => $this->resource->rbts? $this->resource->rbts->name : null,
-            ] : null,
-            "rbt2_id"=>$this->resource->rbt2_id,
+            // "rbt_id" =>$this->resource->rbt_id ? 
+            // [
+            //     "id" =>$this->resource->rbt_id,
+            //     "full_name" =>$this->resource->rbt_id->name.' '.$this->resource->rbt_id->surname,
+            //     // "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL")."storage/".$this->resource->rbt_id->avatar : null,
+            //     "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL").$this->resource->rbt_id->avatar : null,
+                
+            // ]: NULL,
+            "rbt2"=>$this->resource->rbt2_id,
             // "rbt2" =>$this->resource->rbt2s ? 
             //     [
             //         "id" =>$this->resource->rbt2->id,
@@ -116,7 +120,7 @@ class PatientResource extends JsonResource
             //         "avatar"=> $this->resource->rbt2->avatar ? env("APP_URL").$this->resource->rbt2->avatar : null,
                     
             //     ]: NULL,
-            "bcba_id"=>$this->resource->bcba_id,
+            "bcba"=>$this->resource->bcba_id,
             // "bcba" =>$this->resource->bcbas ? 
             //     [
             //         "id" =>$this->resource->bcba->id,
@@ -125,7 +129,7 @@ class PatientResource extends JsonResource
             //         "avatar"=> $this->resource->bcba->avatar ? env("APP_URL").$this->resource->bcba->avatar : null,
                     
             //     ]: NULL,
-            "bcba2_id"=>$this->resource->bcba2_id,
+            "bcba2"=>$this->resource->bcba2_id,
             // "bcba2" =>$this->resource->bcba2s ? 
             //     [
             //         "id" =>$this->resource->bcba2->id,

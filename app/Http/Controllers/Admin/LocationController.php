@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
@@ -113,9 +114,44 @@ class LocationController extends Controller
 
 
         return response()->json([
-            "location" => $location,
-            "specialists" =>$specialists,
-            "patients" => $patients,
+            "location" => LocationResource::make($location),
+            "specialists" => UserCollection::make($specialists),
+            "specialists"=>$specialists->map(function($specialist){
+                            return[
+                                "id"=> $specialist->id,
+                                "full_name"=> $specialist->name.' '.$specialist->surname,
+                                "email"=> $specialist->email,
+                                "status"=> $specialist->status,
+                                "npi"=> $specialist->npi,
+                                "location_id"=> $specialist->location_id,
+                                "avatar"=> $specialist->avatar ? env("APP_URL")."storage/".$specialist->avatar : null,
+                                // "avatar"=> $specialist->avatar ? env("APP_URL").$specialist->avatar : null,
+                                // "roles"=> $specialist->roles?[
+                                //     "id" =>$specialist->roles->id,
+                                //     "name"=>$specialist->roles->name,
+                                // ]:null,
+                            ];
+                        }),
+            "patients" => PatientCollection::make($patients),
+            "patients"=>$patients->map(function($patient){
+                return[
+                    "id"=> $patient->id,
+                    "patient_id"=> $patient->patient_id,
+                    "full_name"=> $patient->first_name.' '.$patient->last_name,
+                    "patient_id"=>$patient->patient_id,
+
+                    "first_name"=>$patient->first_name,
+                    "last_name"=>$patient->last_name,
+                    "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
+                    // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
+                    "status"=> $patient->status,
+
+                    "rbt_id"=>$patient->rbt_id,
+                    "rbt2_id"=>$patient->rbt2_id,
+                    "bcba_id"=>$patient->bcba_id,
+                    "bcba2_id"=>$patient->bcba2_id,
+                ];
+            }),
         ]);
     }
 

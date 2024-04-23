@@ -111,6 +111,14 @@ class ClientReportController extends Controller
             ->orderby('session_date', 'desc')
             ->get();
 
+        $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
+            ->select(
+                
+                'patients.id as id',
+                'users.name',
+                )
+            ->get();
+
         
         $doctor = NoteRbt::where("provider_name_g", $provider_name_g)->get();
         $tecnicoRbts = NoteRbt::where("provider_name_g" , $provider_name_g)->get();
@@ -186,8 +194,8 @@ class ClientReportController extends Controller
                 'pay' => $note->pay,
                 'created_at' => $note->created_at,
 
-                'Costo por unidad' => $costoUnidad,
-                'Total a pagar' => $pagar,
+                // 'Costo por unidad' => $costoUnidad,
+                // 'Total a pagar' => $pagar,
                 // 'Doctor' => $note->doctor,
                 
             ];
@@ -208,7 +216,7 @@ class ClientReportController extends Controller
                     "aba_supervisor"=> $noteBcba->aba_supervisor,
                 ];
             }),
-            // "doctors" =>$doctors,
+            "doctors" =>$doctors,
            
             "noteRbts" =>$notes,
             // "noteRbts" => NoteRbtCollection::make($notes),
@@ -227,6 +235,14 @@ class ClientReportController extends Controller
                     "rbt2_id"=>$patient->rbt2_id,
                     "bcba_id"=>$patient->bcba_id,
                     "bcba2_id"=>$patient->bcba2_id,
+                    // "bcba2_id" =>$patient->bcba2_id ? 
+                    // [
+                    //     "id" =>$patient->bcba2_id,
+                    //     "full_name" =>$patient->bcba2_id->doctor->name,
+                    //     // // "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL")."storage/".$this->resource->rbt_id->avatar : null,
+                    //     // "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL").$this->resource->rbt_id->avatar : null,
+                        
+                    // ]: NULL,
                 ]:NULL,
            
             

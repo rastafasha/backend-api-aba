@@ -344,14 +344,14 @@ class NoteRbtController extends Controller
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
 
         
-        if($request->{'imagen'}){
+        if($request->imagen){
             $request->request->add(["provider_signature"=>$imagen]);
         }
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
         }
-        if($request->{'imagenn'}){
+        if($request->imagenn){
             $request->request->add(["provider_signature"=>$imagenn]);
         }
         if($request->hasFile('imagenn')){
@@ -511,16 +511,24 @@ class NoteRbtController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $imagen = null;
+        $imagenn = null;
         $noteRbt = NoteRbt::findOrFail($id);
 
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
 
+        if($request->imagen){
+            $request->request->add(["provider_signature"=>$imagen]);
+        }
 
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
+        }
+        if($request->imagenn){
+            $request->request->add(["supervisor_signature"=>$imagenn]);
         }
         if($request->hasFile('imagenn')){
             $path = Storage::putFile("noterbts", $request->file('imagenn'));

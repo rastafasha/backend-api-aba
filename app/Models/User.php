@@ -183,14 +183,19 @@ class User extends Authenticatable implements JWTSubject
     //     return $this->hasMany(DoctorScheduleDay::class);
     // }
 
-    public function client()
+    public function patient()
     {
         return $this->hasMany(Patient::class);
     }
+    
+
+
     public function location()
     {
-        return $this->hasMany(Location::class, 'location_id');
+        return $this->belongsToMany(UserLocation::class, 'location_id');
     }
+
+
     
 
 

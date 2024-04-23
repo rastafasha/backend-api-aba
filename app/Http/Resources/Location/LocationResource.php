@@ -24,6 +24,8 @@ class LocationResource extends JsonResource
             "email"=>$this->resource->email,
             "city"=>$this->resource->city,
             "state"=>$this->resource->state,
+            "user_id"=>$this->resource->user_id,
+            "client_id"=>$this->resource->client_id,
             "zip"=>$this->resource->zip,
             "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
             // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
