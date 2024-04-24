@@ -244,6 +244,8 @@ class DoctorController extends Controller
         
         $user = User::findOrFail($id);
         
+       
+
         if($request->hasFile('imagen')){
             if($user->avatar){
                 Storage::delete($user->avatar);
@@ -251,6 +253,8 @@ class DoctorController extends Controller
             $path = Storage::putFile("staffs", $request->file('imagen'));
             $request->request->add(["avatar"=>$path]);
         }
+
+        
         if($request->hasFile('imagenn')){
             if($user->electronic_signature){
                 Storage::delete($user->electronic_signature);
