@@ -263,6 +263,8 @@ class BipController extends Controller
                 "age"=>$patient->age,
                 "birth_date"=>$patient->birth_date,
                 "phone"=>$patient->phone,
+                "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
+                // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
                 "address"=>$patient->address,
             ]:NULL,
         ]);
