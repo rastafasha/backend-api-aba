@@ -22,7 +22,9 @@ use App\Http\Resources\Bip\BipCollection;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtCollection;
+use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Patient\PatientCollection;
+use App\Http\Resources\Location\LocationCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DoctorController extends Controller
@@ -80,12 +82,78 @@ class DoctorController extends Controller
         $bips = Bip::Where('doctor_id', $id)->get();
         $notes_rbts = NoteRbt::Where('doctor_id', $id)->get();
         $notes_bcbas = NoteBcba::Where('doctor_id', $id)->get();
+        $locations = Location::Where('id', $doctor->location_id)->get();
 
         return response()->json([
             "total_notes_bcbas" => $notes_bcbas->count(),
             "total_notes_rbts" => $notes_rbts->count(),
             "total_notes_bips" => $bips->count(),
+            "total_locations" => $locations->count($doctor->locations),
+            
             "doctor" => UserResource::make($doctor),
+            "doctor"=> $doctor,
+                    'doctor'=>[
+                        'id'=> $doctor->id,
+                        'location_id'=> $doctor->location_id,
+                        // 'location_id'=> $doctor->count($location_id),
+                        "locations" => LocationCollection::make($locations),
+                        // $request ->request->add(['who_is_it_for' => json_encode(explode(',', $request->who_is_it_for))]);
+                        "name"=>$doctor->name,
+                        "surname"=>$doctor->surname,
+                        "full_name"=> $doctor->name.' '.$doctor->surname,
+                        "email"=>$doctor->email,
+                        "password"=>$doctor->password,
+                        // "rolename"=>$doctor->rolename,
+                        "phone"=>$doctor->phone,
+                        "birth_date"=>$doctor->birth_date ? Carbon::parse($doctor->birth_date)->format("Y/m/d") : NULL,
+                        "gender"=>$doctor->gender,
+                        "address"=>$doctor->address,
+                        "status"=>$doctor->status,
+                        "avatar"=> $doctor->avatar ? env("APP_URL")."storage/".$doctor->avatar : null,
+                        // "avatar"=> $doctor->avatar ? env("APP_URL").$doctor->avatar : null,
+                        "roles"=>$doctor->roles->first(),
+                        "currently_pay_through_company"=>$doctor->currently_pay_through_company,
+                        "llc"=>$doctor->llc,
+                        "ien"=>$doctor->ien,
+                        "wc"=>$doctor->wc,
+                        "electronic_signature"=>$doctor->electronic_signature ? env("APP_URL")."storage/".$doctor->electronic_signature : null,
+                        // "electronic_signature"=>$doctor->electronic_signature ? env("APP_URL").$doctor->electronic_signature : null,
+                        "agency_location"=>$doctor->agency_location,
+                        "city"=>$doctor->city,
+                        "languages"=>$doctor->languages,
+                        "dob"=>$doctor->dob,
+                        "ss_number"=>$doctor->ss_number,
+                        "date_of_hire"=>$doctor->date_of_hire ? Carbon::parse($doctor->date_of_hire)->format("Y/m/d") : NULL,
+                        "start_pay"=>$doctor->start_pay ? Carbon::parse($doctor->start_pay)->format("Y/m/d") : NULL,
+                        "driver_license_expiration"=>$doctor->driver_license_expiration ? Carbon::parse($doctor->driver_license_expiration)->format("Y/m/d") : NULL,
+                        "cpr_every_2_years"=>$doctor->cpr_every_2_years,
+                        "background_every_5_years"=>$doctor->background_every_5_years,
+                        "e_verify"=>$doctor->e_verify,
+                        "national_sex_offender_registry"=>$doctor->national_sex_offender_registry,
+                        "certificate_number"=>$doctor->certificate_number,
+                        "bacb_license_expiration"=>$doctor->bacb_license_expiration ? Carbon::parse($doctor->bacb_license_expiration)->format("Y/m/d") : NULL,
+                        "liability_insurance_annually"=>$doctor->liability_insurance_annually,
+                        "local_police_rec_every_5_years"=>$doctor->local_police_rec_every_5_years,
+                        "npi"=>$doctor->npi,
+                        "medicaid_provider"=>$doctor->medicaid_provider,
+                        
+                        "ceu_hippa_annually"=>$doctor->ceu_hippa_annually,
+                        "ceu_domestic_violence_no_expiration"=>$doctor->ceu_domestic_violence_no_expiration,
+                        "ceu_security_awareness_annually"=>$doctor->ceu_security_awareness_annually,
+                        "ceu_zero_tolerance_every_3_years"=>$doctor->ceu_zero_tolerance_every_3_years,
+                        "ceu_hiv_bloodborne_pathogens_infection_control_no_expiration"=>$doctor->ceu_hiv_bloodborne_pathogens_infection_control_no_expiration,
+                        "ceu_civil_rights_no_expiration"=>$doctor->ceu_civil_rights_no_expiration,
+                        
+                        "school_badge"=>$doctor->school_badge,
+                        "w_9_w_4_form"=>$doctor->w_9_w_4_form,
+                        "contract"=>$doctor->contract,
+                        "two_four_week_notice_agreement"=>$doctor->two_four_week_notice_agreement,
+                        "credentialing_package_bcbas_only"=>$doctor->credentialing_package_bcbas_only,
+                        "caqh_bcbas_only"=>$doctor->caqh_bcbas_only,
+                        "contract_type"=>$doctor->contract_type,
+                        "salary"=>$doctor->salary,
+                        
+                    ],
             // "full_name" =>$doctor->full_name,
             "bips" => BipCollection::make($bips),
             "bips"=>$bips->map(function($bip){
@@ -93,15 +161,33 @@ class DoctorController extends Controller
                         "id"=> $bip->id,
                     "patient_id"=> $bip->patient_id,
                     "doctor_id"=> $bip->doctor_id,
-                    "created_at"=> $bip->created_at,
+                    "created_at"=> $bip->created_at->format('Y-m-d H:i'), 
                 ];
             }),
-            "notes_bcbas" => NoteRbtCollection::make($notes_bcbas),
+            "notes_bcbas" => NoteBcbaCollection::make($notes_bcbas),
             "notes_bcbas"=>$notes_bcbas->map(function($notes_bcba){
                 return[
                     "patient_id"=> $notes_bcba->patient_id,
                     "bip_id"=> $notes_bcba->bip_id,
-                    "session_date"=> $notes_bcba->session_date,
+                    "location"=> $notes_bcba->location,
+                    "note_description"=> $notes_bcba->note_description,
+                    "cpt_code"=> $notes_bcba->cpt_code,
+                    "provider_name"=> $notes_bcba->provider_name,
+                    'provider_name'=>[
+                        'id'=> $notes_bcba->provider_name,
+                        'name'=> $notes_bcba->tecnico->name,
+                        'surname'=> $notes_bcba->tecnico->surname,
+                        'npi'=> $notes_bcba->tecnico->npi,
+                    ],
+                    
+                    "aba_supervisor"=> $notes_bcba->aba_supervisor,
+                    'aba_supervisor'=>[
+                        'id'=> $notes_bcba->aba_supervisor,
+                        'name'=> $notes_bcba->supervisor->name,
+                        'surname'=> $notes_bcba->supervisor->surname,
+                        'npi'=> $notes_bcba->supervisor->npi,
+                    ],
+                    "created_at"=> $notes_bcba->created_at->format('Y-m-d H:i'),
                 ];
             }),
             "notes_rbts" => NoteRbtCollection::make($notes_rbts),
@@ -111,12 +197,24 @@ class DoctorController extends Controller
                     "bip_id"=> $notes_rbt->bip_id,
                     "provider_credential"=> $notes_rbt->provider_credential,
                     "session_date"=> $notes_rbt->session_date,
+                    "next_session_is_scheduled_for"=> $notes_rbt->next_session_is_scheduled_for,
                     "time_in"=> $notes_rbt->time_in,
                     "time_out"=> $notes_rbt->time_out,
                     "time_in2"=> $notes_rbt->time_in2,
                     "time_out2"=> $notes_rbt->time_out2,
                     "billed"=> $notes_rbt->billed,
+                    "maladaptives"=> $notes_rbt->maladaptives,
+                    "replacements"=> $notes_rbt->replacements,
                     "pay"=> $notes_rbt->pay,
+                    "meet_with_client_at"=> $notes_rbt->meet_with_client_at,
+                    "total_hours"=> $notes_rbt->total_hours,
+                    "supervisor_name"=> $notes_rbt->supervisor_name,
+                    'supervisor'=>[
+                        'id'=> $notes_rbt->supervisor_name,
+                        'name'=> $notes_rbt->supervisor->name,
+                        'surname'=> $notes_rbt->supervisor->surname,
+                        'npi'=> $notes_rbt->supervisor->npi,
+                    ],
                 ];
             }),
             "patients" => PatientCollection::make($patients),
@@ -128,6 +226,7 @@ class DoctorController extends Controller
                     "status"=> $patient->status,
                 ];
             }),
+            
         ]);
     }
 

@@ -83,23 +83,23 @@ class NoteRbtResource extends JsonResource
             "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
             
-            // "supervisor_name" =>$this->resource->supervisor_name,
-            'supervisor_name'=>$this->resource-> supervisor_name,
-                // 'supervisor'=>[
-                //     'id'=> $this->resource->supervisor->id,
-                //     'name'=> $this->resource->supervisor->name,
-                //     'surname'=> $this->resource->supervisor->surname,
-                //     'npi'=> $this->resource->supervisor->npi,
-                // ],
+            "supervisor_name" =>$this->resource->supervisor_name,
+            // 'supervisor_name'=>$this->resource-> supervisor_name,
+            //     'supervisor'=>[
+            //         'id'=> $this->resource->supervisors->id,
+            //         'name'=> $this->resource->supervisors->name,
+            //         'surname'=> $this->resource->supervisors->surname,
+            //         'npi'=> $this->resource->supervisors->npi,
+            //     ],
 
                 
-            // "provider_name_g" => $this->resource->provider_name_g,
-            'provider_name_g'=>$this->resource-> provider_name_g,
-                // 'tecnicoRbt'=>[
-                //     'id'=> $this->resource->tecnicoRbt->id,
-                //     'name'=> $this->resource->tecnicoRbt->name,
-                //     'surname'=> $this->resource->tecnicoRbt->surname,
-                // ],
+            "provider_name_g" => $this->resource->provider_name_g,
+            // 'provider_name_g'=>$this->resource-> provider_name_g,
+            //     'tecnicoRbts'=>[
+            //         'id'=> $this->resource->tecnicoRbts->id,
+            //         'name'=> $this->resource->tecnicoRbts->name,
+            //         'surname'=> $this->resource->tecnicoRbts->surname,
+            //     ],
             "billed" => $this->resource->billed,
             "pay" => $this->resource->pay,
             

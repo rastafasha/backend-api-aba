@@ -123,7 +123,9 @@ class LocationController extends Controller
                                 "email"=> $specialist->email,
                                 "status"=> $specialist->status,
                                 "npi"=> $specialist->npi,
+                                "phone"=> $specialist->phone,
                                 "location_id"=> $specialist->location_id,
+                                "created_at"=> $specialist->created_at->format('Y-m-d'),
                                 "avatar"=> $specialist->avatar ? env("APP_URL")."storage/".$specialist->avatar : null,
                                 // "avatar"=> $specialist->avatar ? env("APP_URL").$specialist->avatar : null,
                                 // "roles"=> $specialist->roles?[
@@ -142,9 +144,13 @@ class LocationController extends Controller
 
                     "first_name"=>$patient->first_name,
                     "last_name"=>$patient->last_name,
+                    "email"=>$patient->email,
+                    "phone"=>$patient->phone,
                     "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
                     // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
                     "status"=> $patient->status,
+                    "eligibility"=> $patient->eligibility,
+                    "created_at"=> $patient->created_at->format('Y-m-d'),
 
                     "rbt_id"=>$patient->rbt_id,
                     "rbt2_id"=>$patient->rbt2_id,

@@ -220,23 +220,23 @@ class Patient extends Model
 
     public function rbt_ids()
         {
-            return $this->belongsTo(User::class, 'id');
+            return $this->belongsTo(User::class, 'rbt_id');
         }
     public function rbt2s()
         {
-            return $this->belongsTo(User::class, 'id');
+            return $this->belongsTo(User::class, 'rbt2');
         }
     public function bcbas()
         {
-            return $this->belongsTo(User::class, 'id');
+            return $this->belongsTo(User::class, 'bcba');
         }
     public function bcba2s()
         {
-            return $this->belongsTo(User::class, 'id');
+            return $this->belongsTo(User::class, 'bcba2');
         }
     public function clin_directors()
         {
-            return $this->belongsTo(User::class, 'id');
+            return $this->belongsTo(User::class, 'clin_director_id');
         }
     public function doctors()
         {
@@ -245,7 +245,7 @@ class Patient extends Model
 
     public function insurances()
     {
-        return $this->hasMany(Insurance::class);
+        return $this->hasMany(Insurance::class, 'insurer_id');
     }
     public function bip()
     {

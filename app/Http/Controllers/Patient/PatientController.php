@@ -83,9 +83,10 @@ class PatientController extends Controller
                 ->get();
 
         return response()->json([
-            "patients"=> $patients,
+            // "patients"=> $patients,
             // "total"=>$patients->total(),
-            // "patientRbts"=> PatientCollection::make($patientRbts)
+            "patients"=> PatientCollection::make($patients)
+            // "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
 
     }

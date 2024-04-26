@@ -29,15 +29,23 @@ class ClientReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $name_doctor = $request->search;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
+        // $name_doctor = $request->search;
+        $doctor_id = $request->doctor_id;
+        $session_date = $request->session_date;
+        $patient_id = $request->patient_id;
+        $provider_name_g = $request->provider_name_g;
+        // $npi = $request->npi;
 
-        $clientReports = NoteRbt::filterAdvance($name_doctor, $start_date, $end_date)->orderBy("id", "desc")
-                            ->paginate(20);
+        $clientReports = NoteRbt::filterAdvanceClientReport(
+            $provider_name_g,
+            $session_date, 
+            $patient_id,
+            $doctor_id
+            )->orderBy("id", "desc")
+                            ->paginate(10);
         return response()->json([
             "total"=>$clientReports->total(),
             "clientReports"=> NoteRbtCollection::make($clientReports)
@@ -138,6 +146,11 @@ class ClientReportController extends Controller
         //     $doctor = $this->filterDate($doctor,$session_date);
         // }
 
+        
+        if($request->{'xe'}){
+            $request->request->add($xe);
+        }
+
        
         $notes = [];
 
@@ -170,6 +183,8 @@ class ClientReportController extends Controller
 
             /*Pagar*/
             $pagar = $unidadesTotal * $costoUnidad;
+
+            $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
 
             $notes[] =[              
                 'id' => $note->id,

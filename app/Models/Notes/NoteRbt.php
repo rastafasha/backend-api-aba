@@ -85,27 +85,34 @@ class NoteRbt extends Model
     }
 
 
-    public function scopefilterAdvanceClient($query,$search_doctor, $search_patient,
-    $date_start,$date_end){
+    public function scopefilterAdvanceClientReport(
+        $query,
+        $provider_name_g,
+        $session_date, 
+        $patient_id,
+        $doctor_id
+        ){
         
 
-        if($search_doctor){
-            $query->whereHas("doctor", function($q)use($search_doctor){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
+        if($provider_name_g){
+            $query->whereHas("doctor", function($q)use($provider_name_g){
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
                    
             });
         }
-        if($search_patient){
-            $query->whereHas("patient", function($q)use($search_patient){
-                $q->where(DB::raw("CONCAT(patients.name,' ',IFNULL(patients.surname,''),' ',IFNULL(patients.email,''))"),"like","%".$search_patient."%");
-                
-            });
+
+        if($provider_name_g){
+            $query->where("provider_name_g", $provider_name_g);
         }
 
-        if($date_start && $date_end){
-            $query->whereBetween("date_appointment", [
-                Carbon::parse($date_start)->format("Y-m-d"),
-                Carbon::parse($date_end)->format("Y-m-d"),
+        
+        if($patient_id){
+            $query->where("patient_id", $patient_id);
+        }
+
+        if($session_date ){
+            $query->where("noterbts", [
+                Carbon::parse($session_date)->format("Y-m-d"),
             ]);
         }
         return $query;

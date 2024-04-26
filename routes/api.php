@@ -102,8 +102,13 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // billing
     require __DIR__ . '/api_routes/billing.php';
+
     // client_report
     require __DIR__ . '/api_routes/client_report.php';
+
+    // clientlogreport
+    require __DIR__ . '/api_routes/clientlogreport.php';
+    
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
     

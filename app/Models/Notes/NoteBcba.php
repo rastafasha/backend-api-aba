@@ -45,6 +45,13 @@ class NoteBcba extends Model
         return $this->hasMany(User::class,"doctor_id");
     }
 
+    public function supervisor() {
+        return $this->belongsTo(User::class,'aba_supervisor');
+    }
+    public function tecnico() {
+        return $this->belongsTo(User::class, 'provider_name');
+    }
+
     public function bips()
     {
         return $this->belongsTo(Bip::class, 'bip_id');
