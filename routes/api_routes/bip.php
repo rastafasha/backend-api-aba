@@ -8,8 +8,8 @@ Route::get('bip', [BipController::class, 'index'])->name('index');
 Route::get('bip/show/{id}', [BipController::class, 'show'])->name('show');
 Route::get('bip/config', [BipController::class, 'config'])->name('config');
 Route::get('bip/profile/{id}', [BipController::class, 'showProfile'])->name('showProfile');
-Route::get('bip/profileBip/{id}', [BipController::class, 'showBipPatientIdProfile'])->name('showBipPatientIdProfile');
-Route::get('bip/profileBipPdf/{id}', [BipController::class, 'showBipPatientIdProfilePdf'])->name('showBipPatientIdProfile');
+Route::get('bip/profileBip/{patient_id}', [BipController::class, 'showBipPatientIdProfile'])->name('showBipPatientIdProfile');
+Route::get('bip/profileBipPdf/{patient_id}', [BipController::class, 'showBipPatientIdProfilePdf'])->name('showBipPatientIdProfile');
 Route::post('bip/store', [BipController::class, 'store'])->name('store');
 Route::put('bip/update/{id}', [BipController::class, 'update'])->name('update');
 

@@ -26,7 +26,7 @@ class Bip extends Model
         'documents_reviewed',
         'client_id',
         'doctor_id',
-        'patientID',
+        'patient_id',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',

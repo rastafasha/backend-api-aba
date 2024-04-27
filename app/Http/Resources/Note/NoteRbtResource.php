@@ -84,13 +84,13 @@ class NoteRbtResource extends JsonResource
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
             
             "supervisor_name" =>$this->resource->supervisor_name,
-            // 'supervisor_name'=>$this->resource-> supervisor_name,
-            //     'supervisor'=>[
-            //         'id'=> $this->resource->supervisors->id,
-            //         'name'=> $this->resource->supervisors->name,
-            //         'surname'=> $this->resource->supervisors->surname,
-            //         'npi'=> $this->resource->supervisors->npi,
-            //     ],
+            'supervisor'=>$this->resource-> supervisor,
+                'supervisor'=>[
+                    'id'=> $this->resource->supervisor->supervisor_name,
+                    'name'=> $this->resource->supervisor->name,
+                    'surname'=> $this->resource->supervisor->surname,
+                    'npi'=> $this->resource->supervisor->npi,
+                ],
 
                 
             "provider_name_g" => $this->resource->provider_name_g,

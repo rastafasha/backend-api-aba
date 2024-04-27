@@ -17,10 +17,10 @@ class Patient extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        'rbt_id',
-        'rbt2_id',
-        'bcba_id',
-        'bcba2_id',
+        'rbt_home_id',
+        'rbt2_school_id',
+        'bcba_home_id',
+        'bcba2_school_id',
         'clin_director_id',
         'location_id',
         'first_name',
@@ -56,8 +56,8 @@ class Patient extends Model
         'insurer_id',
 
         'insuranceId',
-        'insurer_secundary',
-        'insuranceId_secundary',
+        // 'insurer_secundary',
+        // 'insuranceId_secundary',
         'elegibility_date',
         'pos_covered',
         'deductible_individual_I_F',
@@ -65,6 +65,7 @@ class Patient extends Model
         'coinsurance',
         'copayments',
         'oop',
+        'eqhlid',
         'insurer_file',
         'intake_file',
 
@@ -80,6 +81,7 @@ class Patient extends Model
         'asd_diagnosis',
         'cde',
         'submitted',
+        'interview',
         
         //pas
         'pa_assessments',
@@ -218,34 +220,41 @@ class Patient extends Model
     
 
 
-    public function rbt_ids()
+    public function rbt_home()
         {
-            return $this->belongsTo(User::class, 'rbt_id');
+            return $this->belongsTo(User::class, 'rbt_home_id');
         }
-    public function rbt2s()
+    public function rbt2_school()
         {
-            return $this->belongsTo(User::class, 'rbt2');
+            return $this->belongsTo(User::class, 'rbt2_school_id');
         }
-    public function bcbas()
+    public function bcba_home()
         {
-            return $this->belongsTo(User::class, 'bcba');
+            return $this->belongsTo(User::class, 'bcba_home_id');
         }
-    public function bcba2s()
+    public function bcba2_school()
         {
-            return $this->belongsTo(User::class, 'bcba2');
+            return $this->belongsTo(User::class, 'bcba2_school_id');
         }
-    public function clin_directors()
+    public function clin_director()
         {
             return $this->belongsTo(User::class, 'clin_director_id');
         }
+
+        
     public function doctors()
         {
             return $this->hasMany(User::class, 'id');
         }
 
+        public function clinic()
+        {
+            return $this->belongsTo(Location::class, 'location_id');
+        }
+
     public function insurances()
     {
-        return $this->hasMany(Insurance::class, 'insurer_id');
+        return $this->belongsTo(Insurance::class, 'insurer_id');
     }
     public function bip()
     {
@@ -257,10 +266,7 @@ class Patient extends Model
         return $this->hasMany(ReductionGoal::class, 'patient_id');
     }
 
-    public function locations()
-    {
-        return $this->hasMany(Location::class);
-    }
+    
 
 
     //filtro buscador

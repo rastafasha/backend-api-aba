@@ -192,7 +192,20 @@ class ClientReportController extends Controller
                 'Paciente' => $note->patient_id,
                 'bip_id' => $note->bip_id,
                 'supervisor' => $note->supervisor_name,
+                'supervisor'=>$note-> supervisor,
+                'supervisor'=>[
+                    'name'=> $note->supervisor->name,
+                    'surname'=> $note->supervisor->surname,
+                    'npi'=> $note->supervisor->npi,
+                ],
                 'tecnicoRbts' => $note->provider_name_g,
+                'tecnicoRbt'=>$note-> tecnicoRbt,
+                'tecnicoRbt'=>[
+                    'name'=> $note->tecnicoRbt->name,
+                    'surname'=> $note->tecnicoRbt->surname,
+                    'npi'=> $note->tecnicoRbt->npi,
+                ],
+                
                 
                 'pos' => $note->pos,
                 'session_date' => $note->session_date,
@@ -227,11 +240,29 @@ class ClientReportController extends Controller
                 return[
                     "cpt_code"=> $noteBcba->cpt_code,
                     "provider_name"=> $noteBcba->provider_name,
+                    'tecnico'=>$noteBcba-> tecnico,
+                    'tecnico'=>[
+                        'name'=> $noteBcba->tecnico->name,
+                        'surname'=> $noteBcba->tecnico->surname,
+                        'npi'=> $noteBcba->tecnico->npi,
+                    ],
                     "supervisor_name"=> $noteBcba->supervisor_name,
+                    'supervisor'=>$noteBcba-> supervisor,
+                    'supervisor'=>[
+                        'name'=> $noteBcba->supervisor->name,
+                        'surname'=> $noteBcba->supervisor->surname,
+                        'npi'=> $noteBcba->supervisor->npi,
+                    ],
                     "aba_supervisor"=> $noteBcba->aba_supervisor,
+                    'abasupervisor'=>$noteBcba-> abasupervisor,
+                    'abasupervisor'=>[
+                        'name'=> $noteBcba->abasupervisor->name,
+                        'surname'=> $noteBcba->abasupervisor->surname,
+                        'npi'=> $noteBcba->abasupervisor->npi,
+                    ],
                 ];
             }),
-            "doctors" =>$doctors,
+            // "doctors" =>$doctors,
            
             "noteRbts" =>$notes,
             // "noteRbts" => NoteRbtCollection::make($notes),

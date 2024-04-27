@@ -67,7 +67,7 @@ class NoteRbt extends Model
         return $this->belongsTo(User::class,'supervisor_name');
     }
     public function tecnicoRbt() {
-        return $this->hasMany(User::class, 'provider_name_g');
+        return $this->belongsTo(User::class, 'provider_name_g');
     }
 
     public function bips()

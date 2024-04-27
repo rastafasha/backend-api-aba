@@ -49,7 +49,7 @@ class ClientReport extends Model
     }
     public function note_rbt()
     {
-        return $this->hasMany(NoteRbt::class);
+        return $this->belongsTo(NoteRbt::class);
     }
 
      // filtro buscador

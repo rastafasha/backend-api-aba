@@ -28,16 +28,19 @@ class BipResource extends JsonResource
                 [
                     "id" =>$this->resource->doctor->id,
                     "full_name" =>$this->resource->doctor->name.' '.$this->resource->doctor->surname,
-                    // "avatar"=> $this->resource->doctor->avatar ? env("APP_URL")."storage/".$this->resource->doctor->avatar : null,
-                    "avatar"=> $this->resource->doctor->avatar ? env("APP_URL").$this->resource->doctor->avatar : null,
-                    // "speciality_id" => $this->resource->doctor->speciality_id,
-                    //         "speciality"=>$this->resource->doctor->speciality ? [
-                    //             "id"=> $this->resource->doctor->speciality->id,
-                    //             "name"=> $this->resource->doctor->speciality->name,
-                    //             "price"=> $this->resource->doctor->speciality->price,
-                    //         ]:NULL,
+                    "avatar"=> $this->resource->doctor->avatar ? env("APP_URL")."storage/".$this->resource->doctor->avatar : null,
+                    // "avatar"=> $this->resource->doctor->avatar ? env("APP_URL").$this->resource->doctor->avatar : null,
+                    
                 ]: NULL,
             "patient_id"=>$this->resource->patient_id,
+            // "patient" =>$this->resource->patient ? 
+            //     [
+            //         "patient_id" =>$this->resource->patient->patient_id,
+            //         "full_name" =>$this->resource->patient->first_name.' '.$this->resource->patient->last_name,
+            //         "avatar"=> $this->resource->patient->avatar ? env("APP_URL")."storage/".$this->resource->patient->avatar : null,
+            //         // "avatar"=> $this->resource->doctor->avatar ? env("APP_URL").$this->resource->patient->avatar : null,
+                    
+            //     ]: NULL,
             "background_information"=>$this->resource->background_information,
             "previus_treatment_and_result"=>$this->resource->previus_treatment_and_result,
             "current_treatment_and_progress"=>$this->resource->current_treatment_and_progress,
