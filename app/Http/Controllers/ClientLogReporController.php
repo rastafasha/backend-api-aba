@@ -60,17 +60,6 @@ class ClientLogReporController extends Controller
         return response()->json([
             "patients" => PatientCollection::make($patients),
             
-            "specialists" =>  UserCollection::make($specialists),
-            // "insurances" => $insurances,
-            "insurances" => InsuranceCollection::make($insurances),//trae el json convertido para manipular
-            "locations" =>  LocationCollection::make($locations),
-            "roles_rbt" => $role_rbt,
-            "roles_bcba" => $role_bcba,
-            "roles_admin" => $role_admin,
-            "roles_manager" => $role_manager,
-            "roles_superadmin" => $role_superadmin,
-            // "documents" => $documents,
-            
         ]);
     }
 

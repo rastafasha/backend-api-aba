@@ -277,18 +277,15 @@ class ClientReportController extends Controller
                     "diagnosis_code"=>$patient->diagnosis_code,
                     "pos_covered"=>$patient->pos_covered,
                     "insurer_id"=>$patient->insurer_id,
-                    "rbt_id"=>$patient->rbt_id,
-                    "rbt2_id"=>$patient->rbt2_id,
-                    "bcba_id"=>$patient->bcba_id,
-                    "bcba2_id"=>$patient->bcba2_id,
-                    // "bcba2_id" =>$patient->bcba2_id ? 
-                    // [
-                    //     "id" =>$patient->bcba2_id,
-                    //     "full_name" =>$patient->bcba2_id->doctor->name,
-                    //     // // "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL")."storage/".$this->resource->rbt_id->avatar : null,
-                    //     // "avatar"=> $this->resource->rbt_id->avatar ? env("APP_URL").$this->resource->rbt_id->avatar : null,
-                        
-                    // ]: NULL,
+                    "rbt_home_id"=>$patient->rbt_home_id,
+                    "rbt2_school_id"=>$patient->rbt2_school_id,
+                    "bcba_home_id"=>$patient->bcba_home_id,
+                    "bcba2_school_id"=>$patient->bcba2_school_id,
+                    // "bcba2_school"=>$patient->bcba2_school_id ? [
+                    //     "id"=> $bcba2_school->bcba2_school_id,
+                    //     "name"=>$bcba2_school->name,
+                    //     "surname"=>$bcba2_school->surname,
+                    // ]:NULL,
                 ]:NULL,
            
             
