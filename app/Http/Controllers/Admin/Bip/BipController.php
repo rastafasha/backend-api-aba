@@ -134,12 +134,12 @@ class BipController extends Controller
         
     }
     //se obtiene el usuario
-    public function showProfile($id)
+    public function showProfile($patient_id)
     {
-        $patient = Patient::where("id", $id)->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
         return response()->json([
             // "patient" => $patient,
-            "patient"=>$patient->id ? [
+            "patient"=>$patient->patient_id ? [
                 "id"=> $patient->id,
                 "patient_id"=>$patient->patient_id,
                 "first_name"=>$patient->first_name,
@@ -161,14 +161,14 @@ class BipController extends Controller
     }
 
     //se obtiene el bip del usuario
-    public function showbyUser($client_id)
+    public function showbyUser($patient_id)
     {
-        $bip = Bip::where("client_id", $client_id)->first();
+        $bip = Bip::where("patient_id", $patient_id)->first();
         // $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
         
     
         return response()->json([
-            "client_id"=>$bip->client_id,
+            "patient_id"=>$bip->patient_id,
             // "bip" => $bip,
             "bip" => BipResource::make($bip),
             "type_of_assessment" =>$bip->type_of_assessment,

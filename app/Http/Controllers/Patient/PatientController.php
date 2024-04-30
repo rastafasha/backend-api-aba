@@ -62,7 +62,8 @@ class PatientController extends Controller
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
-            "patients"=> PatientCollection::make($patients)
+            "patients"=> PatientCollection::make($patients),
+            
         ]);
 
     }

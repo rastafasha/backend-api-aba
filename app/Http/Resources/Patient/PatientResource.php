@@ -93,6 +93,7 @@ class PatientResource extends JsonResource
             
             //pas
             "pa_assessments"=>json_decode($this->resource->pa_assessments)? : null,
+            
 
             // "location" =>implode($this->resource->location_id),
             "location_id" =>$this->resource->location_id,

@@ -54,7 +54,7 @@ class ClientLogReporController extends Controller
         
         $insurances = Insurance::get();
         $locations = Location::get();
-        $patients = Patient::get();
+        $patients = Patient::orderBy('id', 'desc')->get();
         
         
         return response()->json([
