@@ -73,10 +73,10 @@ class DoctorController extends Controller
     {
            
         $doctor = User::findOrFail($id);
-        $patients = Patient::Where('rbt_id', $id)
-                ->orWhere('rbt2_id', $id)
-                ->orWhere('bcba_id', $id)
-                ->orWhere('bcba2_id', $id)
+        $patients = Patient::Where('rbt_home_id', $id)
+                ->orWhere('rbt2_school_id', $id)
+                ->orWhere('bcba_home_id', $id)
+                ->orWhere('bcba2_school_id', $id)
                 ->orWhere('clin_director_id', $id)
                 ->get();
         $bips = Bip::Where('doctor_id', $id)->get();

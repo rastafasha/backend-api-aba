@@ -19,4 +19,8 @@ Route::post('note_rbt/store', [NoteRbtController::class, 'store'])->name('store'
 Route::post('note_rbt/update/{id}', [NoteRbtController::class, 'update'])->name('update');
 Route::delete('note_rbt/destroy/{id}', [NoteRbtController::class, 'destroy'])->name('destroy');
 
+
 Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplacemts'])->name('storeReplacemts');
+
+Route::put('/note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
+    ->name('note_rbt.updateStatus');

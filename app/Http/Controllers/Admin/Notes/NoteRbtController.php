@@ -347,6 +347,7 @@ class NoteRbtController extends Controller
         if($request->imagen){
             $request->request->add(["provider_signature"=>$imagen]);
         }
+
         if($request->hasFile('imagen')){
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
@@ -363,11 +364,7 @@ class NoteRbtController extends Controller
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
             $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
-        if($request->next_session_is_scheduled_for){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
-            $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
-
+       
         if($request->time_in){
             $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
             $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]);
@@ -582,5 +579,14 @@ class NoteRbtController extends Controller
             "noteRbts"=> NoteRbtCollection::make($noteRbts)
         ]);
 
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $noteRbt = NoteRbt::findOrfail($id);
+        $noteRbt->status = $request->status;
+        $noteRbt->update();
+        return $noteRbt;
+        
     }
 }

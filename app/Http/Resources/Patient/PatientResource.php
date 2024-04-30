@@ -66,15 +66,14 @@ class PatientResource extends JsonResource
             // "insurer_secundary"=>$this->resource->insurer_secundary,          
             // "insuranceId_secundary"=>$this->resource->insuranceId_secundary,          
             "elegibility_date"=>$this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : NULL,
-            "pos_covered"=>$this->resource->pos_covered,
+            // "pos_covered"=>$this->resource->pos_covered ,
+            "pos_covered"=> json_decode($this->resource->pos_covered)? : null,
             "deductible_individual_I_F"=>$this->resource->deductible_individual_I_F,
             "balance"=>$this->resource->balance,
             "coinsurance"=>$this->resource->coinsurance,
             "copayments"=>$this->resource->copayments,
             "oop"=>$this->resource->oop,
-            // "insurer_file"=> $this->resource->insurer_file ? env("APP_URL")."storage/".$this->resource->insurer_file : null,
-            // "intake_file"=> $this->resource->intake_file ? env("APP_URL")."storage/".$this->resource->intake_file : null,
-
+            
             //intake
             "welcome"=>$this->resource->welcome,
             "consent"=>$this->resource->consent,
@@ -89,6 +88,8 @@ class PatientResource extends JsonResource
             "submitted"=>$this->resource->submitted,
             "interview"=>$this->resource->interview,
             "eqhlid"=>$this->resource->eqhlid,
+            "telehealth"=>$this->resource->telehealth,
+            "pay"=>$this->resource->pay,
             
             //pas
             "pa_assessments"=>json_decode($this->resource->pa_assessments)? : null,

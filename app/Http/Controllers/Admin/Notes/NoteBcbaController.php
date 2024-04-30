@@ -83,6 +83,33 @@ class NoteBcbaController extends Controller
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
+
+        if($request->session_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
+            $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
+        if($request->next_session_is_scheduled_for){
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
+            $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        }
+
+        if($request->time_in){
+            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
+            $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]);
+        }
+        if($request->time_out){
+            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out );
+            $request->request->add(["time_out" => Carbon::parse($time_clean1)->format('h:i:s')]);
+        }
+        if($request->time_in2){
+            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in2 );
+            $request->request->add(["time_in2" => Carbon::parse($time_clean3)->format('h:i:s')]);
+        }
+        if($request->time_out2){
+            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out2 );
+            $request->request->add(["time_out2" => Carbon::parse($time_clean4)->format('h:i:s')]);
+        }
+
         $noteBcba = NoteBcba::create($request->all());
         
 
@@ -108,9 +135,10 @@ class NoteBcbaController extends Controller
         ]);
     }
 
+
     public function showByPatientId($patient_id)
     {
-        $noteBcbas = NoteBcba::where("patient_id", $patient_id)->get();
+        $noteBcbas = NoteBcba::where("patient_id", $patient_id)->orderBy('id', 'desc')->get();
         $patient = Patient::where("patient_id", $patient_id)->first();
     
         return response()->json([
@@ -119,6 +147,8 @@ class NoteBcbaController extends Controller
 
         
     }
+
+
     public function showNoteBcbaByPatient($patient_id)
     {
         $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
@@ -177,6 +207,11 @@ class NoteBcbaController extends Controller
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
+        if($request->session_date){
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
+            $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
+
 
         $noteBcba->update($request->all());
 
@@ -213,5 +248,14 @@ class NoteBcbaController extends Controller
             "noteBcbas"=> NoteBcbaCollection::make($noteBcbas)
         ]);
 
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $noteBcba = NoteBcba::findOrfail($id);
+        $noteBcba->status = $request->status;
+        $noteBcba->update();
+        return $noteBcba;
+        
     }
 }

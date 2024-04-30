@@ -66,8 +66,8 @@ class Patient extends Model
         'copayments',
         'oop',
         'eqhlid',
-        'insurer_file',
-        'intake_file',
+        'telehealth',
+        'pay',
 
         //intake
         'welcome',

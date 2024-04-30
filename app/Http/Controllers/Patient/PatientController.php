@@ -182,6 +182,7 @@ class PatientController extends Controller
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
+        $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
         // $request->request->add(["pa_services"=>json_encode($request->services)]);
 
         if($patient_is_valid){
@@ -258,6 +259,7 @@ class PatientController extends Controller
         return response()->json([
             "patient" => PatientResource::make($patient),
             "pa_assessments"=>json_decode($patient->pa_assessments) ? : null,
+            "pos_covered"=>json_decode($patient->pos_covered) ? : null,
         ]);
     }
     public function showPatientId($patient_id)
@@ -283,10 +285,10 @@ class PatientController extends Controller
                 "full_name"=> $patient->first_name.' '.$patient->last_name,
                 "email"=>$patient->email,
                 "insurer_id"=>$patient->insurer_id,
-                "rbt_id" =>$patient->rbt_id,
-                "rbt2"=>$patient->rbt2_id,
-                "bcba"=>$patient->bcba_id,
-                "bcba2"=>$patient->bcba2_id,
+                "rbt_home" =>$patient->rbt_home_id,
+                "rbt2_school"=>$patient->rbt2_school_id,
+                "bcba_home"=>$patient->bcba_home_id,
+                "bcba2_school"=>$patient->bcba2_school_id,
                 "clin_director_id"=>$patient->clin_director_id,
                 "status"=>$patient->status,
                 "gender"=>$patient->gender,
@@ -314,6 +316,7 @@ class PatientController extends Controller
         
         // $request->request->add(["pa_services"=>json_encode($request->services)]);
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
+        $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
 
         
         
@@ -367,6 +370,7 @@ class PatientController extends Controller
             "message"=>200,
             "patient"=>$patient,
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
+            "pa_assessments"=>$patient->pos_covered ? json_decode($patient->pos_covered) : [],
         ]);
     }
 
@@ -380,6 +384,7 @@ class PatientController extends Controller
             $input = $this->userInput($patient);
             $request->request->add(["pa_services"=>json_encode($request->services)]);
             $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
+            $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
             if($request->hasFile('imagen')){
                 if($patient->avatar){
                     Storage::delete($patient->avatar);

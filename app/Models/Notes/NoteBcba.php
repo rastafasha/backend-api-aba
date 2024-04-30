@@ -34,6 +34,15 @@ class NoteBcba extends Model
         'supervisor_signature',
         'supervisor_name',
 
+        'session_date',
+        'time_in',
+        'time_out',
+        'time_in2',
+        'time_out2',
+        'session_length_total',
+        'session_length_total2',
+        'environmental_changes',
+
     ];
 
     public function patient()
