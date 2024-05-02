@@ -241,15 +241,24 @@ class Patient extends Model
             return $this->belongsTo(User::class, 'clin_director_id');
         }
 
-        
+    public function manager()
+        {
+            return $this->belongsTo(User::class, 'id');
+        }
+    public function local_manager()
+        {
+            return $this->belongsTo(User::class, 'id');
+        }
     public function doctors()
         {
             return $this->hasMany(User::class, 'id');
         }
 
-        public function clinic()
+        public function local()
         {
-            return $this->belongsTo(Location::class, 'location_id');
+            return $this->belongsTo(Location::class,'id');
+            // return $this->hasMany(Location::class,'location_id');
+            // return $this->belongsToMany(Location::class,'location_id');
         }
 
     public function insurances()
@@ -284,6 +293,47 @@ class Patient extends Model
                    
             });
         }
+        if($status){
+            $query->where('status', $status);
+        }
+        
+
+        // if($date_start && $date_end){
+        //     $query->whereBetween("date_appointment", [
+        //         Carbon::parse($date_start)->format("Y-m-d"),
+        //         Carbon::parse($date_end)->format("Y-m-d"),
+        //     ]);
+        // }
+        return $query;
+    }
+
+    //filtro buscador
+    public function scopefilterAdvanceClientLog($query,
+    $patient_id, $name_patient, $email_patient,$status,
+    // $rbt_home,
+    //         $rbt2_school,
+    //         $bcba_home,
+    //         $bcba2_school,
+    //         $clin_director,
+    
+    ){
+        
+        if($patient_id){
+            $query->where("patient_id", $patient_id);
+        }
+
+        if($name_patient){
+            $query->whereHas("patient", function($q)use($name_patient){
+                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
+                   
+            });
+        }
+        // if($rbt_home){
+        //     $query->whereHas("rbt_home", function($q)use($rbt_home){
+        //         $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$rbt_home."%");
+                   
+        //     });
+        // }
         if($status){
             $query->where('status', $status);
         }
