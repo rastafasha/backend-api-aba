@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Patient;
 
 use Carbon\Carbon;

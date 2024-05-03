@@ -154,29 +154,35 @@ class GraphicReductionController extends Controller
         $json_strings = [];
 
         foreach ($noteRbt as $item) {
-            // Log::debug("Processing item: " . $item);
+            // Log::debug("Processing item: ". $item);
             
             $maladaptivesCollection->push($item->maladaptives); 
-            Log::debug("maladaptivesCollection: " . $maladaptivesCollection);
+            Log::debug("maladaptivesCollection: ". $maladaptivesCollection);
             
             $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $maladaptives);
-            // Log::debug("Cleaned JSON string: " . $json_string);
-
-            if (json_validate($json_string)) {
-                $maladaptives = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($maladaptives)) {
-                    $number_of_occurrences = 0;
-                    foreach ($maladaptives as $maladaptive) {
-                        $number_of_occurrences += $maladaptive->number_of_occurrences;
-                    }
-                    $maladaptivesCollection->push($number_of_occurrences);
-                } else {
-                    Log::debug("Failed to decode JSON: " . json_last_error_msg());
-                }
-            } else {
-                // Log::debug("Invalid JSON string: " . $json_string);
+            // Log::debug("Cleaned JSON string: ". $json_string);
+        
+            // Validate JSON string
+            $json_error = json_last_error();
+            if ($json_error!== JSON_ERROR_NONE) {
+                $json_error_message = json_last_error_msg();
+                Log::debug("Invalid JSON string: ". $json_error_message);
+                continue;
             }
-
+        
+            // Decode JSON string
+            $maladaptives = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            if (!is_array($maladaptives)) {
+                Log::debug("Failed to decode JSON: ". json_last_error_msg());
+                continue;
+            }
+        
+            // Process the decoded JSON
+            $number_of_occurrences = 0;
+            foreach ($maladaptives as $maladaptive) {
+                $number_of_occurrences += $maladaptive->number_of_occurrences;
+            }
+            $maladaptivesCollection->push($number_of_occurrences);
         }
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -306,29 +312,35 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         $json_strings = [];
 
         foreach ($noteRbt as $item) {
-            // Log::debug("Processing item: " . $item);
+            // Log::debug("Processing item: ". $item);
             
             $replacementsCollection->push($item->replacements); 
-            Log::debug("replacementsCollection: " . $replacementsCollection);
+            Log::debug("replacementsCollection: ". $replacementsCollection);
             
             $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $replacements);
-            // Log::debug("Cleaned JSON string: " . $json_string);
-
-            if (json_validate($json_string)) {
-                $replacements = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($replacements)) {
-                    $total_trials = 0;
-                    foreach ($replacements as $replacement) {
-                        $total_trials += $replacement->total_trials;
-                    }
-                    $replacementsCollection->push($total_trials);
-                } else {
-                    Log::debug("Failed to decode JSON: " . json_last_error_msg());
-                }
-            } else {
-                // Log::debug("Invalid JSON string: " . $json_string);
+            // Log::debug("Cleaned JSON string: ". $json_string);
+        
+            // Validate JSON string
+            $json_error = json_last_error();
+            if ($json_error!== JSON_ERROR_NONE) {
+                $json_error_message = json_last_error_msg();
+                Log::debug("Invalid JSON string: ". $json_error_message);
+                continue;
             }
-
+        
+            // Decode JSON string
+            $replacements = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            if (!is_array($replacements)) {
+                Log::debug("Failed to decode JSON: ". json_last_error_msg());
+                continue;
+            }
+        
+            // Process the decoded JSON
+            $total_trials = 0;
+            foreach ($replacements as $replacement) {
+                $total_trials += $replacement->total_trials;
+            }
+            $replacementsCollection->push($total_trials);
         }
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

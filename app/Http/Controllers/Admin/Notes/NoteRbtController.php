@@ -364,6 +364,11 @@ class NoteRbtController extends Controller
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
             $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
+
+        if($request->next_session_is_scheduled_for){
+            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
+            $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        }
        
         if($request->time_in){
             $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );

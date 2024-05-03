@@ -252,12 +252,12 @@ class PatientController extends Controller
         $patient = Patient::create($request->all());
 
 
-        $billing = Billing::create([
-            "patient_id" => $request->patient_id,
-            "sponsor_id" => $request->doctor_id,
-            "insurer_id" => $request->insurer_id,
+        // $billing = Billing::create([
+        //     "patient_id" => $request->patient_id,
+        //     "sponsor_id" => $request->doctor_id,
+        //     "insurer_id" => $request->insurer_id,
             
-        ]);
+        // ]);
         
         
         // $request->request->add([
