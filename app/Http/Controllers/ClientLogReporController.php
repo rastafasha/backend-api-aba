@@ -91,35 +91,40 @@ class ClientLogReporController extends Controller
         $json_strings = [];
 
         foreach ($patients as $item) {
-            // Log::debug("Processing item: " . $item);
+            // Log::debug("Processing item: ". $item);
             
             $pa_assessmentsCollection->push($item->pa_assessments); 
-            Log::debug("pa_assessmentsCollection: " . $pa_assessmentsCollection);
+            Log::debug("pa_assessmentsCollection: ". $pa_assessmentsCollection);
             
             $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $item->pa_assessments);
-            // Log::debug("Cleaned JSON string: " . $json_string);
-
-            if (json_validate($json_string)) {
-                $pa_assessments = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($pa_assessments)) {
-                    
-                    foreach ($pa_assessments as $pa_assessment) {
-                        $pa_assessment = $pa_assessment->pa_assessment;
-                        $pa_assessment_start_date = $pa_assessment->pa_assessment_start_date;
-                        $pa_assessment_end_date = $pa_assessment->pa_assessment_end_date;
-                        $pa_services = $pa_assessment->pa_services;
-                        $pa_services_start_date = $pa_assessment->pa_services_start_date;
-                        $pa_services_end_date = $pa_assessment->pa_services_end_date;
-                        $cpt = $pa_assessment->cpt;
-                        $n_units = $pa_assessment->n_units;
-                    }
-                } else {
-                    Log::debug("Failed to decode JSON: " . json_last_error_msg());
-                }
-            } else {
-                // Log::debug("Invalid JSON string: " . $json_string);
+            // Log::debug("Cleaned JSON string: ". $json_string);
+        
+            // Validate JSON string
+            $json_error = json_last_error();
+            if ($json_error!== JSON_ERROR_NONE) {
+                $json_error_message = json_last_error_msg();
+                Log::debug("Invalid JSON string: ". $json_error_message);
+                continue;
             }
-
+        
+            // Decode JSON string
+            $pa_assessments = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            if (!is_array($pa_assessments)) {
+                Log::debug("Failed to decode JSON: ". json_last_error_msg());
+                continue;
+            }
+        
+            // Process the decoded JSON
+            foreach ($pa_assessments as $pa_assessment) {
+                $pa_assessment = $pa_assessment->pa_assessment;
+                $pa_assessment_start_date = $pa_assessment->pa_assessment_start_date;
+                $pa_assessment_end_date = $pa_assessment->pa_assessment_end_date;
+                $pa_services = $pa_assessment->pa_services;
+                $pa_services_start_date = $pa_assessment->pa_services_start_date;
+                $pa_services_end_date = $pa_assessment->pa_services_end_date;
+                $cpt = $pa_assessment->cpt;
+                $n_units = $pa_assessment->n_units;
+            }
         }
         
         
