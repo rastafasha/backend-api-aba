@@ -211,13 +211,23 @@ class ReductionGoalController extends Controller
         
     }
     // , $patient_id
-    public function showGoalsbyMaladaptive(Request $request, string $maladaptive)
+    public function showGoalsbyMaladaptive(Request $request, string $maladaptive, string $patient_id, )
     {
-        $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
-        $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
+        $patient_id = Patient::where("patient_id", $patient_id)->first();
+        $patient_is_valid = ReductionGoal::where("patient_id", $patient_id)->first();
+        $goalsmaladaptive = ReductionGoal::where("patient_id", $request->patient_id)
+        ->where("maladaptive", $maladaptive)
+        ->orderBy("id", "desc")
+        ->get();
+       
+        // $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)
+        // ->where("patient_id", $patient_id)
+        // ->orderBy("id", "desc")
+        // ->get();
         
         
         return response()->json([
+            // "goal"=>$goal,
             // "patient_id"=>$patient_id,
             "goalsmaladaptive" => ReductionGoalsCollection::make($goalsmaladaptive) ,
             

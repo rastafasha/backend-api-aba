@@ -68,6 +68,19 @@ class BipResource extends JsonResource
             "crisis_plan"=>$this->resource->crisis_plans ,
             "de_escalation_technique"=>$this->resource->de_escalation_techniques ,
             "consent_to_treatment"=>$this->resource->consent_to_treatments,
+            // 'consent_to_treatment'=>$this->resource-> consent_to_treatments,
+            //     'consent_to_treatment'=>[
+            //         // 'id'=> $this->resource->clin_director->clin_director_id,
+            //         'bip_id'=> $this->resource->consent_to_treatments->bip_id,
+            //         'patient_id'=> $this->resource->consent_to_treatments->patient_id,
+            //         'client_id'=> $this->resource->consent_to_treatments->client_id,
+            //         'analyst_signature'=> $this->resource->consent_to_treatments->analyst_signature,
+            //         'analyst_signature_date'=> $this->resource->consent_to_treatments->analyst_signature_date,
+            //         'parent_guardian_signature'=> $this->resource->consent_to_treatments->parent_guardian_signature,
+            //         'parent_guardian_signature_date'=> $this->resource->consent_to_treatments->parent_guardian_signature_date,
+            //         'created_at'=> $this->resource->consent_to_treatments->created_at,
+            //         'updated_at'=> $this->resource->consent_to_treatments->updated_at,
+            //     ],
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d") : NULL,            
 
         ];

@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\BipResource;
 use App\Http\Resources\Bip\BipCollection;
 use App\Http\Resources\Patient\PatientCollection;
+use App\Http\Resources\Bip\ConsentToTreatmentResource;
 
 class BipController extends Controller
 {
@@ -177,6 +178,7 @@ class BipController extends Controller
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+            // "consent_to_treatment"=>$bip->consent_to_treatment,
             
             
         ]);
