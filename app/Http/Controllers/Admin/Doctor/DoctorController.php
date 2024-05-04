@@ -97,6 +97,7 @@ class DoctorController extends Controller
                         'location_id'=> $doctor->location_id,
                         // 'location_id'=> $doctor->count($location_id),
                         "locations" => LocationCollection::make($locations),
+                        
                         // $request ->request->add(['who_is_it_for' => json_encode(explode(',', $request->who_is_it_for))]);
                         "name"=>$doctor->name,
                         "surname"=>$doctor->surname,

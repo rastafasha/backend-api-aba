@@ -60,6 +60,20 @@ class PatientResource extends JsonResource
                     'services'=> json_decode($this->resource->insurances-> services)? : null,
                 ],
 
+                "location_id" =>$this->resource->location_id,
+                'locals'=>$this->resource-> locals,
+                    'locals'=>[
+                        // 'id'=> $this->resource->clinic->location_id,
+                        'title'=> $this->resource->locals->title,
+                        "address"=>$this->resource->locals->address,
+                        "phone1"=>$this->resource->locals->phone1,
+                        "phone2"=>$this->resource->locals->phone2,
+                        "email"=>$this->resource->locals->email,
+                        "city"=>$this->resource->locals->city,
+                        "state"=>$this->resource->locals->state,
+                        "zip"=>$this->resource->locals->zip,
+                    ],
+
 
             "status"=>$this->resource->status,
             "insuranceId"=>$this->resource->insuranceId,
@@ -96,19 +110,7 @@ class PatientResource extends JsonResource
             
 
             // "location" =>implode($this->resource->location_id),
-            "location_id" =>$this->resource->location_id,
-            // 'clinic'=>$this->resource-> clinic,
-            //     'clinic'=>[
-            //         'id'=> $this->resource->clinic->location_id,
-            //         'title'=> $this->resource->clinic->title,
-            //         "address"=>$this->resource->clinic->address,
-            //         "phone1"=>$this->resource->clinic->phone1,
-            //         "phone2"=>$this->resource->clinic->phone2,
-            //         "email"=>$this->resource->clinic->email,
-            //         "city"=>$this->resource->clinic->city,
-            //         "state"=>$this->resource->clinic->state,
-            //         "zip"=>$this->resource->clinic->zip,
-            //     ],
+            
             
 
             

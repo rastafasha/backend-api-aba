@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Location;
 use App\Traits\HavePermission;
 use App\Models\Patient\Patient;
 use App\Jobs\NewUserRegisterJob;
@@ -190,10 +191,14 @@ class User extends Authenticatable implements JWTSubject
     
 
 
-    public function location()
+    public function locals()
     {
-        return $this->belongsToMany(UserLocation::class, 'location_id');
+        return $this->belongsToMany(Location::class, 'location_id');
     }
+    // public function locals()
+    // {
+    //     return $this->belongsToMany(UserLocation::class, 'location_id');
+    // }
 
 
     

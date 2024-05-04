@@ -59,9 +59,7 @@ class PatientController extends Controller
         $location_id = $request->location_id;
         // $date = $request->date;
 
-        $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient, $status,$location_id)
-        // ->where('location_id',$request->location_id)
-        ->orderBy("id", "desc")
+        $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient, $status,$location_id)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),

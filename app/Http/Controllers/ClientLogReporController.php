@@ -221,18 +221,18 @@ class ClientLogReporController extends Controller
 
                     // "location" =>implode($patient->location_id),
                     "location_id" =>$patient->location_id,
-                    // 'local'=>$patient->local,
-                    //     'local'=>[
-                    //         'id'=> $patient->location_id,
-                    //         'title'=> $patient->local,
-                    //         // "address"=>$patient->clinic->address,
-                    //         // "phone1"=>$patient->clinic->phone1,
-                    //         // "phone2"=>$patient->clinic->phone2,
-                    //         // "email"=>$patient->clinic->email,
-                    //         // "city"=>$patient->clinic->city,
-                    //         // "state"=>$patient->clinic->state,
-                    //         // "zip"=>$patient->clinic->zip,
-                    //     ],
+                    'locals'=>$patient-> locals,
+                        'locals'=>[
+                            // 'id'=> $patient->clinic->location_id,
+                            'title'=> $patient->locals->title,
+                            "address"=>$patient->locals->address,
+                            "phone1"=>$patient->locals->phone1,
+                            "phone2"=>$patient->locals->phone2,
+                            "email"=>$patient->locals->email,
+                            "city"=>$patient->locals->city,
+                            "state"=>$patient->locals->state,
+                            "zip"=>$patient->locals->zip,
+                        ],
                     
 
                     
@@ -278,6 +278,8 @@ class ClientLogReporController extends Controller
                             // 'id'=> $patient->clin_director->clin_director_id,
                             'name'=> $patient->clin_director->name,
                             'surname'=> $patient->clin_director->surname,
+                            "avatar"=> $patient->clin_director->avatar ? env("APP_URL")."storage/".$patient->clin_director->avatar : null,
+                            // "avatar"=> $patient->clin_director->avatar ? env("APP_URL").$patient->clin_director->avatar : null,
                             'npi'=> $patient->clin_director->npi,
                         ],
                             

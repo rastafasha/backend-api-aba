@@ -115,9 +115,12 @@ class LocationController extends Controller
 
         return response()->json([
             "location" => LocationResource::make($location),
-            "specialists" => UserCollection::make($specialists),
+            // "specialists" => UserCollection::make($specialists),
+            "specialists" => $specialists,
+
+            
             "specialists"=>$specialists->map(function($specialist){
-                            return[
+                return[
                                 "id"=> $specialist->id,
                                 "full_name"=> $specialist->name.' '.$specialist->surname,
                                 "email"=> $specialist->email,
@@ -125,13 +128,11 @@ class LocationController extends Controller
                                 "npi"=> $specialist->npi,
                                 "phone"=> $specialist->phone,
                                 "location_id"=> $specialist->location_id,
+                                "roles"=> $specialist->roles,
                                 "created_at"=> $specialist->created_at->format('Y-m-d'),
                                 "avatar"=> $specialist->avatar ? env("APP_URL")."storage/".$specialist->avatar : null,
                                 // "avatar"=> $specialist->avatar ? env("APP_URL").$specialist->avatar : null,
-                                // "roles"=> $specialist->roles?[
-                                //     "id" =>$specialist->roles->id,
-                                //     "name"=>$specialist->roles->name,
-                                // ]:null,
+                                
                             ];
                         }),
             "patients" => PatientCollection::make($patients),
