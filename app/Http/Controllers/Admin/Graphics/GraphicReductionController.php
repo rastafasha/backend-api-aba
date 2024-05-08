@@ -115,15 +115,29 @@ class GraphicReductionController extends Controller
 {
     // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
+        // $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        ->get();
+        // if($patient_is_valid){
+        //     return response()->json([ 
+        //         'message'=> 200,
+        //         'message_text'=>'Ya existe este paciente'
+        //     ]);
+        // }
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
-            ->where("patient_id", $request->patient_id)
+            ->where("patient_id",  $patient_id)
             ->get();
         
         
         // Retrieve all unique session dates from the NoteRbt records
-        $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
+        // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
+        
+        // $sessions = NoteRbt::where('session_date')
+        // ->where("patient_id",  $patient_id)
+        // ->get();
+        
+        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();
@@ -192,7 +206,7 @@ class GraphicReductionController extends Controller
         
         // Convert maladaptives from string to JSON array
         $maladaptives = json_decode($item->maladaptives, false);
-        Log::debug("maladaptives: " . $maladaptives);
+        // Log::debug("maladaptives: " . $maladaptives);
         
         
 
@@ -231,7 +245,7 @@ class GraphicReductionController extends Controller
             
         // 'decoded' => $mald, 
         'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
-         
+       
         // 'maladaptives' => $maladaptives, 
         
         
@@ -239,13 +253,18 @@ class GraphicReductionController extends Controller
         'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo 
         'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
         'total_count_this_in_notes_rbt'=> count($maladaptivesCollection), //cuenta el total de este maladative en la nota    
-        'sessions_dates' => $sessions, 
-        'first_date' => $first_date , 
-        'last_date' => $last_date,
-        'First date of the week' => $first_date_of_week->format('Y-m-d'), 
-        'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
-        'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
-        'Week number' => getWeekNumber($request->fecha),
+        // 'sessions_dates' => $session->session_date,
+        "sessions_dates"=>$sessions->map(function($session){
+            return[
+                'session_date'=>$session->session_date
+            ];
+        }),
+        // 'first_date' => $first_date , 
+        // 'last_date' => $last_date,
+        // 'First date of the week' => $first_date_of_week->format('Y-m-d'), 
+        // 'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
+        // 'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
+        // 'Week number' => getWeekNumber($request->fecha),
         'maladaptivesCol' => $maladaptivesCollection, 
         
          
@@ -281,7 +300,8 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         
         
         // Retrieve all unique session dates from the NoteRbt records
-        $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
+        // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
+        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();
@@ -390,32 +410,18 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         // 'decoded' => $mald, 
         'goal' => $goal, // trae el nombre  del comportamiento que se busco
          
-        // 'goals' => $goals, 
-        
-        
-        
         'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo 
         'total_total_trials' => array_sum(array_column($filtered_goals, 'total_trials')),
         'total_count_this_in_notes_rbt'=> count($replacementsCollection), //cuenta el total de este maladative en la nota    
-        'sessions_dates' => $sessions, 
-        'first_date' => $first_date , 
-        'last_date' => $last_date->format('Y-m-d') ,
-        'First date of the week' => $first_date_of_week->format('Y-m-d'), 
-        'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
-        'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
-        'Week number' => getWeekNumber($request->fecha),
-        // 'week_sessions' => $week_session, 
+        // 'sessions_dates' => $sessions, 
+        "sessions_dates"=>$sessions->map(function($session){
+            return[
+                'session_date'=>$session->session_date
+            ];
+        }),
+       
         'replacementsCol' => $replacementsCollection, 
-        // 'total_number_of_occurrences' =>  count($filter_value->number_of_occurrences)// ?
-        // 'noteRbt' => $noteRbt, // trae todas las notas
-
-        // extrae la ultima fecha de la semana de sessions_dates ?
-        
-        // al final se debe recibir :
-        // goal, 
-        // la lista filtrada filtered_maladaptives
-        // last_date de esa semana con el total_number_of_occurrences de esa semana
-        // y traer todas las semanas  con sus totales para mostrar en el grafico 
+        // 'replacementsCol' => json_decode($replacementsCollection), 
         
          
     ], 201);
