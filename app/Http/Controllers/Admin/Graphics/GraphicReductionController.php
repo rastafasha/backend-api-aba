@@ -133,10 +133,6 @@ class GraphicReductionController extends Controller
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
         
-        // $sessions = NoteRbt::where('session_date')
-        // ->where("patient_id",  $patient_id)
-        // ->get();
-        
         $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
 
         //trae la primera y ultima fecha de la semana
@@ -247,24 +243,15 @@ class GraphicReductionController extends Controller
         'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
        
         // 'maladaptives' => $maladaptives, 
-        
-        
-        
         'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo 
-        'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
+        // 'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
         'total_count_this_in_notes_rbt'=> count($maladaptivesCollection), //cuenta el total de este maladative en la nota    
-        // 'sessions_dates' => $session->session_date,
+        // 'sessions_dates' => $sessions,
         "sessions_dates"=>$sessions->map(function($session){
             return[
                 'session_date'=>$session->session_date
             ];
         }),
-        // 'first_date' => $first_date , 
-        // 'last_date' => $last_date,
-        // 'First date of the week' => $first_date_of_week->format('Y-m-d'), 
-        // 'Last date of the week' => $last_date_of_week->format('Y-m-d'), 
-        // 'sesions_week'=> $first_date.' | '.$last_date->format('Y-m-d'),
-        // 'Week number' => getWeekNumber($request->fecha),
         'maladaptivesCol' => $maladaptivesCollection, 
         
          
