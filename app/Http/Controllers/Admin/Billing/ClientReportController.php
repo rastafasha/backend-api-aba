@@ -33,32 +33,45 @@ class ClientReportController extends Controller
     {
 
         // $name_doctor = $request->search;
-        $doctor_id = $request->doctor_id;
-        $session_date = $request->session_date;
-        $patient_id = $request->patient_id;
-        $provider_name_g = $request->provider_name_g;
-        // $npi = $request->npi;
+        // $doctor_id = $request->doctor_id;
+        // $session_date = $request->session_date;
+        // $patient_id = $request->patient_id;
+        // $provider_name_g = $request->provider_name_g;
+        // // $npi = $request->npi;
 
-        $clientReports = NoteRbt::filterAdvanceClientReport(
-            $provider_name_g,
-            $session_date, 
-            $patient_id,
-            $doctor_id
-            )->orderBy("id", "desc")
-                            ->paginate(10);
-        return response()->json([
-            "total"=>$clientReports->total(),
-            "clientReports"=> NoteRbtCollection::make($clientReports)
-            // "clientReports"=> ClientReportCollection::make($clientReports)
-        ]);
-
-        // $clientReports = ClientReport::orderBy("id", "desc")
+        // $clientReports = NoteRbt::filterAdvanceClientReport(
+        //     $provider_name_g,
+        //     $session_date, 
+        //     $patient_id,
+        //     $doctor_id
+        //     )->orderBy("id", "desc")
         //                     ->paginate(10);
         // return response()->json([
-        //     // "total"=>$patients->total(),
-        //     // "billings"=> $billings
-        //     "clientReports"=> ClientReportCollection::make($clientReports)
+        //     "total"=>$clientReports->total(),
+        //     "clientReports"=> NoteRbtCollection::make($clientReports)
+        //     // "clientReports"=> ClientReportCollection::make($clientReports)
         // ]);
+
+        $search_doctor = $request->search_doctor;
+        $search_tecnicoRbt = $request->search_tecnicoRbt;
+        $search_supervisor = $request->search_supervisor;
+        // $search_patient = $request->search_patient;
+        $date_start = $request->date_start;
+        $date_end = $request->date_end;
+
+        $clientReports = NoteRbt::filterAdvanceClientReport(
+            $search_doctor, 
+            $search_tecnicoRbt, 
+            $search_supervisor, 
+            // $search_patient,
+            $date_start,$date_end)
+                            ->paginate(10);
+        return response()->json([
+            "total"=>$appointmentpays->total(),
+            "clientReports"=> NoteRbtCollection::make($appointmentpays)
+        ]);
+
+        
     }
 
    
@@ -100,6 +113,24 @@ class ClientReportController extends Controller
 
     public function showByPatientId(Request $request)
     {
+
+        //search
+        $search_doctor = $request->search_doctor;
+        $search_tecnicoRbt = $request->search_tecnicoRbt;
+        $search_supervisor = $request->search_supervisor;
+        // $search_patient = $request->search_patient;
+        $date_start = $request->date_start;
+        $date_end = $request->date_end;
+
+        $clientReports = NoteRbt::filterAdvanceClientReport(
+            $search_doctor, 
+            $search_tecnicoRbt, 
+            $search_supervisor, 
+            // $search_patient,
+            $date_start,$date_end)
+                            ->paginate(10);
+        //search
+        
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;

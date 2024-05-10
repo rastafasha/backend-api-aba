@@ -85,34 +85,81 @@ class NoteRbt extends Model
     }
 
 
-    public function scopefilterAdvanceClientReport(
-        $query,
-        $provider_name_g,
-        $session_date, 
-        $patient_id,
-        $doctor_id
-        ){
+    // public function scopefilterAdvanceClientReport(
+    //     $query,
+    //     $provider_name_g,
+    //     $session_date, 
+    //     $patient_id,
+    //     $doctor_id
+    //     ){
         
 
-        if($provider_name_g){
-            $query->whereHas("doctor", function($q)use($provider_name_g){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
+    //     if($provider_name_g){
+    //         $query->whereHas("doctor", function($q)use($provider_name_g){
+    //             $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
+                   
+    //         });
+    //     }
+
+    //     if($provider_name_g){
+    //         $query->where("provider_name_g", $provider_name_g);
+    //     }
+
+        
+    //     if($patient_id){
+    //         $query->where("patient_id", $patient_id);
+    //     }
+
+    //     if($session_date ){
+    //         $query->where("noterbts", [
+    //             Carbon::parse($session_date)->format("Y-m-d"),
+    //         ]);
+    //     }
+    //     return $query;
+    // }
+
+
+    public function scopefilterAdvanceClientReport($query,
+    // $speciality_id, 
+    $search_doctor, 
+    $search_tecnicoRbt, 
+    $search_supervisor, 
+    // $search_patient,
+    $date_start,$date_end){
+        
+        // if($speciality_id){
+        //     $query->where("speciality_id", $speciality_id);
+        // }
+
+        if($search_doctor){
+            $query->whereHas("doctor", function($q)use($search_doctor){
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
                    
             });
         }
-
-        if($provider_name_g){
-            $query->where("provider_name_g", $provider_name_g);
+        if($search_tecnicoRbt){
+            $query->whereHas("doctor", function($q)use($search_tecnicoRbt){
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_tecnicoRbt."%");
+                   
+            });
         }
-
-        
-        if($patient_id){
-            $query->where("patient_id", $patient_id);
+        if($search_supervisor){
+            $query->whereHas("doctor", function($q)use($search_supervisor){
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_supervisor."%");
+                   
+            });
         }
+        // if($search_patient){
+        //     $query->whereHas("patient", function($q)use($search_patient){
+        //         $q->where(DB::raw("CONCAT(patients.name,' ',IFNULL(patients.surname,''),' ',IFNULL(patients.email,''))"),"like","%".$search_patient."%");
+                
+        //     });
+        // }
 
-        if($session_date ){
-            $query->where("noterbts", [
-                Carbon::parse($session_date)->format("Y-m-d"),
+        if($date_start && $date_end){
+            $query->whereBetween("session_date", [
+                Carbon::parse($date_start)->format("Y-m-d"),
+                Carbon::parse($date_end)->format("Y-m-d"),
             ]);
         }
         return $query;

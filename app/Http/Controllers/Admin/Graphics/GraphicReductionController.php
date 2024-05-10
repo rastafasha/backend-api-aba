@@ -236,7 +236,7 @@ class GraphicReductionController extends Controller
         $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
         // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
 
-
+        
         return response()->json([
             
         // 'decoded' => $mald, 
@@ -247,11 +247,15 @@ class GraphicReductionController extends Controller
         // 'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
         'total_count_this_in_notes_rbt'=> count($maladaptivesCollection), //cuenta el total de este maladative en la nota    
         // 'sessions_dates' => $sessions,
-        "sessions_dates"=>$sessions->map(function($session){
+        'sessions_dates'=>$sessions->map(function($session){
             return[
-                'session_date'=>$session->session_date
+                'session_date'=>$session->session_date,
+                // 'session_date'=> explode(',', $session->session_date)
+                // 'session_date'=> $session=explode(",",$session->session_date)
             ];
+            
         }),
+        
         'maladaptivesCol' => $maladaptivesCollection, 
         
          

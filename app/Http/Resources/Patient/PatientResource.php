@@ -74,6 +74,8 @@ class PatientResource extends JsonResource
                         "zip"=>$this->resource->locals->zip,
                     ],
 
+                    
+
 
             "status"=>$this->resource->status,
             "insuranceId"=>$this->resource->insuranceId,

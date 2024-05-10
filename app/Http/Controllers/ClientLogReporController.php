@@ -216,9 +216,9 @@ class ClientLogReporController extends Controller
                     "pay"=>$patient->pay,
                     
                     //pas
-                    'pa_assessments'=> json_decode($patient->pa_assessments) ? : null,
-                    // "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
-
+                    // 'pa_assessments'=> json_decode(str_replace('{\\', '', $patient->pa_assessments)),
+                    'pa_assessments'=> json_decode($patient->pa_assessments),
+                    
                     // "location" =>implode($patient->location_id),
                     "location_id" =>$patient->location_id,
                     'locals'=>$patient-> locals,
@@ -283,7 +283,7 @@ class ClientLogReporController extends Controller
                             'npi'=> $patient->clin_director->npi,
                         ],
                             
-                    
+                        
                 "created_at"=>$patient->created_at ? Carbon::parse($patient->created_at)->format("Y-m-d h:i A") : NULL,
                 ];
             }),
