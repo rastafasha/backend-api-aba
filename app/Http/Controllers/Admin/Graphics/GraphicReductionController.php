@@ -118,12 +118,7 @@ class GraphicReductionController extends Controller
         // $patient = Patient::where("patient_id", $request->patient_id)->first();
         $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
         ->get();
-        // if($patient_is_valid){
-        //     return response()->json([ 
-        //         'message'=> 200,
-        //         'message_text'=>'Ya existe este paciente'
-        //     ]);
-        // }
+        
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%'.$maladaptives.'%')
             ->where("patient_id",  $patient_id)
@@ -176,14 +171,14 @@ class GraphicReductionController extends Controller
             $json_error = json_last_error();
             if ($json_error!== JSON_ERROR_NONE) {
                 $json_error_message = json_last_error_msg();
-                Log::debug("Invalid JSON string: ". $json_error_message);
+                // Log::debug("Invalid JSON string: ". $json_error_message);
                 continue;
             }
         
             // Decode JSON string
             $maladaptives = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             if (!is_array($maladaptives)) {
-                Log::debug("Failed to decode JSON: ". json_last_error_msg());
+                // Log::debug("Failed to decode JSON: ". json_last_error_msg());
                 continue;
             }
         
@@ -283,10 +278,11 @@ public function showGragphicbyReplacement(Request $request, string $replacements
 {
     // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
+        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        ->get();
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
-        $noteRbt = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
-            ->where("patient_id", $request->patient_id)
+        $noteRbtGoal = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
+            ->where("patient_id", $patient_id)
             ->get();
         
         
@@ -322,7 +318,7 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         // Initialize an empty array to store the JSON strings
         $json_strings = [];
 
-        foreach ($noteRbt as $item) {
+        foreach ($noteRbtGoal as $item) {
             // Log::debug("Processing item: ". $item);
             
             $replacementsCollection->push($item->replacements); 
@@ -335,14 +331,14 @@ public function showGragphicbyReplacement(Request $request, string $replacements
             $json_error = json_last_error();
             if ($json_error!== JSON_ERROR_NONE) {
                 $json_error_message = json_last_error_msg();
-                Log::debug("Invalid JSON string: ". $json_error_message);
+                // Log::debug("Invalid JSON string: ". $json_error_message);
                 continue;
             }
         
             // Decode JSON string
             $replacements = json_decode($json_string, false, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             if (!is_array($replacements)) {
-                Log::debug("Failed to decode JSON: ". json_last_error_msg());
+                // Log::debug("Failed to decode JSON: ". json_last_error_msg());
                 continue;
             }
         
@@ -380,12 +376,12 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         }
 
         // Define the value you want to filter by
-        $filter_value = $goal;
-        Log::debug("filter_value: " . $filter_value);
+        $filter_value1 = $goal;
+        Log::debug("filter_value: " . $filter_value1);
 
         // Filter the maladaptives array
-        $filtered_goals = array_filter($goa, function ($goal) use ($filter_value) {
-            return $goal['goal'] == $filter_value;
+        $filtered_goals = array_filter($goa, function ($goal) use ($filter_value1) {
+            return $goal['goal'] == $filter_value1;
         });
 
         $first_date = $sessions->first();
@@ -402,7 +398,7 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         'goal' => $goal, // trae el nombre  del comportamiento que se busco
          
         'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo 
-        'total_total_trials' => array_sum(array_column($filtered_goals, 'total_trials')),
+        // 'total_total_trials' => array_sum(array_column($filtered_goals, 'total_trials')),
         'total_count_this_in_notes_rbt'=> count($replacementsCollection), //cuenta el total de este maladative en la nota    
         // 'sessions_dates' => $sessions, 
         "sessions_dates"=>$sessions->map(function($session){
