@@ -352,8 +352,9 @@ class NoteRbtController extends Controller
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
         }
+
         if($request->imagenn){
-            $request->request->add(["provider_signature"=>$imagenn]);
+            $request->request->add(["supervisor_signature"=>$imagenn]);
         }
         if($request->hasFile('imagenn')){
             $path = Storage::putFile("noterbts", $request->file('imagenn'));
@@ -523,12 +524,16 @@ class NoteRbtController extends Controller
 
         if($request->imagen){
             $request->request->add(["provider_signature"=>$imagen]);
+            print_r('imagen');
         }
 
         if($request->hasFile('imagen')){
+            print_r('imagen');
             $path = Storage::putFile("noterbts", $request->file('imagen'));
             $request->request->add(["provider_signature"=>$path]);
         }
+
+
         if($request->imagenn){
             $request->request->add(["supervisor_signature"=>$imagenn]);
         }

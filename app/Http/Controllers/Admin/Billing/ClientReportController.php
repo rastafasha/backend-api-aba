@@ -115,22 +115,22 @@ class ClientReportController extends Controller
     {
 
         //search
-        $search_doctor = $request->search_doctor;
-        $search_tecnicoRbt = $request->search_tecnicoRbt;
-        $search_supervisor = $request->search_supervisor;
-        // $search_patient = $request->search_patient;
-        $date_start = $request->date_start;
-        $date_end = $request->date_end;
+        // $search_doctor = $request->search_doctor;
+        // $search_tecnicoRbt = $request->search_tecnicoRbt;
+        // $search_supervisor = $request->search_supervisor;
+        // // $search_patient = $request->search_patient;
+        // $date_start = $request->date_start;
+        // $date_end = $request->date_end;
 
-        $clientReports = NoteRbt::filterAdvanceClientReport(
-            $search_doctor, 
-            $search_tecnicoRbt, 
-            $search_supervisor, 
-            // $search_patient,
-            $date_start,$date_end)
-                            ->paginate(10);
+        // $clientReports = NoteRbt::filterAdvanceClientReport(
+        //     $search_doctor, 
+        //     $search_tecnicoRbt, 
+        //     $search_supervisor, 
+        //     // $search_patient,
+        //     $date_start,$date_end)
+        //                     ->paginate(10);
         //search
-        
+
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;

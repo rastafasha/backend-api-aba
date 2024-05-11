@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Billing\ClientReportController;
 
-Route::get('client_report', [ClientReportController::class, 'index'])->name('index');
+Route::get('client_report/', [ClientReportController::class, 'index'])->name('index');
 Route::get('client_report/filter', [ClientReportController::class, 'filter'])->name('filter');
 Route::get('client_report/config', [ClientReportController::class, 'config'])->name('config');
 Route::get('client_report/show/{id}', [ClientReportController::class, 'show'])->name('show');

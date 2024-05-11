@@ -219,11 +219,10 @@ class ClientLogReporController extends Controller
                     // 'pa_assessments'=> json_decode(str_replace('{\\', '', $patient->pa_assessments)),
                     'pa_assessments'=> json_decode($patient->pa_assessments),
                     
-                    // "location" =>implode($patient->location_id),
+                    
                     "location_id" =>$patient->location_id,
                     'locals'=>$patient-> locals,
                         'locals'=>[
-                            // 'id'=> $patient->clinic->location_id,
                             'title'=> $patient->locals->title,
                             "address"=>$patient->locals->address,
                             "phone1"=>$patient->locals->phone1,
@@ -234,9 +233,6 @@ class ClientLogReporController extends Controller
                             "zip"=>$patient->locals->zip,
                         ],
                     
-
-                    
-
                     "manager" =>$patient->manager,
 
                     "rbt_home_id" =>$patient->rbt_home_id,
