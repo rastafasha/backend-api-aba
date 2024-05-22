@@ -14,6 +14,7 @@ use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Location\LocationCollection;
+use Illuminate\Support\Facades\DB;
 
 class LocationController extends Controller
 {
@@ -98,7 +99,6 @@ class LocationController extends Controller
     {
         
         $patients = Patient::where("location_id",$id)->get();
-        $specialists = User::where("location_id", $id)->get();
         // $location = Location::with('specialists', 'patients')->findOrFail($id);
         $location = Location::findOrFail($id);
         // $location1 = $location->doctor;
@@ -112,11 +112,17 @@ class LocationController extends Controller
         // ->get();
 
 
+        $users = DB::table('users')
+            ->join('user_locations', 'users.id', '=', 'user_locations.user_id')
+            ->where('user_locations.location_id', $id)
+            ->pluck('users.id') // Extraer solo las IDs de usuarios
+            ->toArray(); // Convertir la colección en un array
+
+        $specialists = User::whereIn('id', $users)->get();
+
 
         return response()->json([
             "location" => LocationResource::make($location),
-            // "specialists" => UserCollection::make($specialists),
-            "specialists" => $specialists,
 
             
             "specialists"=>$specialists->map(function($specialist){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Doctor;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\UserLocation;
 use App\Models\Bip\Bip;
 use App\Models\Location;
 use Illuminate\Http\Request;
@@ -316,9 +317,13 @@ class DoctorController extends Controller
         //     return response()->json(["message"=>"El usuario no esta autenticado"],403);
         //    }
         $user = User::findOrFail($id);
+        $locations_user = DB::table('user_locations')
+        ->where('user_id', $id)
+        ->pluck('location_id');
 
         return response()->json([
             "user" => UserResource::make($user),
+            "locations" => $locations_user
         ]);
     }
 
@@ -389,6 +394,15 @@ class DoctorController extends Controller
             $request->request->add(["driver_license_expiration" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
         }
         $user->update($request->all());
+
+        UserLocation::where('user_id', $id)->delete();
+
+        foreach ($request->locations_selected as $locationId) {
+            UserLocation::create([
+                'user_id' => $id,
+                'location_id' => $locationId
+            ]);
+        }
         
         if($request->role_id && $request->role_id != $user->roles()->first()->id){
             // error_log($user->roles()->first()->id);
