@@ -53,7 +53,6 @@ class NotificationAppointmentWhatsapp extends Command
             $hour_start = $appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_start;
             $hour_end = $appointment->doctor_schedule_join_hour->doctor_schedule_hour->hour_end;
             
-            // $hour_start = strtotime(Carbon::parse(date("Y-m-d")." ".$hour_start)->subHour());
             // $hour_end = strtotime(Carbon::parse(date("Y-m-d")." ".$hour_end)->subHour());
             $hour_start = strtotime(Carbon::parse(date("2023-12-20")." ".$hour_start)->subHour());
             $hour_end = strtotime(Carbon::parse(date("2023-12-20")." ".$hour_end)->subHour());
