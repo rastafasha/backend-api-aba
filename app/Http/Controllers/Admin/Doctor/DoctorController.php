@@ -27,6 +27,7 @@ use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Location\LocationCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
+use Illuminate\Support\Facades\Log;
 
 class DoctorController extends Controller
 {
@@ -294,7 +295,15 @@ class DoctorController extends Controller
         $user = User::create($request->all());
         $role=  Role::findOrFail($request->role_id);
         $user->assignRole($role);
-
+        
+        $locations = explode(',', $request->locations_selected);
+        $locations = array_map('intval', $locations);
+        foreach ($locations as $locationId) {
+            UserLocation::create([
+                'user_id' => $user->id,
+                'location_id' => $locationId
+            ]);
+        }
 
         Mail::to($user->email)->send(new NewUserRegisterMail($user));
 
@@ -397,7 +406,9 @@ class DoctorController extends Controller
 
         UserLocation::where('user_id', $id)->delete();
 
-        foreach ($request->locations_selected as $locationId) {
+        $locations = explode(',', $request->locations_selected);
+        $locations = array_map('intval', $locations);
+        foreach ($locations as $locationId) {
             UserLocation::create([
                 'user_id' => $id,
                 'location_id' => $locationId
